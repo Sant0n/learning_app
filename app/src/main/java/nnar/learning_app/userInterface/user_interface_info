@@ -1,0 +1,14 @@
+En esta parte es donde van dos tipos de archivos: Activities y presenters:
+
+    1) Activity: Las activities son los archivos que se encargar de manejar la interfaz de usuario (todo lo que se vea en pantalla).
+                 En estas clases no tiene que haber nada de logica. A modo de resumen estas clases tienen dos funciones: "Me han pulsado"
+                 y "actualizar":
+
+                 a) Me han pulsado: Esto se refiere a cuando el usuario pulsa en alguna parte de la pantalla, la activity en estos casos
+                                    lo unico que tiene que hacer el activity es llamar al presenter diciendo "han pulsado aqui" y el presenter
+                                    ya se encarga de la logica.
+
+                 b) actualizar: Cuando tiene que cambiar algo de la pantalla, el encargado de hacer ese cambio es el activity.
+
+
+    2) Presenter: Los presenter son los encargados de llevar a cabo la logica de cada pantalla (Un presentador por cada pantalla).

@@ -1,0 +1,4 @@
+Aqui hay dos tipos de archivos: model y usecase:
+
+    1) Model: Aqui estaran las clases que represente los objetos que necesitemos en la aplicacion. Ejemplo: class Persona(int age, string name)
+    2) Usecase: Estos archivos son puramente informativos, aqui habra un usecase por activity en el que estaran las funciones disponibles.

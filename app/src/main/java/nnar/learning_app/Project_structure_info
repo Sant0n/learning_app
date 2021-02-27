@@ -1,0 +1,40 @@
+Lo que estoy usando aqui es MVP(Modelo Vista Presentador) esto se refiere a:
+
+        - Modelo: directorio donde estaran los datos y la informacion que necesitamos en el programa.
+
+        - Vista: son basicamente las activities, las clases encargadas de la interfaz de usuario. (estas clases solo sirven
+                 para cambiar cosas en pantalla, no se deben realizar operaciones en ellas!!!)
+
+        - Presentador: es el intermediario entre el modelo y la vista, el encargado de realizar llamadas, operaciones, etc
+
+
+Estructura general en android:
+
+        - app: Dentro de este directorio esta todo.
+
+        - app/manifest: Dentro de esta ruta esta el fichero manifest.xml, en el cual es donde se tienen que declarar todas las
+                        activities que vamos a usar en la aplicación y donde se gestionan algunas configuraciones y los permisos
+                        que requiere la aplicación.
+
+        - app/java: Donde esta el codigo de la logica de la aplicación.
+
+        - app/res:
+
+            1) drawable: En este directorio estaran ficheros .xml e imagenes.
+
+            2) layout: Es donde se encuentran los .xml que diseñan cada una de las vistas/pantallas de la aplicación.
+
+            3) mipmap: Aqui van imagenes en el formato que necesita android studio para poder usarlas.
+
+            4) values:
+
+                * colors: donde van definidas variables que representaran colores en la aplicacion. ej: si definimos que el color
+                          de la aplicación es el rojo, se debería crear una variable que sea appColor por ejemplo cuyo valor fuera
+                          un codigo de color rojo por ejemplo #ff0000.
+
+                * strings: en este fichero deberan estar guardados TODOS los literales que se quieran usar en la aplicación. El propio
+                           android studio os pondra un warning si poneis strings a pelo en el codigo.
+
+                * styles: esto ya es algo mas jodido para nosotros pero aun asi tendremos que usarlo, para que sea facil de entender
+                          para que sirve: es basicamente como un fichero css donde estaran los estilos que queramos usar nosotros en
+                          las vistas.
