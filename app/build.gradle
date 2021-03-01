@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 29
 
     defaultConfig {
         applicationId "nnar.learning_app"
