@@ -33,10 +33,8 @@ class UserRepository {
 
     fun loginUser(userId: String, pass: String): UserResponse {
         for (user in listOfUsers) {
-            return if ((user.email == userId && user.password == pass) || (user.username == userId && user.password == pass)) {
-                UserResponse(false, "Login successful")
-            } else {
-                UserResponse(true, "Credentials not valid")
+            if ((user.email == userId && user.password == pass) || (user.username == userId && user.password == pass)) {
+               return  UserResponse(false, "Login successful")
             }
         }
         return UserResponse(true, "Credentials not valid")
