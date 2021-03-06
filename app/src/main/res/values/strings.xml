@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">learning_app</string>
+    <string name="app_img">App Logo</string>
+
+    <!-- Register screen  -->
+    <string name="register_email">Email</string>
+    <string name="register_username">Username</string>
+    <string name="user_pass">password</string>
+    <string name="register_rep_pass">Repeat password</string>
+
+    <!-- Login screen  -->
+    <string name="login_user_id">Email or username</string>
+    <string name="login_button">Sign in</string>
+    <string name="go_to_register">Sign up</string>
+    <string name="login_error_msg">Invalid credentials</string>
+    <string name="login_successful">Login successful</string>
+
 </resources>

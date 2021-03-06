@@ -6,6 +6,10 @@ plugins {
 android {
     compileSdkVersion 29
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId "nnar.learning_app"
         minSdkVersion 26
@@ -23,12 +27,13 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility kotlin_version
-        targetCompatibility kotlin_version
+        sourceCompatibility "1.8"
+        targetCompatibility "1.8"
     }
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
 }
 
 dependencies {

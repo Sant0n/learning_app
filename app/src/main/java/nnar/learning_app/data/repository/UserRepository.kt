@@ -1,5 +1,6 @@
 package nnar.learning_app.data.repository
 
+import android.content.res.Resources
 import nnar.learning_app.domain.model.User
 import nnar.learning_app.domain.model.UserResponse
 
@@ -30,9 +31,9 @@ class UserRepository {
 
     }
 
-    fun loginUser(email: String, pass: String): UserResponse {
+    fun loginUser(userId: String, pass: String): UserResponse {
         for (user in listOfUsers) {
-            return if ((user.email == email && user.password == pass) || (user.username == email && user.password == pass)) {
+            return if ((user.email == userId && user.password == pass) || (user.username == userId && user.password == pass)) {
                 UserResponse(false, "Login successful")
             } else {
                 UserResponse(true, "Credentials not valid")

@@ -9,13 +9,9 @@ class LoginPresenter(private val view: LoginView, private val loginUserUseCase: 
         val response = loginUserUseCase.loginUser(email, password)
 
         if (!response.error) {
-            /**
-             * Mover a la siguiente pantalla
-             */
+            view.loginSuccessful()
         } else {
-            /**
-             * Actializar pantalla de login mostrando los errores
-             */
+            view.showErrorLogin()
         }
     }
 }
