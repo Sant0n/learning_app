@@ -6,13 +6,9 @@
     <string name="login_text">Log In</string>
     <string name="email_text">E-mail</string>
     <string name="pass_text">Password</string>
-    <string name="email_holder">E-mail</string>
-    <string name="pass_holder">Password</string>
     <string name="confirm_button">CONFIRM</string>
     <string name="register_text">Register</string>
-    <string name="name_text">Name</string>
-    <string name="name_holder">Name</string>
+    <string name="username_text">Username</string>
     <string name="repeat_pass_text">Repeat Password</string>
-    <string name="repeat_pass_holder">Password</string>
     <string name="profile_picture">Profile Image</string>
 </resources>

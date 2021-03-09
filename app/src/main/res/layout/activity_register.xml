@@ -20,12 +20,12 @@
         app:layout_constraintVertical_bias="0.047" />
 
     <TextView
-        android:id="@+id/name_textView"
+        android:id="@+id/username_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/name_text"
-        app:layout_constraintBottom_toBottomOf="@+id/name_textholder"
-        app:layout_constraintEnd_toStartOf="@+id/name_textholder"
+        android:text="@string/username_text"
+        app:layout_constraintBottom_toBottomOf="@+id/username_textholder"
+        app:layout_constraintEnd_toStartOf="@+id/username_textholder"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/email_register_textView" />
 
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:contentDescription="@string/profile_picture"
-        app:layout_constraintBottom_toTopOf="@+id/name_textholder"
+        app:layout_constraintBottom_toTopOf="@+id/username_textholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:text="@string/email_text"
-        app:layout_constraintBottom_toBottomOf="@+id/email_register_textholder"
+        app:layout_constraintBottom_toBottomOf="@+id/emailRegister_textholder"
         app:layout_constraintEnd_toEndOf="@+id/pass_register_textView"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/pass_register_textView" />
@@ -59,64 +59,63 @@
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
         android:text="@string/pass_text"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPassword3"
+        app:layout_constraintBottom_toBottomOf="@+id/password_register_first"
         app:layout_constraintEnd_toEndOf="@+id/repeatpass_register_textView"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPassword3"
+        android:id="@+id/password_register_first"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
-        android:autofillHints="@string/pass_holder"
+        android:autofillHints="@string/pass_text"
         android:ems="10"
-        android:hint="@string/pass_holder"
+        android:hint="@string/pass_text"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword4"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword4"
+        app:layout_constraintBottom_toTopOf="@+id/password_register_repeat"
+        app:layout_constraintEnd_toEndOf="@+id/password_register_repeat"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword4" />
+        app:layout_constraintStart_toStartOf="@+id/password_register_repeat" />
 
     <EditText
-        android:id="@+id/name_textholder"
+        android:id="@+id/username_textholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="220dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="@string/name_holder"
+        android:hint="@string/username_text"
         android:inputType="textPersonName"
-        android:text="@string/name_holder"
-        app:layout_constraintBottom_toTopOf="@+id/email_register_textholder"
-        app:layout_constraintEnd_toEndOf="@+id/email_register_textholder"
+        app:layout_constraintBottom_toTopOf="@+id/emailRegister_textholder"
+        app:layout_constraintEnd_toEndOf="@+id/emailRegister_textholder"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/email_register_textholder"
+        app:layout_constraintStart_toStartOf="@+id/emailRegister_textholder"
         app:layout_constraintTop_toBottomOf="@+id/register_textView"
-        app:layout_constraintVertical_bias="0.327"
-        android:autofillHints="" />
+        app:layout_constraintVertical_bias="0.327" />
 
     <EditText
-        android:id="@+id/email_register_textholder"
+        android:id="@+id/emailRegister_textholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
-        android:autofillHints="@string/email_holder"
+        android:autofillHints="@string/email_text"
         android:ems="10"
-        android:hint="@string/email_holder"
+        android:hint="@string/email_text"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword3"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPassword3"
+        app:layout_constraintBottom_toTopOf="@+id/password_register_first"
+        app:layout_constraintEnd_toEndOf="@+id/password_register_first"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword3" />
+        app:layout_constraintStart_toStartOf="@+id/password_register_first" />
 
     <EditText
-        android:id="@+id/editTextTextPassword4"
+        android:id="@+id/password_register_repeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="148dp"
-        android:autofillHints="@string/pass_holder"
+        android:autofillHints="@string/repeat_pass_text"
         android:ems="10"
-        android:hint="@string/pass_holder"
+        android:hint="@string/repeat_pass_text"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/register_confirm_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -133,8 +132,8 @@
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="4dp"
         android:text="@string/repeat_pass_text"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextTextPassword4"
-        app:layout_constraintEnd_toStartOf="@+id/editTextTextPassword4"
+        app:layout_constraintBottom_toBottomOf="@+id/password_register_repeat"
+        app:layout_constraintEnd_toStartOf="@+id/password_register_repeat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pass_register_textView" />
 
