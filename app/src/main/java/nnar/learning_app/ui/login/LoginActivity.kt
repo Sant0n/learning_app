@@ -1,4 +1,13 @@
 package nnar.learning_app.ui.login
 
-class LoginActivity {
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import nnar.learning_app.R
+
+class LoginActivity :  AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+
+    }
 }
