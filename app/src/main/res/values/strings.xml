@@ -3,10 +3,16 @@
     <string name="app_img">App Logo</string>
 
     <!-- Register screen  -->
+    <string name="register_img">User profile image</string>
     <string name="register_email">Email</string>
+    <string name="email_format">Not valid format</string>
     <string name="register_username">Username</string>
-    <string name="user_pass">password</string>
+    <string name="user_pass">Password</string>
     <string name="register_rep_pass">Repeat password</string>
+    <string name="error_pass">Passwords do not match</string>
+    <string name="register_button">Sign up</string>
+
+
 
     <!-- Login screen  -->
     <string name="login_user_id">Email or username</string>

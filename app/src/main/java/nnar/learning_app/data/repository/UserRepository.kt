@@ -1,14 +1,9 @@
 package nnar.learning_app.data.repository
 
-import android.content.res.Resources
 import nnar.learning_app.domain.model.User
 import nnar.learning_app.domain.model.UserResponse
 
 class UserRepository {
-
-    /**
-     * Los strings que voy a poner son hardcoded, deberian ir en res/values/strings, pero como son temporales me la sopla.
-     */
 
     private val listOfUsers: MutableList<User> = arrayListOf(
         User("93agusmartin@gmail.com", "agus69", "pollote"),
@@ -19,7 +14,7 @@ class UserRepository {
 
     fun registerUser(newUser: User): UserResponse {
         /**
-         * Asumo que el usuario tambien tiene la misma contraseña para hacerlo corto, cuanto tengamos BD esto ya no hara falta asi que
+         * Asumo que el usuario tambien tiene la misma contraseña para hacerlo corto, cuando tengamos BD esto ya no hara falta asi que
          * no voy a perder mucho tiempo en recorrer la lista usuario por usuario comprobando solo el email.
          */
         return if (newUser !in listOfUsers) {
