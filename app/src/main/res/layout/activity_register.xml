@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -68,7 +67,7 @@
         android:id="@+id/password_register_first"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="16dp"
         android:autofillHints="@string/pass_text"
         android:ems="10"
         android:hint="@string/pass_text"
@@ -92,13 +91,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/emailRegister_textholder"
         app:layout_constraintTop_toBottomOf="@+id/register_textView"
-        app:layout_constraintVertical_bias="0.327" />
+        app:layout_constraintVertical_bias="0.69" />
 
     <EditText
         android:id="@+id/emailRegister_textholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="16dp"
         android:autofillHints="@string/email_text"
         android:ems="10"
         android:hint="@string/email_text"
@@ -112,17 +111,15 @@
         android:id="@+id/password_register_repeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="148dp"
+        android:layout_marginBottom="96dp"
         android:autofillHints="@string/repeat_pass_text"
         android:ems="10"
         android:hint="@string/repeat_pass_text"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/register_confirm_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.772"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_textView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintHorizontal_bias="0.912"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/repeatpass_register_textView"
@@ -135,7 +132,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/password_register_repeat"
         app:layout_constraintEnd_toStartOf="@+id/password_register_repeat"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass_register_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/pass_register_textView"
+        app:layout_constraintVertical_bias="0.857" />
 
     <Button
         android:id="@+id/register_confirm_button"

@@ -3,7 +3,6 @@ package nnar.learning_app.ui.mainmenu
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import nnar.learning_app.R
 import nnar.learning_app.ui.login.LoginActivity
@@ -15,6 +14,7 @@ class MainMenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_menu)
         val button_login = findViewById<Button>(R.id.login_button)
         val button_register = findViewById<Button>(R.id.register_button)
+
         button_login.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
