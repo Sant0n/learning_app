@@ -1,9 +1,9 @@
 package nnar.learning_app.domain.usercase
 
-import nnar.learning_app.data.AppRepository
+import nnar.learning_app.data.UserRepository
 
-class RegisterUserCase (private val appRepository: AppRepository){
+class RegisterUserCase (private val userRepository: UserRepository){
 
-    fun registerUser(username: String, email: String, password: String){ appRepository.registerUser(username, email, password)}
+    fun registerUser(username: String, email: String, password: String){ userRepository.registerUser(username, email, password)}
 
 }

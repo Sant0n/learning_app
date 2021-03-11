@@ -1,9 +1,9 @@
 package nnar.learning_app.domain.usercase
 
-import nnar.learning_app.data.AppRepository
+import nnar.learning_app.data.UserRepository
 
-class LoginUserCase(private val appRepository: AppRepository) {
+class LoginUserCase(private val userRepository: UserRepository) {
 
-    fun verifyUser(username: String, password: String) { appRepository.verifyUser(username, password) }
+    fun verifyUser(username: String, password: String) { userRepository.verifyUser(username, password) }
 
 }
