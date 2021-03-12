@@ -18,9 +18,13 @@ class UserRepository {
          * no voy a perder mucho tiempo en recorrer la lista usuario por usuario comprobando solo el email.
          */
         return if (newUser !in listOfUsers) {
+            println(listOfUsers)
             listOfUsers += newUser
+            println(listOfUsers)
+            println("-----------------------------------")
             UserResponse(false, "Register successful")
         } else {
+            println("Entre aqui")
             UserResponse(true, "This user is already registered")
         }
 

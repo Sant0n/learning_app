@@ -5,4 +5,6 @@ interface RegisterView {
     fun showErrorEmailBox()
     fun showSuccessfulPassBox()
     fun showErrorPassBox()
+    fun registerSuccessful()
+    fun registerError()
 }

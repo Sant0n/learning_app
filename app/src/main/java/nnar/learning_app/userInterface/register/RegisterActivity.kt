@@ -1,13 +1,17 @@
 package nnar.learning_app.userInterface.register
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import nnar.learning_app.R
 import nnar.learning_app.data.repository.UserRepository
 import nnar.learning_app.dataInterface.RegisterView
 import nnar.learning_app.databinding.ActivityRegisterBinding
 import nnar.learning_app.domain.usecase.RegisterUserUsecase
+import nnar.learning_app.userInterface.login.LoginActivity
 
 
 class RegisterActivity : AppCompatActivity(), RegisterView {
@@ -22,6 +26,24 @@ class RegisterActivity : AppCompatActivity(), RegisterView {
 
         presenter = RegisterPresenter(this, RegisterUserUsecase(UserRepository()))
         setListeners()
+    }
+
+    override fun registerSuccessful() {
+        val toast: Toast =
+            Toast.makeText(applicationContext, R.string.register_successful, Toast.LENGTH_SHORT)
+        val view: View = toast.view
+        view.setBackgroundResource(R.drawable.successful_operation)
+        toast.show()
+
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun registerError() {
+        val toast: Toast = Toast.makeText(this, R.string.register_error, Toast.LENGTH_SHORT)
+        val view: View = toast.view
+        view.setBackgroundResource(R.drawable.form_field_error)
+        toast.show()
     }
 
     override fun showSuccessfulEmailBox() {

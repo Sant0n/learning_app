@@ -9,28 +9,31 @@ import java.util.regex.Pattern
 class RegisterPresenter(
     private val view: RegisterView,
     private val registerUserUseCase: RegisterUserUsecase
+
 ) {
+    private var samePass = false
 
     internal fun signUp(email: String, username: String, password: String, rep_password: String) {
-        //val response = registerUserUseCase.registerUser(User(email, username, password))
+        checkPasswords(password, rep_password)
+        if (samePass) {
+            val response = registerUserUseCase.registerUser(User(email, username, password))
 
-        //if (!response.error) {
-        /**
-         * Go back to login screen showing msg successful
-         */
-        //} else {
-        /**
-         * Refresh the screen showing the error
-         */
-        //}
+            if (!response.error) {
+                view.registerSuccessful()
+            } else {
+                view.registerError()
+            }
+        }
     }
 
-    internal fun checkPasswords(p1: String, p2: String, focus: Boolean) {
+    internal fun checkPasswords(p1: String, p2: String, focus: Boolean = false) {
         if (!focus) {
-            if (p1 == p2) {
+            samePass = if (p1 == p2) {
                 view.showSuccessfulPassBox()
+                true
             } else {
                 view.showErrorPassBox()
+                false
             }
         }
     }
