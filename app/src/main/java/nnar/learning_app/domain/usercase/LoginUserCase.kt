@@ -1,6 +1,6 @@
 package nnar.learning_app.domain.usercase
 
-import nnar.learning_app.data.UserRepository
+import nnar.learning_app.data.repository.UserRepository
 
 class LoginUserCase(private val userRepository: UserRepository) {
 

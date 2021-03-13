@@ -5,22 +5,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import nnar.learning_app.R
+import nnar.learning_app.datainterface.MainMenuView
 import nnar.learning_app.ui.login.LoginActivity
 import nnar.learning_app.ui.register.RegisterActivity
 
-class MainMenuActivity : AppCompatActivity() {
+class MainMenuActivity : AppCompatActivity(), MainMenuView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
-        val button_login = findViewById<Button>(R.id.login_button)
-        val button_register = findViewById<Button>(R.id.register_button)
+        val buttonLogin = findViewById<Button>(R.id.login_button)
+        val buttonRegister = findViewById<Button>(R.id.register_button)
 
-        button_login.setOnClickListener {
+        buttonLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
-        button_register.setOnClickListener {
+        buttonRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }

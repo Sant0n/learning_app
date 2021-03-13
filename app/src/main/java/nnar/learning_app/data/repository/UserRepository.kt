@@ -1,4 +1,4 @@
-package nnar.learning_app.data
+package nnar.learning_app.data.repository
 
 import nnar.learning_app.domain.model.User
 import nnar.learning_app.domain.model.UserResponse

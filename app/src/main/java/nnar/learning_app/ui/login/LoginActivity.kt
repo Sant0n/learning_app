@@ -7,10 +7,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import nnar.learning_app.R
+import nnar.learning_app.datainterface.LoginView
 import nnar.learning_app.domain.model.User
 import nnar.learning_app.ui.mainmenu.MainMenuActivity
 
-class LoginActivity :  AppCompatActivity() {
+class LoginActivity :  AppCompatActivity(), LoginView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -23,17 +24,22 @@ class LoginActivity :  AppCompatActivity() {
 
             //println(usernameText)
             usernameText.text.toString()
-            val user = User(username = usernameText.editableText.toString(), email = "",password = passwordText.editableText.toString())
+            //val user = User(username = usernameText.editableText.toString(), email = "",password = passwordText.editableText.toString())
 
             if((usernameText.text.toString()) == "nicole" && (passwordText.text.toString()) == "nicole"){
-                Toast.makeText(this, "Sucess Login", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Success Login", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainMenuActivity::class.java)
                 startActivity(intent)
             }else{
                 usernameText.error = "Wrong username"
+
                 passwordText.error = "Wrong password"
             }
         }
+    }
+
+    override fun verifyUser() {
+        TODO("Not yet implemented")
     }
 
 

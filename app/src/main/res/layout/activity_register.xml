@@ -23,8 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/username_text"
-        app:layout_constraintBottom_toBottomOf="@+id/username_textholder"
-        app:layout_constraintEnd_toStartOf="@+id/username_textholder"
+        app:layout_constraintBottom_toBottomOf="@+id/username_edittext_register"
+        app:layout_constraintEnd_toStartOf="@+id/username_edittext_register"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/email_register_textView" />
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:contentDescription="@string/profile_picture"
-        app:layout_constraintBottom_toTopOf="@+id/username_textholder"
+        app:layout_constraintBottom_toTopOf="@+id/username_edittext_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
         android:layout_width="50dp"
         android:layout_height="25dp"
         android:text="@string/email_text"
-        app:layout_constraintBottom_toBottomOf="@+id/emailRegister_textholder"
+        app:layout_constraintBottom_toBottomOf="@+id/email_edittext_register"
         app:layout_constraintEnd_toEndOf="@+id/pass_register_textView"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/pass_register_textView" />
@@ -58,13 +58,13 @@
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
         android:text="@string/pass_text"
-        app:layout_constraintBottom_toBottomOf="@+id/password_register_first"
+        app:layout_constraintBottom_toBottomOf="@+id/password_edittext_register"
         app:layout_constraintEnd_toEndOf="@+id/repeatpass_register_textView"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/password_register_first"
+        android:id="@+id/password_edittext_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -72,13 +72,13 @@
         android:ems="10"
         android:hint="@string/pass_text"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/password_register_repeat"
-        app:layout_constraintEnd_toEndOf="@+id/password_register_repeat"
+        app:layout_constraintBottom_toTopOf="@+id/password_edittext_register_repeat"
+        app:layout_constraintEnd_toEndOf="@+id/password_edittext_register_repeat"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/password_register_repeat" />
+        app:layout_constraintStart_toStartOf="@+id/password_edittext_register_repeat" />
 
     <EditText
-        android:id="@+id/username_textholder"
+        android:id="@+id/username_edittext_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="220dp"
@@ -86,15 +86,15 @@
         android:ems="10"
         android:hint="@string/username_text"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/emailRegister_textholder"
-        app:layout_constraintEnd_toEndOf="@+id/emailRegister_textholder"
+        app:layout_constraintBottom_toTopOf="@+id/email_edittext_register"
+        app:layout_constraintEnd_toEndOf="@+id/email_edittext_register"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/emailRegister_textholder"
+        app:layout_constraintStart_toStartOf="@+id/email_edittext_register"
         app:layout_constraintTop_toBottomOf="@+id/register_textView"
         app:layout_constraintVertical_bias="0.69" />
 
     <EditText
-        android:id="@+id/emailRegister_textholder"
+        android:id="@+id/email_edittext_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -102,13 +102,13 @@
         android:ems="10"
         android:hint="@string/email_text"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/password_register_first"
-        app:layout_constraintEnd_toEndOf="@+id/password_register_first"
+        app:layout_constraintBottom_toTopOf="@+id/password_edittext_register"
+        app:layout_constraintEnd_toEndOf="@+id/password_edittext_register"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/password_register_first" />
+        app:layout_constraintStart_toStartOf="@+id/password_edittext_register" />
 
     <EditText
-        android:id="@+id/password_register_repeat"
+        android:id="@+id/password_edittext_register_repeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="96dp"
@@ -129,8 +129,8 @@
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="4dp"
         android:text="@string/repeat_pass_text"
-        app:layout_constraintBottom_toBottomOf="@+id/password_register_repeat"
-        app:layout_constraintEnd_toStartOf="@+id/password_register_repeat"
+        app:layout_constraintBottom_toBottomOf="@+id/password_edittext_register_repeat"
+        app:layout_constraintEnd_toStartOf="@+id/password_edittext_register_repeat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pass_register_textView"
         app:layout_constraintVertical_bias="0.857" />
