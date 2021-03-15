@@ -1,0 +1,7 @@
+Domain
+
+Contiene el model y los usecases
+En el model se creara un data class por cada objecto necesario en la aplicacion
+En el usecase se creara por cada view/activity que lo necesite, y se declararan
+    las funciones que van a usar los objetos creados y esto se implementara en el
+    repository.

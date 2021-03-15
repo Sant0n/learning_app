@@ -1,0 +1,12 @@
+UI elements
+
+Contiene las Activities y los Presenters
+Uno de cada por cada pantalla
+La Activity solo contiene declaraciones y llamadas a funciones del Presenter
+    si empieza a tener logica, tipo if-else, from, etc, eso va en el Presenter. Aqui
+    solo se encuentran los listeners, declaraciones de variables coguiendo valores del
+    layouts y funciones que hacen llamadas a las funcones y logica del presenter.
+El Presenter hace de intermediario entre el UI (Activity y View) y el Model
+    (Model(Objects needed), UseCase(uno por activity needed, contiene funciones
+    que describen como se relacionan los objetos en el UseRepository) y el Reposity
+    (contiene las funciones descritas en los UseCase relacionados))

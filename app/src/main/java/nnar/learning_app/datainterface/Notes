@@ -1,0 +1,9 @@
+DataInterface
+
+
+Se crea los archivos tipo View
+Son interfaces
+Se crea una por cada Activity que sea necesaria
+Solo se declaran las funciones que se van a utilizar en la activity
+
+Name example: LoginView
