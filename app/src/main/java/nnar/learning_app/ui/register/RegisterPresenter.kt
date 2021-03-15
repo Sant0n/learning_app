@@ -1,18 +1,17 @@
 package nnar.learning_app.ui.register
 
-import nnar.learning_app.data.repository.UserRepository
 import nnar.learning_app.datainterface.RegisterView
 import nnar.learning_app.domain.model.UserResponse
-import nnar.learning_app.domain.usercase.RegisterUserCase
+import nnar.learning_app.domain.usercase.RegisterUseCase
 
-class RegisterPresenter(private val view: RegisterView, private val userCase: RegisterUserCase) {
+class RegisterPresenter(private val view: RegisterView, private val useCase: RegisterUseCase) {
 
     internal fun verifyPass(pass: String, repeatPass: String): Boolean{
         return pass == repeatPass
     }
 
     internal fun registerNewUser(user: String, email:String, pass: String): Boolean{
-        val response: UserResponse = userCase.registerUser(user, email, pass)
+        val response: UserResponse = useCase.registerUser(user, email, pass)
         return response.responseValue
     }
 

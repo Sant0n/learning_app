@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import nnar.learning_app.R
 import nnar.learning_app.data.repository.UserRepository
 import nnar.learning_app.datainterface.RegisterView
-import nnar.learning_app.domain.usercase.RegisterUserCase
+import nnar.learning_app.domain.usercase.RegisterUseCase
 import nnar.learning_app.ui.mainmenu.MainMenuActivity
 
 
@@ -20,7 +20,7 @@ class RegisterActivity: AppCompatActivity(), RegisterView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        val presenter = RegisterPresenter(this, RegisterUserCase( UserRepository() ) )
+        val presenter = RegisterPresenter(this, RegisterUseCase( UserRepository() ) )
         val confirmButton = findViewById<Button>(R.id.register_confirm_button)
 
         confirmButton.setOnClickListener {
@@ -30,6 +30,8 @@ class RegisterActivity: AppCompatActivity(), RegisterView {
 
             val responseRegister = presenter.registerNewUser(usernameText.text.toString(), email.text.toString(), passwordText.text.toString())
 
+            showRegisterResponse(responseRegister)
+            // Presenter
             if(responseRegister){
                 Toast.makeText(this, "Success Register", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainMenuActivity::class.java)

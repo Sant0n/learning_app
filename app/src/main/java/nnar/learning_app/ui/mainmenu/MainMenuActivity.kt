@@ -5,11 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import nnar.learning_app.R
-import nnar.learning_app.datainterface.MainMenuView
 import nnar.learning_app.ui.login.LoginActivity
 import nnar.learning_app.ui.register.RegisterActivity
 
-class MainMenuActivity : AppCompatActivity(), MainMenuView {
+class MainMenuActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
