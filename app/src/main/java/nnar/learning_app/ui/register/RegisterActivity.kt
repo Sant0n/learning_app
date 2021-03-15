@@ -16,32 +16,41 @@ import nnar.learning_app.ui.mainmenu.MainMenuActivity
 class RegisterActivity: AppCompatActivity(), RegisterView {
 
 
+    private lateinit var usernameText: TextView
+    private lateinit var email: TextView
+    private lateinit var passwordText: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        val presenter = RegisterPresenter(this, RegisterUseCase( UserRepository() ) )
+        usernameText = findViewById<TextView>(R.id.username_edittext_register)
+        email = findViewById<TextView>(R.id.email_edittext_register)
+        passwordText = findViewById<TextView>(R.id.password_edittext_register)
+
+        val presenter = RegisterPresenter(this, RegisterUseCase(UserRepository()))
         val confirmButton = findViewById<Button>(R.id.register_confirm_button)
 
         confirmButton.setOnClickListener {
-            val usernameText = findViewById<TextView>(R.id.username_edittext_register)
-            val email = findViewById<TextView>(R.id.email_edittext_register)
-            val passwordText = findViewById<TextView>(R.id.password_edittext_register)
-
-            val responseRegister = presenter.registerNewUser(usernameText.text.toString(), email.text.toString(), passwordText.text.toString())
-
-            showRegisterResponse(responseRegister)
-            // Presenter
-            if(responseRegister){
-                Toast.makeText(this, "Success Register", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainMenuActivity::class.java)
-                startActivity(intent)
-            }else{
-                Toast.makeText(this, "Error in register", Toast.LENGTH_SHORT).show()
-                usernameText.error = "Wrong username"
-                passwordText.error = "Wrong password"
-            }
+            presenter.registerNewUser(usernameText.text.toString(), email.text.toString(), passwordText.text.toString())
         }
+    }
+
+    override fun showRegisterResponse(s: String){
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showErrorNameField(s:String){
+        usernameText.error = s
+    }
+
+    override fun showErrorPassField(s:String){
+        passwordText.error = s
+    }
+
+    override fun navigateToHome(){
+        val intent = Intent(this, MainMenuActivity::class.java)
+        startActivity(intent)
     }
 
 }
