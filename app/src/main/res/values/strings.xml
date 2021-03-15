@@ -16,10 +16,23 @@
 
 
     <!-- Login screen  -->
+    <string name="login_title">Login</string>
     <string name="login_user_id">Email or username</string>
     <string name="login_button">Sign in</string>
     <string name="go_to_register">Sign up</string>
     <string name="login_error_msg">Invalid credentials</string>
     <string name="login_successful">Login successful</string>
+
+
+    <!-- Home screen -->
+    <string name="home_title">Home</string>
+    <string name="home_nav_favorites">Favorites</string>
+    <string name="home_nav_newness">Newness</string>
+    <string name="home_nav_recent">Recent</string>
+    <string name="home_list_sm">Mobile list</string>
+    <string name="home_search_icon">Searching button</string>
+    <string name="home_search_mobile">Search</string>
+    <string name="home_add_button">Add mobile button</string>
+
 
 </resources>
