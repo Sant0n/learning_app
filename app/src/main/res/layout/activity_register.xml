@@ -33,19 +33,19 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/email_register_textView" />
 
-    <ImageView
-        android:id="@+id/profileimage_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:contentDescription="@string/profile_picture"
-        app:layout_constraintBottom_toTopOf="@+id/username_edittext_register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_textView"
-        app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@tools:sample/avatars" />
+        <ImageView
+            android:id="@+id/profileimage_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:contentDescription="@string/profile_picture"
+            app:layout_constraintBottom_toTopOf="@+id/username_edittext_register"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_textView"
+            app:layout_constraintVertical_bias="0.0"
+            tools:srcCompat="@android:drawable/btn_star_big_on" />
 
     <TextView
         android:id="@+id/email_register_textView"
@@ -82,37 +82,39 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/password_edittext_register_repeat" />
 
-    <EditText
-        android:id="@+id/username_edittext_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/username_text"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/email_edittext_register"
-        app:layout_constraintEnd_toEndOf="@+id/email_edittext_register"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/email_edittext_register"
-        app:layout_constraintTop_toBottomOf="@+id/register_textView"
-        app:layout_constraintVertical_bias="0.69" />
+        <EditText
+            android:id="@+id/username_edittext_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/username_text"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toTopOf="@+id/email_edittext_register"
+            app:layout_constraintEnd_toEndOf="@+id/email_edittext_register"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="@+id/email_edittext_register"
+            app:layout_constraintTop_toBottomOf="@id/profileimage_register"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <EditText
-        android:id="@+id/email_edittext_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:autofillHints="@string/email_text"
-        android:ems="10"
-        android:hint="@string/email_text"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/password_edittext_register"
-        app:layout_constraintEnd_toEndOf="@+id/password_edittext_register"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/password_edittext_register" />
+        <EditText
+            android:id="@+id/email_edittext_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:autofillHints="@string/email_text"
+            android:ems="10"
+            android:hint="@string/email_text"
+            android:inputType="textEmailAddress"
+            app:layout_constraintBottom_toBottomOf="@id/username_edittext_register"
+            app:layout_constraintBottom_toTopOf="@+id/password_edittext_register"
+            app:layout_constraintEnd_toEndOf="@+id/password_edittext_register"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/password_edittext_register" />
 
-    <EditText
+        <EditText
         android:id="@+id/password_edittext_register_repeat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -150,6 +152,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 

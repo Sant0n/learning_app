@@ -43,24 +43,16 @@ class RegisterActivity: AppCompatActivity(), RegisterView {
 
     private fun setListeners(presenter: RegisterPresenter) {
         usernameText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus && usernameText.text.isNotBlank()){
-                presenter.verifyUsername(usernameText.text.toString())
-            }
+           presenter.verifyUsername(usernameText.text.toString(), hasFocus, usernameText.text.isNotBlank() )
+
         }
         emailText.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus && emailText.text.isNotBlank()) {
-                presenter.verifyEmail(emailText.text.toString())
-            }
+            presenter.verifyEmail(emailText.text.toString(), hasFocus, emailText.text.isNotBlank())
         }
         repeatPasswordText.setOnFocusChangeListener { _, hasFocus ->
-            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA    "+hasFocus)
-            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA    "+ repeatPasswordText.text.isNotBlank())
-            println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA    "+ passwordText.text.isNotBlank())
-            if(!hasFocus &&
-                (repeatPasswordText.text.isNotBlank() &&
-                        passwordText.text.isNotBlank())){
-                presenter.verifyPass(passwordText.text.toString(), repeatPasswordText.text.toString())
-            }
+            presenter.verifyPass(passwordText.text.toString(), repeatPasswordText.text.toString(),
+                hasFocus, passwordText.text.isNotBlank(), repeatPasswordText.text.isNotBlank())
+
         }
         confirmButton.setOnClickListener {
             presenter.registerNewUser(usernameText.text.toString(), emailText.text.toString(), passwordText.text.toString())
