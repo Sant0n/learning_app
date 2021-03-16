@@ -39,4 +39,34 @@ class UserRepository {
         }
     }
 
+    fun verifyUsername(username: String): UserResponse{
+        var userResponse = UserResponse("", false, "")
+        for (user in userSet){
+            if (user.username == username){
+                userResponse = UserResponse(username, true, "Username already exists")
+            }else if (user.username != username){
+                userResponse = UserResponse(username, false, "User No Registered")
+            }
+            if (userResponse.responseValue){
+                break
+            }
+        }
+        return userResponse
+    }
+
+    fun verifyEmail(email: String): UserResponse{
+        var userResponse = UserResponse("", false, "")
+        for (user in userSet){
+            if (user.email == email){
+                userResponse = UserResponse(email, true, "Username already exists")
+            }else if (user.email != email){
+                userResponse = UserResponse(email, false, "User No Registered")
+            }
+            if (userResponse.responseValue){
+                break
+            }
+        }
+        return userResponse
+    }
+
 }
