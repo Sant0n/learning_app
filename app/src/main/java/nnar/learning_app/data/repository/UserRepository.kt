@@ -11,7 +11,7 @@ class UserRepository {
         User("alberto", "alberto@gmail.com", "idiota")
     )
 
-    fun verifyUser(username: String, password: String): UserResponse {
+    fun loginUser(username: String, password: String): UserResponse {
         //var temp: Boolean = false
         var userResponse = UserResponse("", false, "")
         for (user in userSet){
@@ -35,7 +35,6 @@ class UserRepository {
             UserResponse(username, false, "User already Registered")
         }else{
             userSet.add(userAux)
-            print(userSet)
             UserResponse(username, true, "Registration Successful")
         }
     }

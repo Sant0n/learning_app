@@ -2,12 +2,16 @@ package nnar.learning_app.ui.register
 
 import android.content.Intent
 import android.os.Bundle
+
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+
 import androidx.appcompat.app.AppCompatActivity
+
 import nnar.learning_app.R
-import nnar.learning_app.data.repository.UserRepository
+
+    import nnar.learning_app.data.repository.UserRepository
 import nnar.learning_app.datainterface.RegisterView
 import nnar.learning_app.domain.usercase.RegisterUseCase
 import nnar.learning_app.ui.mainmenu.MainMenuActivity

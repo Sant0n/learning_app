@@ -1,10 +1,8 @@
 package nnar.learning_app.ui.register
 
-import android.content.Intent
 import nnar.learning_app.datainterface.RegisterView
 import nnar.learning_app.domain.model.UserResponse
 import nnar.learning_app.domain.usercase.RegisterUseCase
-import nnar.learning_app.ui.mainmenu.MainMenuActivity
 
 class RegisterPresenter(private val view: RegisterView, private val useCase: RegisterUseCase) {
 
@@ -14,6 +12,7 @@ class RegisterPresenter(private val view: RegisterView, private val useCase: Reg
 
     internal fun registerNewUser(user: String, email:String, pass: String){
         val response: UserResponse = useCase.registerUser(user, email, pass)
+
         if(response.responseValue){
             view.showRegisterResponse("Success Register")
             view.navigateToHome()

@@ -4,6 +4,8 @@ package nnar.learning_app.datainterface
 
 interface LoginView {
 
-    fun verifyUser()
-
+    fun showLoginResponse(s:String)
+    fun showErrorNameField(s: String)
+    fun showErrorPassField(s: String)
+    fun navigateToHome()
 }
