@@ -15,6 +15,7 @@ import nnar.learning_app.data.repository.UserRepository
 import nnar.learning_app.datainterface.RegisterView
 import nnar.learning_app.domain.usercase.RegisterUseCase
 import nnar.learning_app.ui.mainmenu.MainMenuActivity
+import nnar.learning_app.utils.CommonFunctions
 
 
 class RegisterActivity: AppCompatActivity(), RegisterView {
@@ -33,7 +34,7 @@ class RegisterActivity: AppCompatActivity(), RegisterView {
         usernameText = findViewById(R.id.username_edittext_register)
         emailText = findViewById(R.id.email_edittext_register)
         passwordText = findViewById(R.id.password_edittext_register)
-        repeatPasswordText= findViewById(R.id.repeatpass_register_textView)
+        repeatPasswordText= findViewById(R.id.password_edittext_register_repeat)
         confirmButton = findViewById(R.id.register_confirm_button)
 
         val presenter = RegisterPresenter(this, RegisterUseCase(UserRepository()))
@@ -55,7 +56,8 @@ class RegisterActivity: AppCompatActivity(), RegisterView {
 
         }
         confirmButton.setOnClickListener {
-            presenter.registerNewUser(usernameText.text.toString(), emailText.text.toString(), passwordText.text.toString())
+            presenter.registerNewUser(usernameText.text.toString(), emailText.text.toString(),
+                passwordText.text.toString(), repeatPasswordText.text.toString())
         }
     }
 
@@ -84,18 +86,22 @@ class RegisterActivity: AppCompatActivity(), RegisterView {
     }
 
     override fun drawSuccessUsernameField() {
+        CommonFunctions().resetError(usernameText)
         usernameText.setBackgroundResource(R.drawable.textview_success_border)
     }
 
     override fun drawSuccessEmailField() {
+        CommonFunctions().resetError(emailText)
         emailText.setBackgroundResource(R.drawable.textview_success_border)
     }
 
     override fun drawSuccessPasswordField() {
+        CommonFunctions().resetError(passwordText)
         passwordText.setBackgroundResource(R.drawable.textview_success_border)
     }
 
     override fun drawSuccessRepeatPasswordField() {
+        CommonFunctions().resetError(repeatPasswordText)
         repeatPasswordText.setBackgroundResource(R.drawable.textview_success_border)
     }
 

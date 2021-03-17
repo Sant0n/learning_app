@@ -47,16 +47,20 @@ class RegisterPresenter(private val view: RegisterView, private val useCase: Reg
         }
     }
 
-    internal fun registerNewUser(user: String, email:String, pass: String){
-        val response: UserResponse = useCase.registerUser(user, email, pass)
+    internal fun registerNewUser(user: String, email:String, pass: String, repeatPass: String){
+        if(pass == repeatPass){
+            val response: UserResponse = useCase.registerUser(user, email, pass)
 
-        if(response.responseValue){
-            view.showRegisterResponse("Success Register")
-            view.navigateToHome()
-        }else{
-            view.showRegisterResponse("Error in register")
-            view.showErrorNameField("Wrong username")
-            view.showErrorPassField("Wrong password")
+            if(response.responseValue){
+                view.showRegisterResponse("Success Register")
+                view.navigateToHome()
+            }else{
+                view.showRegisterResponse("Error in register")
+                view.showErrorNameField("Wrong username")
+                view.showErrorEmailField("Wrong email")
+                view.showErrorPassField("Wrong password")
+                view.showErrorRepeatPassField("Wrong password")
+            }
         }
     }
 

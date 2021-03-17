@@ -15,24 +15,35 @@ import nnar.learning_app.data.repository.UserRepository
 import nnar.learning_app.datainterface.LoginView
 import nnar.learning_app.domain.usercase.LoginUseCase
 import nnar.learning_app.ui.mainmenu.MainMenuActivity
+import nnar.learning_app.utils.CommonFunctions
 
 class LoginActivity :  AppCompatActivity(), LoginView {
 
     private lateinit var usernameText: TextView
     private lateinit var passwordText: TextView
+    private lateinit var confirmButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        usernameText = findViewById<TextView>(R.id.username_edittext_login)
-        passwordText = findViewById<TextView>(R.id.password_edittext_login)
+        usernameText = findViewById(R.id.username_edittext_login)
+        passwordText = findViewById(R.id.password_edittext_login)
+        confirmButton = findViewById(R.id.login_confirm_button)
 
-
-        val confirmButton = findViewById<Button>(R.id.login_confirm_button)
         val presenter = LoginPresenter(this, LoginUseCase(UserRepository()))
 
+        setListeners(presenter)
+    }
 
+    private fun setListeners(presenter: LoginPresenter) {
+        usernameText.setOnFocusChangeListener { _, hasFocus ->
+            presenter.verifyUsername(usernameText.text.toString(), hasFocus)
+        }
+
+        passwordText.setOnFocusChangeListener { _, hasFocus ->
+            presenter.verifyPass(passwordText.text.toString(), hasFocus)
+        }
         confirmButton.setOnClickListener {
             presenter.verifyUser(usernameText.text.toString(), passwordText.text.toString())
         }
@@ -49,10 +60,21 @@ class LoginActivity :  AppCompatActivity(), LoginView {
 
     override fun showErrorNameField(s:String){
         usernameText.error = s
+        usernameText.setBackgroundResource(R.drawable.textview_error_border)
     }
 
     override fun showErrorPassField(s:String){
         passwordText.error = s
+        passwordText.setBackgroundResource(R.drawable.textview_error_border)
     }
 
+    override fun drawSuccessUsernameField() {
+        CommonFunctions().resetError(usernameText)
+        usernameText.setBackgroundResource(R.drawable.textview_success_border)
+    }
+
+    override fun drawSuccessPasswordField() {
+        CommonFunctions().resetError(passwordText)
+        passwordText.setBackgroundResource(R.drawable.textview_success_border)
+    }
 }

@@ -5,5 +5,7 @@ interface LoginView {
     fun showLoginResponse(s:String)
     fun showErrorNameField(s: String)
     fun showErrorPassField(s: String)
+    fun drawSuccessUsernameField()
+    fun drawSuccessPasswordField()
     fun navigateToHome()
 }
