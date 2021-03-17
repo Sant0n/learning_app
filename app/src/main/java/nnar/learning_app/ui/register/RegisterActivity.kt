@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import nnar.learning_app.R
 
 import nnar.learning_app.data.repository.UserRepository
+import nnar.learning_app.databinding.ActivityRegisterBinding
 import nnar.learning_app.datainterface.RegisterView
 import nnar.learning_app.domain.usercase.RegisterUseCase
 import nnar.learning_app.ui.mainmenu.MainMenuActivity
@@ -20,7 +21,7 @@ import nnar.learning_app.utils.CommonFunctions
 
 class RegisterActivity: AppCompatActivity(), RegisterView {
 
-
+    private lateinit var binding: ActivityRegisterBinding
     private lateinit var usernameText: TextView
     private lateinit var emailText: TextView
     private lateinit var passwordText: TextView
@@ -29,13 +30,15 @@ class RegisterActivity: AppCompatActivity(), RegisterView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        usernameText = findViewById(R.id.username_edittext_register)
-        emailText = findViewById(R.id.email_edittext_register)
-        passwordText = findViewById(R.id.password_edittext_register)
-        repeatPasswordText= findViewById(R.id.password_edittext_register_repeat)
-        confirmButton = findViewById(R.id.register_confirm_button)
+        usernameText = binding.usernameEdittextRegister
+        emailText = binding.emailEdittextRegister
+        passwordText = binding.passwordEdittextRegister
+        repeatPasswordText= binding.passwordEdittextRegisterRepeat
+        confirmButton = binding.registerConfirmButton
 
         val presenter = RegisterPresenter(this, RegisterUseCase(UserRepository()))
 

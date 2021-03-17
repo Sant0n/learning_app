@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import nnar.learning_app.R
 
 import nnar.learning_app.data.repository.UserRepository
+import nnar.learning_app.databinding.ActivityLoginBinding
 import nnar.learning_app.datainterface.LoginView
 import nnar.learning_app.domain.usercase.LoginUseCase
 import nnar.learning_app.ui.mainmenu.MainMenuActivity
@@ -19,17 +20,20 @@ import nnar.learning_app.utils.CommonFunctions
 
 class LoginActivity :  AppCompatActivity(), LoginView {
 
+    private lateinit var binding: ActivityLoginBinding
     private lateinit var usernameText: TextView
     private lateinit var passwordText: TextView
     private lateinit var confirmButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        usernameText = findViewById(R.id.username_edittext_login)
-        passwordText = findViewById(R.id.password_edittext_login)
-        confirmButton = findViewById(R.id.login_confirm_button)
+        usernameText = binding.usernameEdittextLogin
+        passwordText = binding.passwordEdittextLogin
+        confirmButton = binding.loginConfirmButton
 
         val presenter = LoginPresenter(this, LoginUseCase(UserRepository()))
 
@@ -44,6 +48,7 @@ class LoginActivity :  AppCompatActivity(), LoginView {
         passwordText.setOnFocusChangeListener { _, hasFocus ->
             presenter.verifyPass(passwordText.text.toString(), hasFocus)
         }
+
         confirmButton.setOnClickListener {
             presenter.verifyUser(usernameText.text.toString(), passwordText.text.toString())
         }
