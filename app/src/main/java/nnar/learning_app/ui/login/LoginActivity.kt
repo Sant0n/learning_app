@@ -31,8 +31,8 @@ class LoginActivity :  AppCompatActivity(), LoginView {
         val view = binding.root
         setContentView(view)
 
-        usernameText = binding.usernameEdittextLogin
-        passwordText = binding.passwordEdittextLogin
+        usernameText = binding.loginUsernameEdittext
+        passwordText = binding.loginPasswordEdittext
         confirmButton = binding.loginConfirmButton
 
         val presenter = LoginPresenter(this, LoginUseCase(UserRepository()))

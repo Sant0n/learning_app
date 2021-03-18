@@ -34,10 +34,10 @@ class RegisterActivity: AppCompatActivity(), RegisterView {
         val view = binding.root
         setContentView(view)
 
-        usernameText = binding.usernameEdittextRegister
-        emailText = binding.emailEdittextRegister
-        passwordText = binding.passwordEdittextRegister
-        repeatPasswordText= binding.passwordEdittextRegisterRepeat
+        usernameText = binding.registerUsernameEdittext
+        emailText = binding.registerEmailEdittext
+        passwordText = binding.registerPasswordEdittext
+        repeatPasswordText= binding.registerPasswordrepeatEdittext
         confirmButton = binding.registerConfirmButton
 
         val presenter = RegisterPresenter(this, RegisterUseCase(UserRepository()))

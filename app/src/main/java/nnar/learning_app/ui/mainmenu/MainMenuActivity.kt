@@ -21,8 +21,8 @@ class MainMenuActivity : AppCompatActivity(){
         val view = binding.root
         setContentView(view)
 
-        logInButton = binding.loginButton
-        registerButton = binding.registerButton
+        logInButton = binding.mainmenuLoginButton
+        registerButton = binding.mainmenuRegisterButton
 
         setListeners()
     }

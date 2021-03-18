@@ -1,14 +1,26 @@
 <resources>
-    <string name="main_menu_text">Welcome!! :)</string>
     <string name="app_name">learning_app</string>
-    <string name="login_button">LOG IN</string>
-    <string name="register_button">REGISTER</string>
-    <string name="login_text">Log In</string>
-    <string name="email_text">E-mail</string>
-    <string name="pass_text">Password</string>
-    <string name="confirm_button">CONFIRM</string>
-    <string name="register_text">Register</string>
-    <string name="username_text">Username</string>
-    <string name="repeat_pass_text">Repeat Password</string>
-    <string name="profile_picture">Profile Image</string>
+    <!--Main menu-->
+    <string name="mainmenu_tittle">Welcome!! :)</string>
+    <string name="mainmenu_login_button">LOG IN</string>
+    <string name="mainmenu_register_button">REGISTER</string>
+
+    <!--Register-->
+    <string name="register_title">Register</string>
+    <string name="register_username">Username</string>
+    <string name="register_email">E-mail</string>
+    <string name="register_password">Password</string>
+    <string name="register_repeat_password">Repeat Password</string>
+    <string name="register_confirm_button">CONFIRM</string>
+    <string name="register_profile_picture">Profile Image</string>
+
+    <!--Log in-->
+    <string name="login_tittle">Log In</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_confirm_button">CONFIRM</string>
+    <string name="login_profile_picture">Profile Image</string>
+
+    <!--List menu-->
+    <string name="listmenu_tittle"></string>
 </resources>
