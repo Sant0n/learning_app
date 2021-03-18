@@ -1,6 +1,7 @@
 package nnar.learning_app.ui.login
 
 import android.content.Intent
+
 import android.os.Bundle
 
 import android.widget.Button
@@ -82,4 +83,5 @@ class LoginActivity :  AppCompatActivity(), LoginView {
         CommonFunctions().resetError(passwordText)
         passwordText.setBackgroundResource(R.drawable.textview_success_border)
     }
+
 }

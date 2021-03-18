@@ -1,9 +1,13 @@
 package nnar.learning_app.ui.mainmenu
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+
 import android.os.Bundle
+
+import androidx.appcompat.app.AppCompatActivity
+
 import android.widget.Button
+
 import nnar.learning_app.databinding.ActivityMainMenuBinding
 import nnar.learning_app.ui.login.LoginActivity
 import nnar.learning_app.ui.register.RegisterActivity

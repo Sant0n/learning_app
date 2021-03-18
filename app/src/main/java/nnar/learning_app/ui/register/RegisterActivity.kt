@@ -1,6 +1,7 @@
 package nnar.learning_app.ui.register
 
 import android.content.Intent
+
 import android.os.Bundle
 
 import android.widget.Button
@@ -112,4 +113,5 @@ class RegisterActivity: AppCompatActivity(), RegisterView {
         val intent = Intent(this, MainMenuActivity::class.java)
         startActivity(intent)
     }
+
 }

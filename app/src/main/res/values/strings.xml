@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">learning_app</string>
     <!--Main menu-->
-    <string name="mainmenu_tittle">Welcome!! :)</string>
+    <string name="mainmenu_tittle">Main Menu</string>
     <string name="mainmenu_login_button">LOG IN</string>
     <string name="mainmenu_register_button">REGISTER</string>
 
@@ -21,6 +21,10 @@
     <string name="login_confirm_button">CONFIRM</string>
     <string name="login_profile_picture">Profile Image</string>
 
+    <!--Select menu-->
+    <string name="selectmenu_tittle">Select menu</string>
+
     <!--List menu-->
-    <string name="listmenu_tittle"></string>
+    <string name="listmenu_tittle">List Menu</string>
+    
 </resources>
