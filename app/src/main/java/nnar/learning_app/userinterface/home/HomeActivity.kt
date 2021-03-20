@@ -1,30 +1,37 @@
-package nnar.learning_app.userInterface.home
+package nnar.learning_app.userinterface.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-//import nnar.learning_app.databinding.ActivityHomeBinding
-
+import nnar.learning_app.data.repository.ContactRepository
+import nnar.learning_app.databinding.ActivityHomeBinding
 
 class HomeActivity: AppCompatActivity() {
 
-    //private lateinit var binding: ActivityHomeBinding
-    //private lateinit var presenter: HomePresenter
+    lateinit var contacts: ArrayList<ContactRepository>
+    lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //binding = ActivityHomeBinding.inflate(layoutInflater)
-        //setContentView(binding.root)
 
-        //binding.listOfMobiles.layoutManager = LinearLayoutManager(this)
-        //userMobilesAdapter = UserMobilesAdapter(presenter)
-        //binding.listOfMobiles.adapter = userMobilesAdapter
+        // Binding root
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        //presenter = HomePresenter(this, LoginUserUsecase(UserRepository()))
-        setListeners()
+        // Lookup the recyclerview in activity layout
+        val rvContacts = binding.recyclerView
 
+        // Initialize contacts
+        contacts = ContactRepository.createContactsList(20)
+
+        // Create adapter passing in the sample user data
+        val adapter = ContactsAdapter(contacts)
+
+        // Attach the adapter to the recyclerview to populate items
+        rvContacts.adapter = adapter
+
+        // Set layout manager to position the items
+        rvContacts.layoutManager = LinearLayoutManager(this)
     }
-
-    private fun setListeners() {}
 
 }
