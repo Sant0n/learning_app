@@ -1,7 +1,38 @@
 <resources>
     <string name="app_name">learning_app</string>
-    <string name="button">Sign In</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="awesome_app">Awesome App</string>
+    <string name="app_img">App Logo</string>
+
+    <!-- Register screen  -->
+    <string name="register_img">User profile image</string>
+    <string name="register_email">Email</string>
+    <string name="email_format">Not valid format</string>
+    <string name="register_username">Username</string>
+    <string name="user_pass">Password</string>
+    <string name="register_rep_pass">Repeat password</string>
+    <string name="error_pass">Passwords do not match</string>
+    <string name="register_button">Sign up</string>
+    <string name="register_successful">Register successful</string>
+    <string name="register_error">Error during register process</string>
+
+
+    <!-- Login screen  -->
+    <string name="login_title">Login</string>
+    <string name="login_user_id">Email or username</string>
+    <string name="login_button">Sign in</string>
+    <string name="go_to_register">Sign up</string>
+    <string name="login_error_msg">Invalid credentials</string>
+    <string name="login_successful">Login successful</string>
+
+
+    <!-- Home screen -->
+    <string name="home_title">Home</string>
+    <string name="home_nav_favorites">Favorites</string>
+    <string name="home_nav_newness">Newness</string>
+    <string name="home_nav_recent">Recent</string>
+    <string name="home_list_sm">Mobile list</string>
+    <string name="home_search_icon">Searching button</string>
+    <string name="home_search_mobile">Search</string>
+    <string name="home_add_button">Add mobile button</string>
+
+
 </resources>
