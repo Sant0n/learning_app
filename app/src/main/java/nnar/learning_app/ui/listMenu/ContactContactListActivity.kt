@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import nnar.learning_app.databinding.ActivityListMenuBinding
 import nnar.learning_app.datainterface.ListMenuView
 
-class ListMenuActivity: AppCompatActivity(), ListMenuView {
+class ContactListActivity: AppCompatActivity(), ListMenuView {
 
     private lateinit var binding: ActivityListMenuBinding
 
