@@ -16,7 +16,7 @@ import nnar.learning_app.data.repository.UserRepository
 import nnar.learning_app.databinding.ActivityLoginBinding
 import nnar.learning_app.datainterface.LoginView
 import nnar.learning_app.domain.usercase.LoginUseCase
-import nnar.learning_app.ui.mainmenu.MainMenuActivity
+import nnar.learning_app.ui.listMenu.ContactListActivity
 import nnar.learning_app.utils.CommonFunctions
 
 class LoginActivity :  AppCompatActivity(), LoginView {
@@ -60,7 +60,7 @@ class LoginActivity :  AppCompatActivity(), LoginView {
     }
 
     override fun navigateToHome() {
-        val intent = Intent(this, MainMenuActivity::class.java)
+        val intent = Intent(this, ContactListActivity::class.java)
         startActivity(intent)
     }
 

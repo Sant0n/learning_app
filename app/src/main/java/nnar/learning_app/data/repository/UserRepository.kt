@@ -5,7 +5,7 @@ import nnar.learning_app.domain.model.UserResponse
 
 class UserRepository {
 
-    private val userSet: MutableSet<User> = mutableSetOf<User>(
+    private val userSet: MutableSet<User> = mutableSetOf(
         User("nicole", "nicole@gmail.com", "123456"),
         User("agus", "agus@gmail.com", "567890"),
         User("alberto", "alberto@gmail.com", "idiota")
