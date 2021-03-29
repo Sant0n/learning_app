@@ -3,7 +3,8 @@ package nnar.learning_app.data.repository
 import nnar.learning_app.R
 import nnar.learning_app.domain.model.Contact
 
-class ContactRespository {
+class ContactRepository {
+
     private val contactSet: MutableSet<Contact> = mutableSetOf(
         Contact(1, "raul", "+34 11111111111", R.drawable.avataaars1, "raul@gmail.com"),
         Contact(2, "sigrit", "+34 2222222222", R.drawable.avataaars2, "sigrit@gmail.com"),
@@ -15,7 +16,14 @@ class ContactRespository {
 
     fun addNewContact(name:String, phoneNumber:String, image:Int?, email:String){
         val newId = contactSet.size + 1
-        val newContact: Contact = Contact(newId, name, phoneNumber, image, email)
+        val auxImage = image ?: R.drawable.avataaars_default // If image is null then default
+        val newContact = Contact(newId, name, phoneNumber, auxImage, email)
         contactSet.add(newContact)
+
     }
+
+    fun deleteContact(){
+        
+    }
+
 }

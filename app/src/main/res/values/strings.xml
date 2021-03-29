@@ -25,6 +25,6 @@
     <string name="selectmenu_tittle">Select menu</string>
 
     <!--List menu-->
-    <string name="listmenu_tittle">List Menu</string>
-    
+    <string name="list_groups_tittle">Bands</string>
+
 </resources>
