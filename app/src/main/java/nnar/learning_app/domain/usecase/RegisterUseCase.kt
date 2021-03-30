@@ -1,4 +1,4 @@
-package nnar.learning_app.domain.usercase
+package nnar.learning_app.domain.usecase
 
 import nnar.learning_app.data.repository.UserRepository
 

@@ -15,7 +15,7 @@ import nnar.learning_app.R
 import nnar.learning_app.data.repository.UserRepository
 import nnar.learning_app.databinding.ActivityRegisterBinding
 import nnar.learning_app.datainterface.RegisterView
-import nnar.learning_app.domain.usercase.RegisterUseCase
+import nnar.learning_app.domain.usecase.RegisterUseCase
 import nnar.learning_app.ui.mainmenu.MainMenuActivity
 import nnar.learning_app.utils.CommonFunctions
 

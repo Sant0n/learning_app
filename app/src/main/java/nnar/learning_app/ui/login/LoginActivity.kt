@@ -15,8 +15,8 @@ import nnar.learning_app.R
 import nnar.learning_app.data.repository.UserRepository
 import nnar.learning_app.databinding.ActivityLoginBinding
 import nnar.learning_app.datainterface.LoginView
-import nnar.learning_app.domain.usercase.LoginUseCase
-import nnar.learning_app.ui.listMenu.ContactListActivity
+import nnar.learning_app.domain.usecase.LoginUseCase
+import nnar.learning_app.ui.contactListMenu.ContactListActivity
 import nnar.learning_app.utils.CommonFunctions
 
 class LoginActivity :  AppCompatActivity(), LoginView {

@@ -2,7 +2,7 @@ package nnar.learning_app.ui.login
 
 import nnar.learning_app.datainterface.LoginView
 import nnar.learning_app.domain.model.UserResponse
-import nnar.learning_app.domain.usercase.LoginUseCase
+import nnar.learning_app.domain.usecase.LoginUseCase
 
 class LoginPresenter(private val view: LoginView, private val useCase: LoginUseCase) {
 

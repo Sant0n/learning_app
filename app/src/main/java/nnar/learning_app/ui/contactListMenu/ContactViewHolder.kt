@@ -1,9 +1,9 @@
-package nnar.learning_app.ui.listMenu
+package nnar.learning_app.ui.contactListMenu
 
-import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 
 import androidx.recyclerview.widget.RecyclerView
 
@@ -17,9 +17,13 @@ class ContactViewHolder(contactView: View) : RecyclerView.ViewHolder(contactView
     private val name: TextView = binding.contactRowName
     private val image: ImageView = binding.contactRowImage
 
-    fun bind(contact: Contact){
+    fun bindData(contact: Contact){
         name.text = contact.name
         image.setImageResource(contact.image)
+    }
+
+    fun onClick(view: View){
+        Toast.makeText(view.context, "YES", Toast.LENGTH_SHORT)
     }
 
 }

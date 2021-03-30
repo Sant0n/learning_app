@@ -4,7 +4,7 @@ import android.util.Patterns
 
 import nnar.learning_app.datainterface.RegisterView
 import nnar.learning_app.domain.model.UserResponse
-import nnar.learning_app.domain.usercase.RegisterUseCase
+import nnar.learning_app.domain.usecase.RegisterUseCase
 
 class RegisterPresenter(private val view: RegisterView, private val useCase: RegisterUseCase) {
 

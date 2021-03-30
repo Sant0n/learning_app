@@ -22,8 +22,10 @@ class ContactRepository {
 
     }
 
-    fun deleteContact(){
+    fun deleteAContact(){
         
     }
+
+    fun getContacts() = contactSet
 
 }

@@ -25,6 +25,8 @@
     <string name="selectmenu_tittle">Select menu</string>
 
     <!--List menu-->
-    <string name="list_groups_tittle">Bands</string>
+    <string name="list_contact_tittle">Contacts</string>
+    <string name="list_contact_button_description">Add New Contact</string>
+    <string name="list_contact_image_description">Contact Image</string>
 
 </resources>
