@@ -2,7 +2,9 @@ package nnar.learning_app.ui.contactListMenu
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,6 +20,7 @@ class ContactListActivity: AppCompatActivity(), ContactListView {
     private lateinit var binding: ActivityContactListBinding
     private lateinit var recyclerView:RecyclerView
     private lateinit var addButton: FloatingActionButton
+    private lateinit var adapter: ContactListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -29,8 +32,9 @@ class ContactListActivity: AppCompatActivity(), ContactListView {
 
         addButton = binding.addContactButton
         recyclerView = binding.listmenuRecyclerView
-        recyclerView.hasFixedSize()
-        recyclerView.adapter = ContactListAdapter(presenter.fetchContacts())
+        adapter = ContactListAdapter(presenter.fetchContacts())
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         setListeners(presenter)
     }
@@ -51,7 +55,8 @@ class ContactListActivity: AppCompatActivity(), ContactListView {
     }
 
     override fun showMessageContactAdded(s: String) {
-        TODO("Not yet implemented")
+        adapter.notifyDataSetChanged()
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
     }
 
     override fun showMessageContactDeleted(s: String) {

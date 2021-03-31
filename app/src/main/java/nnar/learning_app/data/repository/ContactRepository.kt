@@ -14,12 +14,13 @@ class ContactRepository {
         Contact(6, "agus", "+34 666666666", R.drawable.avataaars6, "agus@gmail.com")
     )
 
-    fun addNewContact(name:String, phoneNumber:String, image:Int?, email:String){
+    fun addNewContact(name:String, phoneNumber:String, image:Int?, email:String): String {
         val newId = contactSet.size + 1
         val auxImage = image ?: R.drawable.avataaars_default // If image is null then default
         val newContact = Contact(newId, name, phoneNumber, auxImage, email)
         contactSet.add(newContact)
-
+        print(contactSet)
+        return "Contact added"
     }
 
     fun deleteAContact(){

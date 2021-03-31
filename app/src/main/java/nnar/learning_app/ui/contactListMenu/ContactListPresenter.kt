@@ -20,7 +20,12 @@ class ContactListPresenter (private val view: ContactListView, private val useCa
     }
 
     internal fun addNewContact(){
+        val name: String = "mongolo1"
+        val email: String = "mongolo1@gmail.com"
+        val phone: String = "+34 6969696969"
 
+        val message = useCase.addNewContact(name, phone, null, email)
+        view.showMessageContactAdded(message)
     }
 
 }

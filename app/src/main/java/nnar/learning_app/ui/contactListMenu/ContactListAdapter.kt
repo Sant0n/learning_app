@@ -38,6 +38,7 @@ class ContactListAdapter(private val contactList: MutableSet<Contact>):
         }
     }
 
+
     override fun getItemCount(): Int {
         return contactList.size
     }
