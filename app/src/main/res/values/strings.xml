@@ -29,4 +29,11 @@
     <string name="list_contact_button_description">Add New Contact</string>
     <string name="list_contact_image_description">Contact Image</string>
 
+    <!--Contact detail -->
+    <string name="contact_detail_toolbar_tittle">Contact Details</string>
+    <string name="contact_detail_image_description">Contact Image</string>
+    <string name="contact_detail_name_tag">Name:</string>
+    <string name="contact_detail_phone_tag">Phone:</string>
+    <string name="contact_detail_email_tag">E-mail:</string>
+
 </resources>

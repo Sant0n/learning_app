@@ -48,8 +48,6 @@ class ContactListActivity: AppCompatActivity(), ContactListView {
             val intent = Intent(this, MainMenuActivity::class.java)
             startActivity(intent)
         }
-
-        recyclerView
     }
 
     override fun showMessageContactAdded(s: String) {
