@@ -19,16 +19,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".userinterface.register.RegisterActivity">
         </activity>
 
         <activity android:name=".userinterface.home.HomeActivity">
         </activity>
 
+        <activity android:name=".userinterface.contact.ContactActivity">
+        </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-    </application>
 
+    </application>
 
 </manifest>

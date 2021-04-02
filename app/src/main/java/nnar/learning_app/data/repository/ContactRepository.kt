@@ -1,9 +1,11 @@
 package nnar.learning_app.data.repository
 
-class ContactRepository(val name: String, val isOnline: Boolean) {
+import java.io.Serializable
+
+class ContactRepository(val name: String, var isOnline: Boolean): Serializable{
 
     companion object {
-        private var lastContactId = 0
+        var lastContactId = 0
         fun createContactsList(numContacts: Int): ArrayList<ContactRepository> {
             val contacts = ArrayList<ContactRepository>()
             for (i in 1..numContacts) {
