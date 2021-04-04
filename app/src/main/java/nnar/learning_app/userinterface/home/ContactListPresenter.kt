@@ -2,25 +2,49 @@ package nnar.learning_app.userinterface.home;
 
 import nnar.learning_app.data.repository.ContactRepository
 import nnar.learning_app.datainterface.HomeView
-import nnar.learning_app.domain.model.Contact
+import nnar.learning_app.domain.model.ContactViewHolder
 
 class ContactListPresenter(private val view: HomeView) {
-
-    var mContacts: ArrayList<Contact> = ContactRepository.getContacts()
-
+    // Get number of contacts
     fun getNumberOfContacts(): Int {
-        return mContacts.size
+        return ContactRepository.size()
     }
 
+    // Remove contact
     fun removeContact(position: Int) {
-        mContacts.removeAt(position)
+        ContactRepository.removeContact(position)
     }
 
-    fun getButtonState(state: Boolean): String {
-        return if (state) "Online" else "Offline"
+    // Get contact name
+    fun getContactName(position: Int): String {
+        return ContactRepository.getContactName(position)
     }
 
-    fun seeContactDetails(contact: Contact) {
-        view.seeDetails(contact)
+    // Set contact information
+    fun setButtonState(contactViewHolder: ContactViewHolder, position: Int, change: Boolean = true) {
+        // Set button current state
+        val state: Boolean = if(change) setButtonState(position) else getContactState(position)
+        val stateText: String = getButtonStateText(position)
+        contactViewHolder.setButtonState(stateText, state)
+    }
+
+    // See contact information
+    fun seeContactDetails(position: Int) {
+        view.seeDetails(ContactRepository.getContact(position))
+    }
+
+    // Get contact state text
+    private fun getButtonStateText(position: Int): String {
+        return ContactRepository.getStateText(position)
+    }
+
+    // Change contact state
+    private fun setButtonState(position: Int): Boolean {
+        return ContactRepository.setState(position)
+    }
+
+    // Get contact state
+    private fun getContactState(position: Int): Boolean {
+        return ContactRepository.getContactState(position)
     }
 }

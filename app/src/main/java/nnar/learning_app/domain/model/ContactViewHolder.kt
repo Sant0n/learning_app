@@ -3,9 +3,7 @@ package nnar.learning_app.domain.model
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import nnar.learning_app.R
 import nnar.learning_app.databinding.ItemContactBinding
 
 class ContactViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {

@@ -4,9 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import nnar.learning_app.databinding.ActivityContactBinding
 import nnar.learning_app.domain.model.Contact
-import nnar.learning_app.userinterface.home.HomePresenter
 
-class ContactActivity: AppCompatActivity() {
+class ContactInfoActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityContactBinding
 

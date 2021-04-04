@@ -8,11 +8,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import nnar.learning_app.R
 import nnar.learning_app.data.repository.UserRepository
-import nnar.learning_app.datainterface.RegisterView
 import nnar.learning_app.databinding.ActivityRegisterBinding
+import nnar.learning_app.datainterface.RegisterView
 import nnar.learning_app.domain.usecase.RegisterUserUsecase
 import nnar.learning_app.userinterface.login.LoginActivity
-
 
 class RegisterActivity : AppCompatActivity(), RegisterView {
 
