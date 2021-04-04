@@ -1,4 +1,4 @@
-package nnar.learning_app.data.repository
+package nnar.learning_app.domain.model
 
 import android.view.View
 import android.widget.Button

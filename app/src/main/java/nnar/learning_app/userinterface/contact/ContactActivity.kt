@@ -2,7 +2,9 @@ package nnar.learning_app.userinterface.contact
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import nnar.learning_app.data.repository.ContactRepository
 import nnar.learning_app.databinding.ActivityContactBinding
+import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.userinterface.home.HomePresenter
 
 class ContactActivity: AppCompatActivity() {
@@ -18,8 +20,9 @@ class ContactActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         // Get contact info
-        val name: String = this.intent.getStringExtra("name")
-        val state: Boolean = this.intent.getBooleanExtra("state", false)
+        val contact = intent.getParcelableExtra<Contact>("contact")!!
+        val name: String = contact.name
+        val state: Boolean = contact.isOnline
 
         // Set contact info
         binding.contactName.text = name

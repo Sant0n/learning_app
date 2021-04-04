@@ -1,8 +1,7 @@
 package nnar.learning_app.datainterface
 
-import nnar.learning_app.data.repository.ContactRepository
+import nnar.learning_app.domain.model.Contact
 
 interface HomeView {
-    fun seeDetails(contact: ContactRepository)
-    fun contactRemoved(position: Int)
+    fun seeDetails(contact: Contact)
 }

@@ -32,16 +32,16 @@ class LoginActivity : AppCompatActivity(), LoginView {
         binding.userId.setBackgroundResource(R.drawable.form_field_error)
         binding.userPassword.setBackgroundResource(R.drawable.form_field_error)
 
-        val toast: Toast = Toast.makeText(this, R.string.login_error_msg, Toast.LENGTH_LONG)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.form_field_error)
+        val toast: Toast = Toast.makeText(applicationContext, R.string.login_error_msg, Toast.LENGTH_LONG)
+        //val view: View = toast.view!!
+        //view.setBackgroundResource(R.drawable.form_field_error)
         toast.show()
     }
 
     override fun loginSuccessful() {
-        val toast: Toast = Toast.makeText(this, R.string.login_successful, Toast.LENGTH_LONG)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.successful_operation)
+        val toast: Toast = Toast.makeText(applicationContext, R.string.login_successful, Toast.LENGTH_LONG)
+        //val view: View = toast.view!!
+        //view.setBackgroundResource(R.drawable.successful_operation)
         toast.show()
 
         val intent = Intent(this, HomeActivity::class.java)
@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity(), LoginView {
         }
 
         binding.loginButton.setOnClickListener {
-            presenter.signIn(email = binding.userId.text.toString(),
+             presenter.signIn(email = binding.userId.text.toString(),
                 password = binding.userPassword.text.toString())
         }
     }

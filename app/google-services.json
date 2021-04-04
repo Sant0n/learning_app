@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "377054027434",
+    "project_id": "learning-app-fa676",
+    "storage_bucket": "learning-app-fa676.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377054027434:android:41e64c78817c166b9cbad3",
+        "android_client_info": {
+          "package_name": "nnar.learning_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377054027434-41eb3i137954cp961dgruf0v21j9qu2i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDypjdLnV0IDjvOljvgs-KY6VIM7XHtLZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377054027434-41eb3i137954cp961dgruf0v21j9qu2i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
