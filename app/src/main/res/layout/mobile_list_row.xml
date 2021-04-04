@@ -1,0 +1,57 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_item_row_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="6dp">
+
+
+    <ImageView
+        android:id="@+id/mobile_picture"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="6dp"
+        android:contentDescription="@string/mobile_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/form_field_normal"
+        tools:srcCompat="@tools:sample/avatars[0]" />
+
+    <TextView
+        android:id="@+id/mobile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/mobile_name"
+        android:textColor="#000000"
+        app:layout_constraintStart_toEndOf="@+id/mobile_picture"
+        app:layout_constraintTop_toTopOf="@+id/mobile_picture" />
+
+    <TextView
+        android:id="@+id/mobile_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/mobile_version"
+        app:layout_constraintStart_toStartOf="@+id/mobile_name"
+        app:layout_constraintTop_toBottomOf="@+id/mobile_name" />
+
+    <ImageView
+        android:id="@+id/is_mobile_favorite"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="6dp"
+        android:contentDescription="@string/mobile_fav"
+        app:layout_constraintBottom_toBottomOf="@+id/mobile_picture"
+        app:layout_constraintStart_toStartOf="@+id/mobile_version"
+        app:layout_constraintTop_toBottomOf="@+id/mobile_version"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@android:drawable/btn_star" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

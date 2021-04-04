@@ -10,6 +10,7 @@ import nnar.learning_app.data.repository.UserRepository
 import nnar.learning_app.dataInterface.LoginView
 import nnar.learning_app.databinding.ActivityLoginBinding
 import nnar.learning_app.domain.usecase.LoginUserUsecase
+import nnar.learning_app.userInterface.home.HomeActivity
 import nnar.learning_app.userInterface.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity(), LoginView {
@@ -42,6 +43,8 @@ class LoginActivity : AppCompatActivity(), LoginView {
         val view: View = toast.view
         view.setBackgroundResource(R.drawable.successful_operation)
         toast.show()
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
     }
 
     private fun setListeners(){

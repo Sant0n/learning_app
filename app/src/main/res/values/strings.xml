@@ -34,5 +34,10 @@
     <string name="home_search_mobile">Search</string>
     <string name="home_add_button">Add mobile button</string>
 
+    <!-- Item detail list of mobile -->
+    <string name="mobile_name">Mobile: </string>
+    <string name="mobile_version">Version: </string>
+    <string name="mobile_fav">Favorite</string>
+
 
 </resources>

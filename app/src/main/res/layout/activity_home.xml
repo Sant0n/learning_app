@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/Orange"
+        android:background="@color/orange"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,12 +100,25 @@
         android:clickable="true"
         android:contentDescription="@string/home_add_button"
         android:focusable="true"
-        app:backgroundTint="@color/Orange"
+        app:backgroundTint="@color/orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/white_add" />
+
+    <ImageButton
+        android:id="@+id/remove_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/orange"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/add_mobile_button"
+        app:layout_constraintEnd_toStartOf="@+id/add_mobile_button"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/add_mobile_button"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
