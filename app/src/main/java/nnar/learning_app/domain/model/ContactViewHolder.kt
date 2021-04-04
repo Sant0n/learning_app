@@ -6,34 +6,30 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import nnar.learning_app.R
+import nnar.learning_app.databinding.ItemContactBinding
 
 class ContactViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
 
-    // Your holder should contain and initialize a member variable
-    // for any view that will be set as you render a row
-    private val nameTextView: TextView = itemView.findViewById<TextView>(R.id.contact_name)
-    private val stateButton: Button = itemView.findViewById<Button>(R.id.state_button)
-    private val removeButton: Button = itemView.findViewById<Button>(R.id.remove_contact)
-    private val seeMore: ImageButton = itemView.findViewById<ImageButton>(R.id.see_more)
+    private var binding = ItemContactBinding.bind(listItemView)
 
     fun setNameTextView(text: String) {
-        nameTextView.text = text
+        binding.contactName.text = text
     }
 
     fun getStateButton(): Button {
-        return stateButton
+        return binding.stateButton
     }
 
     fun getRemoveButton(): Button {
-        return removeButton
+        return binding.removeContact
     }
 
     fun getSeeMore(): ImageButton {
-        return seeMore
+        return binding.seeMore
     }
 
     fun setButtonState(text: String, state: Boolean) {
-        stateButton.text = text
-        stateButton.isEnabled = state
+        binding.stateButton.text = text
+        binding.stateButton.isEnabled = state
     }
 }

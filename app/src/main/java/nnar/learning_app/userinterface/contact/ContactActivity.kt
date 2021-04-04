@@ -2,7 +2,6 @@ package nnar.learning_app.userinterface.contact
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import nnar.learning_app.data.repository.ContactRepository
 import nnar.learning_app.databinding.ActivityContactBinding
 import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.userinterface.home.HomePresenter
@@ -10,7 +9,6 @@ import nnar.learning_app.userinterface.home.HomePresenter
 class ContactActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityContactBinding
-    private lateinit var presenter: HomePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
