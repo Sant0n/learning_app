@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import nnar.learning_app.R
 import nnar.learning_app.domain.model.ContactViewHolder
 
-class ContactsListAdapter(var presenter: ContactListPresenter) : RecyclerView.Adapter<ContactViewHolder>() {
+class ContactsListAdapter() : RecyclerView.Adapter<ContactViewHolder>() {
+
+    private var presenter = ContactListPresenter()
 
     // Usually involves inflating a layout from XML and returning the holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -51,7 +53,7 @@ class ContactsListAdapter(var presenter: ContactListPresenter) : RecyclerView.Ad
 
         // See contact details
         contactViewHolder.getSeeMore().setOnClickListener {
-            presenter.seeContactDetails(position)
+            presenter.seeContactDetails(position, contactViewHolder)
         }
     }
 }

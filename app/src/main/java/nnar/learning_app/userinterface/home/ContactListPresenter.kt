@@ -1,10 +1,10 @@
 package nnar.learning_app.userinterface.home;
 
 import nnar.learning_app.data.repository.ContactRepository
-import nnar.learning_app.datainterface.HomeView
+import nnar.learning_app.datainterface.RowView
 import nnar.learning_app.domain.model.ContactViewHolder
 
-class ContactListPresenter(private val view: HomeView) {
+class ContactListPresenter() {
     // Get number of contacts
     fun getNumberOfContacts(): Int {
         return ContactRepository.size()
@@ -21,15 +21,15 @@ class ContactListPresenter(private val view: HomeView) {
     }
 
     // Set contact information
-    fun setButtonState(contactViewHolder: ContactViewHolder, position: Int, change: Boolean = true) {
+    fun setButtonState(view: RowView, position: Int, change: Boolean = true) {
         // Set button current state
         val state: Boolean = if(change) setButtonState(position) else getContactState(position)
         val stateText: String = getButtonStateText(position)
-        contactViewHolder.setButtonState(stateText, state)
+        view.setButtonState(stateText, state)
     }
 
     // See contact information
-    fun seeContactDetails(position: Int) {
+    fun seeContactDetails(position: Int, view: RowView) {
         view.seeDetails(ContactRepository.getContact(position))
     }
 
