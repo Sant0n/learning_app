@@ -1,21 +1,24 @@
 package nnar.learning_app.userInterface.home
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
+
 import androidx.recyclerview.widget.RecyclerView
 import nnar.learning_app.R
 import nnar.learning_app.domain.model.Mobile
 import nnar.learning_app.userInterface.mobileDetails.MobileDetailsActivity
 
-class UserMobilesAdapter(val rmButton: ImageButton) : RecyclerView.Adapter<UserMobileRowView>() {
+
+class UserMobilesAdapter(private val rmButton: ImageButton) : RecyclerView.Adapter<UserMobileRowView>() {
 
     private var presenter = MobileListPresenter()
 
     fun updateData(mList: List<Mobile>) {
-        println(mList)
         presenter.updateData(mList)
         notifyDataSetChanged()
     }
@@ -46,7 +49,11 @@ class UserMobilesAdapter(val rmButton: ImageButton) : RecyclerView.Adapter<UserM
             presenter.getMobile(position)
             val intent = Intent(holder.itemView.context, MobileDetailsActivity::class.java)
             intent.putExtra("mobile", presenter.getMobile(position))
-            holder.itemView.context.startActivity(intent)
+            holder.itemView.context.packageManager
+            if (intent.resolveActivity(holder.itemView.context.packageManager) != null) {
+                holder.itemView.context.startActivity(intent)
+            }
+
         }
 
         holder.itemView.setOnLongClickListener {

@@ -20,7 +20,7 @@ class MobileListPresenter {
         rowView.render(mobile)
     }
 
-    internal fun getMobile(position: Int) = listOfMobiles[position]
+    internal fun getMobile(position: Int): Mobile = listOfMobiles[position]
 
     internal fun addMobile(mobile: Mobile){
         listOfMobiles.add(mobile)
