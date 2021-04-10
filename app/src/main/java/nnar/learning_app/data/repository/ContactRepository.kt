@@ -23,8 +23,8 @@ class ContactRepository {
         return "Contact added"
     }
 
-    fun deleteAContact(){
-        
+    fun deleteAContact(contact: Contact){
+        contactSet.remove(contact)
     }
 
     fun getContacts() = contactSet
