@@ -43,6 +43,12 @@ class ContactRepository {
             contacts.add(createContact(state))
         }
 
+        // Reset repository
+        fun reset() {
+            lastContactId = 0
+            contacts = createContactsList(6)
+        }
+
         // Create new contact
         private fun createContact(state: Boolean = true): Contact {
             val name: String = "Person " + ++lastContactId

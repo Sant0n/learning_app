@@ -1,10 +1,14 @@
 package nnar.learning_app.userinterface.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import nnar.learning_app.data.repository.ContactRepository
 import nnar.learning_app.databinding.ActivityHomeBinding
+import nnar.learning_app.userinterface.login.LoginActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -38,11 +42,23 @@ class HomeActivity : AppCompatActivity() {
         setListeners()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        ContactRepository.reset()
+    }
+
     private fun setListeners() {
         // Add new contact
-        binding.addContact.setOnClickListener() {
+        binding.addContact.setOnClickListener {
             presenter.addContact()
             adapter.notifyDataSetChanged()
+        }
+
+        // Sign out
+        binding.signOut.setOnClickListener {
+            Firebase.auth.signOut()
+            finish()
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 }

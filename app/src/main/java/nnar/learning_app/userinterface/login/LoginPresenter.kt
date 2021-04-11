@@ -6,8 +6,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import nnar.learning_app.datainterface.LoginView
-import nnar.learning_app.domain.usecase.LoginUserUsecase
 
 class LoginPresenter(private val view: LoginView) {
 
@@ -37,5 +38,10 @@ class LoginPresenter(private val view: LoginView) {
             Log.w("ERROR", "signInWithCredential:failure", task.exception)
             view.showErrorLogin()
         }
+    }
+
+    fun checkActiveUser() {
+        if(Firebase.auth.currentUser != null)
+            view.loginSuccessful()
     }
 }

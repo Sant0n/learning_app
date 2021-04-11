@@ -11,10 +11,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import nnar.learning_app.R
-import nnar.learning_app.data.repository.UserRepository
 import nnar.learning_app.databinding.ActivityLoginBinding
 import nnar.learning_app.datainterface.LoginView
-import nnar.learning_app.domain.usecase.LoginUserUsecase
 import nnar.learning_app.userinterface.home.HomeActivity
 
 
@@ -44,7 +42,7 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     override fun onStart() {
         super.onStart()
-        loginSuccessful()
+        presenter.checkActiveUser()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -61,19 +59,12 @@ class LoginActivity : AppCompatActivity(), LoginView {
     }
 
     override fun showErrorLogin() {
-        val toast: Toast = Toast.makeText(applicationContext, R.string.login_error_msg, Toast.LENGTH_LONG)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.form_field_error)
-        toast.show()
+        Toast.makeText(applicationContext, R.string.login_error_msg, Toast.LENGTH_LONG).show()
     }
 
     override fun loginSuccessful() {
         val user = auth.currentUser
-        val toast: Toast = Toast.makeText(applicationContext, user.displayName, Toast.LENGTH_LONG)
-        val view: View = toast.view
-
-        view.setBackgroundResource(R.drawable.successful_operation)
-        toast.show()
+        Toast.makeText(applicationContext, user.displayName, Toast.LENGTH_LONG).show()
 
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
@@ -89,5 +80,4 @@ class LoginActivity : AppCompatActivity(), LoginView {
              signIn()
         }
     }
-
 }

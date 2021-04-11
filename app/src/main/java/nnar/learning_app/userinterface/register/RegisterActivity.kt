@@ -28,21 +28,14 @@ class RegisterActivity : AppCompatActivity(), RegisterView {
     }
 
     override fun registerSuccessful() {
-        val toast: Toast =
-                Toast.makeText(applicationContext, R.string.register_successful, Toast.LENGTH_SHORT)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.successful_operation)
-        toast.show()
+        Toast.makeText(applicationContext, R.string.register_successful, Toast.LENGTH_SHORT).show()
 
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
     }
 
     override fun registerError() {
-        val toast: Toast = Toast.makeText(applicationContext, R.string.register_error, Toast.LENGTH_SHORT)
-        val view: View = toast.view!!
-        view.setBackgroundResource(R.drawable.form_field_error)
-        toast.show()
+        Toast.makeText(applicationContext, R.string.register_error, Toast.LENGTH_SHORT).show()
     }
 
     override fun showSuccessfulEmailBox() {

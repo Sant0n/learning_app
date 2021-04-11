@@ -2,7 +2,6 @@ package nnar.learning_app.userinterface.home;
 
 import nnar.learning_app.data.repository.ContactRepository
 import nnar.learning_app.datainterface.RowView
-import nnar.learning_app.domain.model.ContactViewHolder
 
 class ContactListPresenter() {
     // Get number of contacts
