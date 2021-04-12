@@ -12,13 +12,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import nnar.learning_app.data.repository.ContactRepository
 import nnar.learning_app.databinding.ActivityContactListBinding
 import nnar.learning_app.datainterface.ContactListView
+import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.domain.usecase.ContactUseCase
+import nnar.learning_app.ui.contactCreation.ContactCreationActivity
+import nnar.learning_app.ui.contactDetail.ContactDetailActivity
 import nnar.learning_app.ui.mainmenu.MainMenuActivity
 
 class ContactListActivity: AppCompatActivity(), ContactListView {
 
     private lateinit var binding: ActivityContactListBinding
     private lateinit var recyclerView:RecyclerView
+    private lateinit var presenter:ContactListHomePresenter
     private lateinit var addButton: FloatingActionButton
     private lateinit var adapter: ContactListAdapter
 
@@ -28,43 +32,41 @@ class ContactListActivity: AppCompatActivity(), ContactListView {
         val view = binding.root
         setContentView(view)
 
-        val presenter = ContactListPresenter(this, ContactUseCase(ContactRepository()))
-
         addButton = binding.addContactButton
         recyclerView = binding.listmenuRecyclerView
-        adapter = ContactListAdapter(presenter.fetchContacts())
+
+        adapter = ContactListAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        setListeners(presenter)
+        presenter = ContactListHomePresenter(this, ContactUseCase(ContactRepository()))
+        presenter.fetchContacts()
+
+        setListeners()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    private fun setListeners(presenter: ContactListPresenter) {
+    private fun setListeners() {
         addButton.setOnClickListener {
+            /**val intent = Intent(it.context, ContactCreationActivity()::class.java)
+            it.context.startActivity(intent)**/
             presenter.addNewContact()
-        }
+            adapter.notifyDataSetChanged()
 
-        recyclerView.setOnClickListener {
-            val intent = Intent(this, MainMenuActivity::class.java)
-            startActivity(intent)
         }
+    }
+
+    override fun getList(contactList: MutableSet<Contact>) {
+        adapter.updateData(contactList)
+        adapter.notifyDataSetChanged()
     }
 
     override fun showMessageContactAdded(s: String) {
-        adapter.notifyDataSetChanged()
+        //adapter.notifyDataSetChanged()
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
     }
 
     override fun showMessageContactDeleted(s: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun navigateToContactDetail(){
-
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
     }
 
 }

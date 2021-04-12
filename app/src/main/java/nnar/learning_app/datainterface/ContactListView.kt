@@ -7,6 +7,6 @@ interface ContactListView {
     fun getList(contactList: MutableSet<Contact>)
     fun showMessageContactAdded(s:String)
     fun showMessageContactDeleted(s:String)
-    fun navigateToContactDetail()
+    //fun navigateToContactDetail()
 
 }
