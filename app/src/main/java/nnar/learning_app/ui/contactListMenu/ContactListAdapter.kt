@@ -1,7 +1,6 @@
 package nnar.learning_app.ui.contactListMenu
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import nnar.learning_app.R
 import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.ui.contactDetail.ContactDetailActivity
 
-class ContactListAdapter():
+class ContactListAdapter :
     RecyclerView.Adapter<ContactViewHolder>() {
 
     private var presenter = ContactListPresenter()
@@ -20,10 +19,10 @@ class ContactListAdapter():
         notifyDataSetChanged()
     }
 
-    fun addContact(contact: Contact){
+    /*fun addContact(contact: Contact){
         presenter.addContact(contact)
         notifyDataSetChanged()
-    }
+    }*/
 
     private fun deleteContact(contact: Contact){
         presenter.removeContact(contact)
@@ -48,15 +47,15 @@ class ContactListAdapter():
         holder.itemView.setOnLongClickListener {
             //create AlertDialog with Builder
             val builder = AlertDialog.Builder(holder.itemView.context)
-            builder.setMessage("Do you want to delete " + presenter.getContact(position).name)
-                builder.setPositiveButton("DELETE",
-                    DialogInterface.OnClickListener { _, _ ->
-                        deleteContact(presenter.getContact(position))
-                    })
-                .setNegativeButton("CANCEL",
-                    DialogInterface.OnClickListener { dialog, _ ->
+            builder.setMessage("Do you want to delete " + presenter.getContact(position).name + "?")
+                builder.setPositiveButton("DELETE"
+                ) { _, _ ->
+                    deleteContact(presenter.getContact(position))
+                }
+                    .setNegativeButton("CANCEL"
+                    ) { dialog, _ ->
                         dialog.cancel()
-                    })
+                    }
 
             val dialog = builder.create()
             dialog.show()

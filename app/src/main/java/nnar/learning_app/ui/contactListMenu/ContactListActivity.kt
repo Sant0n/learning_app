@@ -1,6 +1,5 @@
 package nnar.learning_app.ui.contactListMenu
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,9 +13,6 @@ import nnar.learning_app.databinding.ActivityContactListBinding
 import nnar.learning_app.datainterface.ContactListView
 import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.domain.usecase.ContactUseCase
-import nnar.learning_app.ui.contactCreation.ContactCreationActivity
-import nnar.learning_app.ui.contactDetail.ContactDetailActivity
-import nnar.learning_app.ui.mainmenu.MainMenuActivity
 
 class ContactListActivity: AppCompatActivity(), ContactListView {
 

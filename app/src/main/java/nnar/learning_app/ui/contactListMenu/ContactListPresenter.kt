@@ -20,9 +20,9 @@ class ContactListPresenter{
 
     internal fun getContact(position:Int) = contactList.elementAt(position)
 
-    internal fun addContact (contact: Contact){
+    /**internal fun addContact (contact: Contact){
         contactList.add(contact)
-    }
+    }**/
 
     internal fun removeContact(contact:Contact){
         contactList.remove(contact)

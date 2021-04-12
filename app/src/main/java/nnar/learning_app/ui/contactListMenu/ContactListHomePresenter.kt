@@ -1,7 +1,6 @@
 package nnar.learning_app.ui.contactListMenu
 
 import nnar.learning_app.datainterface.ContactListView
-import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.domain.usecase.ContactUseCase
 
 
@@ -17,12 +16,12 @@ class ContactListHomePresenter (private val view: ContactListView, private val u
     }*/
 
     internal fun addNewContact(){
-        val name: String = "mongolo1"
-        val email: String = "mongolo1@gmail.com"
-        val phone: String = "+34 6969696969"
+        val name = "mongolo1"
+        val email = "mongolo1@gmail.com"
+        val phone = "+34 6969696969"
 
         useCase.addNewContact(name, phone, null, email)
-        view.showMessageContactAdded("Contact " + name +  " added")
+        view.showMessageContactAdded("Contact $name added")
     }
 
 }
