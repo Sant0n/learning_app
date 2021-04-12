@@ -13,10 +13,6 @@ class ContactViewHolder(private val listItemView: View) : RecyclerView.ViewHolde
 
     private var binding = ItemContactBinding.bind(listItemView)
 
-    fun setNameTextView(text: String) {
-        binding.contactName.text = text
-    }
-
     fun getStateButton(): Button {
         return binding.stateButton
     }
@@ -29,8 +25,20 @@ class ContactViewHolder(private val listItemView: View) : RecyclerView.ViewHolde
         return binding.seeMore
     }
 
+    fun getContactEdit(): ImageButton {
+        return binding.editContact
+    }
+
+    override fun setNameTextView(text: String) {
+        binding.contactName.text = text
+    }
+
     override fun setButtonState(text: String, state: Boolean) {
         binding.stateButton.text = text
+        binding.stateButton.isEnabled = state
+    }
+
+    override fun setStateView(state: Boolean) {
         binding.stateButton.isEnabled = state
     }
 

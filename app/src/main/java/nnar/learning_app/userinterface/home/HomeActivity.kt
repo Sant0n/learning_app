@@ -23,12 +23,6 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Get contact repository
-        ContactRepository.getContacts()
-
-        // Set presenters
-        presenter = HomePresenter()
-
         // Create adapter passing in the presenter
         adapter = ContactsListAdapter()
 
@@ -37,6 +31,12 @@ class HomeActivity : AppCompatActivity() {
 
         // Set layout manager to position the items
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+        // Get contact repository
+        ContactRepository.getContacts()
+
+        // Set presenters
+        presenter = HomePresenter()
 
         // Set listeners
         setListeners()

@@ -41,6 +41,7 @@
     <string name="contact_name" />
     <string name="see_contact_details">See contact details</string>
     <string name="sign_out">Sign Out</string>
+    <string name="save">Save</string>
 
 
 </resources>

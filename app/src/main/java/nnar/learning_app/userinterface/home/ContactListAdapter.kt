@@ -55,5 +55,11 @@ class ContactsListAdapter() : RecyclerView.Adapter<ContactViewHolder>() {
         contactViewHolder.getSeeMore().setOnClickListener {
             presenter.seeContactDetails(position, contactViewHolder)
         }
+
+        // Edit contact details
+        contactViewHolder.getContactEdit().setOnClickListener {
+            val context = contactViewHolder.itemView.context
+            presenter.showDialog(this, context, position, contactViewHolder)
+        }
     }
 }

@@ -5,4 +5,6 @@ import nnar.learning_app.domain.model.Contact
 interface RowView {
     fun seeDetails(contact: Contact)
     fun setButtonState(text: String, state: Boolean)
+    fun setNameTextView(text: String)
+    fun setStateView(state: Boolean)
 }

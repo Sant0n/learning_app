@@ -19,7 +19,7 @@ class ContactRepository {
         fun getContactState(position: Int): Boolean = contacts[position].isOnline
 
         // Get state text
-        fun getStateText(position: Int) = if (contacts[position].isOnline) "Online" else "Offline"
+        fun getStateText(position: Int) = if (contacts[position].isOnline) "I" else "O"
 
         // Size of the list
         fun size() = contacts.size
@@ -28,9 +28,19 @@ class ContactRepository {
         fun getContact(position: Int) = contacts[position]
 
         // Change state
-        fun setState(position: Int): Boolean {
+        fun changeState(position: Int): Boolean {
             contacts[position].isOnline = !contacts[position].isOnline
             return getContactState(position)
+        }
+
+        // Set name
+        fun setName(position: Int, name: String) {
+            contacts[position].name = name
+        }
+
+        // Set state
+        fun setState(position: Int, state: Boolean) {
+            contacts[position].isOnline = state
         }
 
         // Delete contact
