@@ -8,4 +8,7 @@ interface LoginView {
     fun drawSuccessUsernameField()
     fun drawSuccessPasswordField()
     fun navigateToHome()
+    fun googleErrorLogin()
+    fun googleSuccessful(idToken: String)
+    fun successLogin()
 }
