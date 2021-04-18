@@ -4,44 +4,65 @@ import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Adapter
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 import nnar.learning_app.R
-import nnar.learning_app.data.repository.ContactRepository
+import nnar.learning_app.data.repository.FirebaseContactRepository
 import nnar.learning_app.databinding.DialogEditContactBinding
 import nnar.learning_app.datainterface.RowView
+import nnar.learning_app.domain.model.Contact
+import nnar.learning_app.domain.model.ContactViewHolder
 
-class ContactListPresenter() {
+class ContactListPresenter() : ViewModel() {
+
     // Get number of contacts
     fun getNumberOfContacts(): Int {
-        return ContactRepository.size()
+        return FirebaseContactRepository.size()
     }
 
     // Remove contact
-    fun removeContact(position: Int) {
-        ContactRepository.removeContact(position)
+    fun removeContact(adapter: RecyclerView.Adapter<ContactViewHolder>, position: Int) {
+        viewModelScope.launch {
+            if (FirebaseContactRepository.removeContact(position)) {
+                adapter.notifyItemRemoved(position)
+                adapter.notifyItemRangeChanged(position, getNumberOfContacts())
+            }
+        }
     }
 
     // Get contact name
-    fun getContactName(position: Int): String {
-        return ContactRepository.getContactName(position)
+    fun getContactName(view: RowView, position: Int) {
+        viewModelScope.launch {
+            view.setNameTextView(FirebaseContactRepository.getContactName(position))
+        }
     }
 
     // Set contact information
     fun setButtonState(view: RowView, position: Int, change: Boolean = true) {
         // Set button current state
-        val state: Boolean = if(change) setButtonState(position) else getContactState(position)
-        val stateText: String = getButtonStateText(position)
-        view.setButtonState(stateText, state)
+        viewModelScope.launch {
+            val state: Boolean = if (change) setButtonState(position) else getContactState(position)
+            val stateText: String = getButtonStateText(position)
+            view.setButtonState(stateText, state)
+        }
     }
 
     // See contact information
     fun seeContactDetails(position: Int, view: RowView) {
-        view.seeDetails(ContactRepository.getContact(position))
+        viewModelScope.launch {
+            view.seeDetails(FirebaseContactRepository.getContact(position))
+        }
     }
 
     // Show Alert Dialog to get new input
-    fun showDialog(adapter: ContactsListAdapter, context: Context, position: Int, itemView: RowView) {
+    fun showDialog(
+        adapter: RecyclerView.Adapter<ContactViewHolder>,
+        context: Context,
+        position: Int,
+        itemView: RowView
+    ) {
         // Inflate the dialog alert view
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.dialog_edit_contact, null)
@@ -63,18 +84,18 @@ class ContactListPresenter() {
     }
 
     // Get contact state text
-    private fun getButtonStateText(position: Int): String {
-        return ContactRepository.getStateText(position)
+    private suspend fun getButtonStateText(position: Int): String {
+        return FirebaseContactRepository.getStateText(position)
     }
 
     // Change contact state
-    private fun setButtonState(position: Int): Boolean {
-        return ContactRepository.changeState(position)
+    private suspend fun setButtonState(position: Int): Boolean {
+        return FirebaseContactRepository.changeState(position)
     }
 
     // Get contact state
-    private fun getContactState(position: Int): Boolean {
-        return ContactRepository.getContactState(position)
+    private suspend fun getContactState(position: Int): Boolean {
+        return FirebaseContactRepository.getContactState(position)
     }
 
     private fun setPositiveButtonAction(view: View, position: Int, itemView: RowView) {
@@ -94,9 +115,8 @@ class ContactListPresenter() {
     }
 
     // Modify contact information
-    private fun modifyContact(position: Int,  name: String, state: Boolean) {
+    private fun modifyContact(position: Int, name: String, state: Boolean) {
         // Activate dialog and get results
-        ContactRepository.setName(position, name)
-        ContactRepository.setState(position, state)
+        FirebaseContactRepository.write(Contact(name, state), position)
     }
 }

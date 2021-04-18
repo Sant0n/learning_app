@@ -9,50 +9,6 @@ class ContactRepository {
         private var lastContactId: Int = 0
         private var contacts = createContactsList(6)
 
-        // Get companion contacts
-        fun getContacts() = contacts
-
-        // Get contact name
-        fun getContactName(position: Int) = contacts[position].name
-
-        // Get button state
-        fun getContactState(position: Int): Boolean = contacts[position].isOnline
-
-        // Get state text
-        fun getStateText(position: Int) = if (contacts[position].isOnline) "I" else "O"
-
-        // Size of the list
-        fun size() = contacts.size
-
-        // Get specific contact
-        fun getContact(position: Int) = contacts[position]
-
-        // Change state
-        fun changeState(position: Int): Boolean {
-            contacts[position].isOnline = !contacts[position].isOnline
-            return getContactState(position)
-        }
-
-        // Set name
-        fun setName(position: Int, name: String) {
-            contacts[position].name = name
-        }
-
-        // Set state
-        fun setState(position: Int, state: Boolean) {
-            contacts[position].isOnline = state
-        }
-
-        // Delete contact
-        fun removeContact(position: Int) {
-            contacts.removeAt(position)
-        }
-
-        // Add new contact
-        fun addContact(state: Boolean = true) {
-            contacts.add(createContact(state))
-        }
-
         // Reset repository
         fun reset() {
             lastContactId = 0
@@ -72,7 +28,9 @@ class ContactRepository {
 
             // Set the default values for the contacts
             for (i in 1..numContacts) {
-                contacts.add(createContact(i <= numContacts / 2))
+                val contact = createContact(i <= numContacts / 2)
+                contacts.add(contact)
+                //firebaseDatabase.write(contact)
             }
 
             // Return the initial contacts

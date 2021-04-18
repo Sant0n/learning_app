@@ -25,7 +25,7 @@ class ContactsListAdapter() : RecyclerView.Adapter<ContactViewHolder>() {
     // Involves populating data into the item through holder
     override fun onBindViewHolder(contactViewHolder: ContactViewHolder, position: Int) {
         // Set item views based on your views and data model
-        contactViewHolder.setNameTextView(presenter.getContactName(position))
+        presenter.getContactName(contactViewHolder, position)
 
         // Set button text
         presenter.setButtonState(contactViewHolder, position, false)
@@ -46,9 +46,7 @@ class ContactsListAdapter() : RecyclerView.Adapter<ContactViewHolder>() {
 
         // Set listener for contact removal
         contactViewHolder.getRemoveButton().setOnClickListener {
-            presenter.removeContact(position)
-            notifyItemRemoved(position)
-            notifyItemRangeChanged(position, itemCount)
+            presenter.removeContact(this, position)
         }
 
         // See contact details
