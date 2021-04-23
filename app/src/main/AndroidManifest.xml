@@ -17,8 +17,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".userInterface.register.RegisterActivity"
-            android:screenOrientation="portrait"/>
         <activity android:name=".userInterface.home.HomeActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".userInterface.mobileDetails.MobileDetailsActivity"

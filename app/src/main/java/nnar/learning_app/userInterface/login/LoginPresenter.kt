@@ -26,7 +26,7 @@ class LoginPresenter(private val view: LoginView, private val loginUserUseCase: 
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
-                view.showErrorLogin()
+                view.googleError()
             }
         }
     }
@@ -45,7 +45,27 @@ class LoginPresenter(private val view: LoginView, private val loginUserUseCase: 
         } else {
             // If sign in fails, display a message to the user.
             Log.w(TAG, "signInWithCredential:failure", task.exception)
-            view.showErrorLogin()
+            view.showErrorLogin("signInWithCredential:failure")
+        }
+    }
+
+    internal fun checkUserRegistered(user: FirebaseUser){
+        val userRef = loginUserUseCase.checkUserRegistered(user.uid)
+        userRef.get().addOnSuccessListener{doc ->
+            if(doc.exists()){
+                view.moveToHome()
+            } else {
+                val creationRef = loginUserUseCase.registerUser(user)
+                creationRef.addOnSuccessListener {
+                    view.moveToHome()
+
+                }.addOnFailureListener {e ->
+                    view.showErrorLogin(e.toString())
+                }
+            }
+
+        }.addOnFailureListener {
+            println("Error")
         }
     }
 

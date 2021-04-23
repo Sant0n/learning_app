@@ -2,7 +2,6 @@ package nnar.learning_app.userInterface.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -18,7 +17,6 @@ import nnar.learning_app.dataInterface.LoginView
 import nnar.learning_app.databinding.ActivityLoginBinding
 import nnar.learning_app.domain.usecase.LoginUserUsecase
 import nnar.learning_app.userInterface.home.HomeActivity
-import nnar.learning_app.userInterface.register.RegisterActivity
 
 
 class LoginActivity : AppCompatActivity(), LoginView {
@@ -57,24 +55,6 @@ class LoginActivity : AppCompatActivity(), LoginView {
     }
 
 
-    override fun showErrorLogin() {
-        binding.userId.setBackgroundResource(R.drawable.form_field_error)
-        binding.userPassword.setBackgroundResource(R.drawable.form_field_error)
-
-        Toast.makeText(this, R.string.login_error_msg, Toast.LENGTH_LONG).show()
-    }
-
-    override fun loginSuccessful() {
-        Toast.makeText(this, R.string.login_successful, Toast.LENGTH_LONG).show()
-
-        val user = auth.currentUser
-        val intent = Intent(this, HomeActivity::class.java)
-        intent.putExtra("user", user)
-        println(user.displayName)
-        println("------------------------------------------" + user.uid)
-        startActivity(intent)
-    }
-
     override fun googleSuccessful(idToken: String) =
         firebaseAuthWithGoogle(idToken)
 
@@ -83,19 +63,30 @@ class LoginActivity : AppCompatActivity(), LoginView {
         Toast.makeText(this, R.string.login_error_msg, Toast.LENGTH_LONG).show()
 
 
+    override fun showErrorLogin(e: String) {
+        Toast.makeText(this, R.string.login_error_msg, Toast.LENGTH_LONG).show()
+    }
+
+
+    override fun loginSuccessful() {
+        presenter.checkUserRegistered(auth.currentUser!!)
+    }
+
+
+    override fun moveToHome() {
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.putExtra("user", auth.currentUser)
+        startActivity(intent)
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         presenter.googleLogin(RC_SIGN_IN, TAG, requestCode, resultCode, data)
     }
 
 
     private fun setListeners() {
-        binding.gotoRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
-
         binding.googleSignInButton.setOnClickListener {
             val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
