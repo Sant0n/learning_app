@@ -16,7 +16,7 @@ class MobileDetailsActivity: AppCompatActivity() {
         binding = ActivityMobileDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val mobile = intent.getParcelableExtra<Mobile>("mobile")
+        val mobile = intent.getParcelableExtra<Mobile>("mobile")!!
         binding.mobileDetailsName.text = binding.mobileDetailsName.text.toString() + mobile.name
         binding.mobileDetailsVersion.text = binding.mobileDetailsVersion.text.toString() + mobile.version
 

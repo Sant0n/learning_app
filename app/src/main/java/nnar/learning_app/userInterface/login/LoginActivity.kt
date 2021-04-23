@@ -46,7 +46,6 @@ class LoginActivity : AppCompatActivity(), LoginView {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = Firebase.auth
 
-
         presenter = LoginPresenter(this, LoginUserUsecase(UserRepository()))
         setListeners()
 
@@ -62,44 +61,32 @@ class LoginActivity : AppCompatActivity(), LoginView {
         binding.userId.setBackgroundResource(R.drawable.form_field_error)
         binding.userPassword.setBackgroundResource(R.drawable.form_field_error)
 
-        val toast: Toast = Toast.makeText(this, R.string.login_error_msg, Toast.LENGTH_LONG)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.form_field_error)
-        toast.show()
+        Toast.makeText(this, R.string.login_error_msg, Toast.LENGTH_LONG).show()
     }
 
     override fun loginSuccessful() {
-
-
-        val toast: Toast = Toast.makeText(this, R.string.login_successful, Toast.LENGTH_LONG)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.successful_operation)
-        toast.show()
+        Toast.makeText(this, R.string.login_successful, Toast.LENGTH_LONG).show()
 
         val user = auth.currentUser
         val intent = Intent(this, HomeActivity::class.java)
         intent.putExtra("user", user)
+        println(user.displayName)
+        println("------------------------------------------" + user.uid)
         startActivity(intent)
     }
 
-    override fun googleSuccessful(idToken: String) {
+    override fun googleSuccessful(idToken: String) =
         firebaseAuthWithGoogle(idToken)
-    }
 
-    override fun googleError() {
-        val toast: Toast = Toast.makeText(this, R.string.login_error_msg, Toast.LENGTH_LONG)
-        val view: View = toast.view
-        view.setBackgroundResource(R.drawable.form_field_error)
-        toast.show()
-    }
+
+    override fun googleError() =
+        Toast.makeText(this, R.string.login_error_msg, Toast.LENGTH_LONG).show()
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         presenter.googleLogin(RC_SIGN_IN, TAG, requestCode, resultCode, data)
-
-
     }
 
 

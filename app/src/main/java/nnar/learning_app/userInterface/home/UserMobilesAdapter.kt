@@ -49,11 +49,7 @@ class UserMobilesAdapter(private val rmButton: ImageButton) : RecyclerView.Adapt
             presenter.getMobile(position)
             val intent = Intent(holder.itemView.context, MobileDetailsActivity::class.java)
             intent.putExtra("mobile", presenter.getMobile(position))
-            holder.itemView.context.packageManager
-            if (intent.resolveActivity(holder.itemView.context.packageManager) != null) {
-                holder.itemView.context.startActivity(intent)
-            }
-
+            holder.itemView.context.startActivity(intent)
         }
 
         holder.itemView.setOnLongClickListener {

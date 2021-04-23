@@ -18,7 +18,7 @@ class UserMobileRowView (itemView: View): RecyclerView.ViewHolder(itemView),
         renderMobileIcon(mobile.img_url)
         renderName(mobile.name)
         renderVersion(mobile.version)
-        renderFavoriteIcon(mobile.isFavorite)
+        renderFavoriteIcon(mobile.favorite)
 
     }
 /**

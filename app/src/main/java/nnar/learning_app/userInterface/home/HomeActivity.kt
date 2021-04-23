@@ -3,6 +3,7 @@ package nnar.learning_app.userInterface.home
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseUser
 import nnar.learning_app.data.repository.MobileRepository
 import nnar.learning_app.dataInterface.HomeView
 import nnar.learning_app.databinding.ActivityHomeBinding
@@ -27,13 +28,19 @@ class HomeActivity: AppCompatActivity(), HomeView {
 
         presenter = HomePresenter(this, HomeUserUsecase(MobileRepository()))
         presenter.getMobileList()
-        
+
+        val user = intent.getParcelableExtra<FirebaseUser>("user")!!
+
         setListeners()
 
     }
 
     override fun showList(mobileList: List<Mobile>) {
-        userMobilesAdapter.updateData(mobileList)
+        runOnUiThread {
+            println("ADIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOS")
+            userMobilesAdapter.updateData(mobileList)
+        }
+
     }
 
     private fun setListeners(){

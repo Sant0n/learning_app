@@ -4,4 +4,4 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Mobile(val img_url: String, val name: String, val version: String, val isFavorite: Boolean): Parcelable
+data class Mobile(val img_url: String, val name: String, val version: String, val favorite: Boolean): Parcelable
