@@ -3,12 +3,9 @@ package nnar.learning_app.userinterface.home
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import nnar.learning_app.data.repository.ContactRepository
-import nnar.learning_app.data.repository.FirebaseContactRepository
 import nnar.learning_app.databinding.ActivityHomeBinding
 import nnar.learning_app.userinterface.login.LoginActivity
 

@@ -61,9 +61,12 @@ class FirebaseContactRepository : ViewModel() {
         // Get current contacts
         suspend fun getCurrentContactsId(): Boolean = suspendCancellableCoroutine { cont ->
             contacts.get().addOnSuccessListener { docs ->
-                for (doc in docs) ids.add(doc.id.toInt())
+                if (ids.size == 0)
+                    for (doc in docs) ids.add(doc.id.toInt())
                 lastContactId = ids.maxOrNull() ?: 0
                 cont.resume(true, null)
+            }.addOnFailureListener {
+                cont.resume(false, null)
             }
         }
 
