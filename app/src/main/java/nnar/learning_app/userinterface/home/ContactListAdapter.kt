@@ -3,8 +3,10 @@ package nnar.learning_app.userinterface.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nnar.learning_app.R
 
+@ExperimentalCoroutinesApi
 class ContactsListAdapter(private val presenter: HomePresenter) :
     RecyclerView.Adapter<ContactViewHolder>() {
 
@@ -22,11 +24,8 @@ class ContactsListAdapter(private val presenter: HomePresenter) :
 
     // Involves populating data into the item through holder
     override fun onBindViewHolder(contactViewHolder: ContactViewHolder, position: Int) {
-        // Set item views based on your views and data model
-        presenter.setContactName(contactViewHolder, position)
-
-        // Set button text
-        presenter.setButtonState(contactViewHolder, position, false)
+        // Set contact row view
+        presenter.setContact(contactViewHolder, position)
 
         // Set listeners
         setListeners(contactViewHolder, position)
@@ -39,7 +38,7 @@ class ContactsListAdapter(private val presenter: HomePresenter) :
     private fun setListeners(contactViewHolder: ContactViewHolder, position: Int) {
         // Set listener for status change
         contactViewHolder.getStateButton().setOnClickListener {
-            presenter.setButtonState(contactViewHolder, position)
+            presenter.changeState(contactViewHolder, position)
         }
 
         // Set listener for contact removal

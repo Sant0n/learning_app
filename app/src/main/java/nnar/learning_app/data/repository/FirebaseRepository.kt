@@ -65,13 +65,7 @@ class FirebaseRepository : ViewModel() {
     }
 
     // Get contact name
-    suspend fun getContactName(position: Int) = read(position).name
-
-    // Get state info
-    suspend fun getContactState(position: Int): Boolean = read(position).isOnline
-
-    // Get state text
-    suspend fun getStateText(position: Int) = if (read(position).isOnline) "I" else "O"
+    suspend fun getContact(position: Int) = read(position)
 
     // Add new contact
     suspend fun addContact(): Boolean = suspendCancellableCoroutine { cont ->
@@ -79,11 +73,16 @@ class FirebaseRepository : ViewModel() {
     }
 
     // Change the state
-    suspend fun changeState(position: Int): Boolean {
+    suspend fun changeState(position: Int): Contact {
+        // Get current contact
         val contact = read(position)
+
+        // Modify and update contact
         contact.isOnline = !contact.isOnline
         write(contact, position)
-        return contact.isOnline
+
+        // Return modified contact
+        return contact
     }
 
     // Get current contacts

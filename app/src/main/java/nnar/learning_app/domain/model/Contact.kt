@@ -4,4 +4,6 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Contact(var name: String = "", var isOnline: Boolean = false): Parcelable
+data class Contact(var name: String = "", var isOnline: Boolean = false) : Parcelable {
+    fun getStateText() = if (isOnline) "I" else "O"
+}

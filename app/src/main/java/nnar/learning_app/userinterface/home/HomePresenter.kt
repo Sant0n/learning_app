@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import nnar.learning_app.R
 import nnar.learning_app.data.repository.FirebaseRepository
@@ -14,6 +15,7 @@ import nnar.learning_app.datainterface.HomeView
 import nnar.learning_app.datainterface.RowView
 import nnar.learning_app.domain.model.Contact
 
+@ExperimentalCoroutinesApi
 class HomePresenter(private val homeView: HomeView) : ViewModel() {
     // Set the Firebase Repository
     private val repository = FirebaseRepository()
@@ -36,18 +38,16 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     // Remove contact
     fun removeContact(position: Int) = repository.removeContact(position)
 
-    // Set contact name
-    fun setContactName(view: RowView, position: Int) = viewModelScope.launch {
-        view.setNameTextView(repository.getContactName(position))
+    // Set contact details
+    fun setContact(view: RowView, position: Int) = viewModelScope.launch {
+        val contact = repository.getContact(position)
+        view.setContactView(contact)
     }
 
     // Set contact information
-    fun setButtonState(view: RowView, position: Int, change: Boolean = true) {
-        viewModelScope.launch {
-            val state: Boolean = if (change) setButtonState(position) else getContactState(position)
-            val stateText: String = getButtonStateText(position)
-            view.setButtonState(stateText, state)
-        }
+    fun changeState(view: RowView, position: Int) = viewModelScope.launch {
+        val contact = repository.changeState(position)
+        view.setButtonState(contact)
     }
 
     // See contact information
@@ -79,21 +79,6 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
             .show()
     }
 
-    // Get contact state text
-    private suspend fun getButtonStateText(position: Int): String {
-        return repository.getStateText(position)
-    }
-
-    // Change contact state
-    private suspend fun setButtonState(position: Int): Boolean {
-        return repository.changeState(position)
-    }
-
-    // Get contact state
-    private suspend fun getContactState(position: Int): Boolean {
-        return repository.getContactState(position)
-    }
-
     // Set action for Dialog Save
     private fun setPositiveButtonAction(view: View, position: Int, itemView: RowView) {
         // Set dialog biding
@@ -102,18 +87,15 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
         // Set the new values
         val name = dialogBinding.contactNameEdit.text.toString()
         val state = dialogBinding.stateSwitch.isChecked
+        val contact = Contact(name, state)
 
         // Set the modification
-        itemView.setNameTextView(name)
-        itemView.setStateView(state)
+        itemView.setContactView(contact)
 
         // Modify contact
-        modifyContact(position, name, state)
+        modifyContact(contact, position)
     }
 
     // Modify contact information
-    private fun modifyContact(position: Int, name: String, state: Boolean) {
-        // Activate dialog and get results
-        repository.write(Contact(name, state), position)
-    }
+    private fun modifyContact(contact: Contact, position: Int) = repository.write(contact, position)
 }

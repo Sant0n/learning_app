@@ -24,17 +24,14 @@ class ContactViewHolder(private val listItemView: View) : RecyclerView.ViewHolde
 
     override fun getState() = binding.stateButton.isEnabled
 
-    override fun setNameTextView(text: String) {
-        binding.contactName.text = text
+    override fun setContactView(contact: Contact) {
+        binding.contactName.text = contact.name
+        setButtonState(contact)
     }
 
-    override fun setButtonState(text: String, state: Boolean) {
-        binding.stateButton.text = text
-        binding.stateButton.isEnabled = state
-    }
-
-    override fun setStateView(state: Boolean) {
-        binding.stateButton.isEnabled = state
+    override fun setButtonState(contact: Contact) {
+        binding.stateButton.text = contact.getStateText()
+        binding.stateButton.isEnabled = contact.isOnline
     }
 
     override fun seeMore(contact: Contact) {
