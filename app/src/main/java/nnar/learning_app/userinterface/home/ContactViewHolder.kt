@@ -1,5 +1,6 @@
 package nnar.learning_app.userinterface.home
 
+import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,8 @@ class ContactViewHolder(private val listItemView: View) : RecyclerView.ViewHolde
     fun getSeeMore() = binding.seeMore
 
     fun getContactEdit() = binding.editContact
+
+    override fun getContext(): Context = listItemView.context
 
     override fun getName() = binding.contactName.text.toString()
 

@@ -1,9 +1,7 @@
 package nnar.learning_app.userinterface.home
 
 import android.app.AlertDialog
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,12 +17,6 @@ import nnar.learning_app.domain.model.Contact
 class HomePresenter(private val homeView: HomeView) : ViewModel() {
     // Set the Firebase Repository
     private val repository = FirebaseRepository(homeView.getCurrentUserUID())
-
-    // Add new default contact
-    fun addContact() = viewModelScope.launch {
-        if (repository.addContact())
-            homeView.updateAdapter()
-    }
 
     // Get initial set of contacts
     fun setContactList() = viewModelScope.launch {
@@ -57,22 +49,26 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     fun reset() = repository.reset()
 
     // Show Alert Dialog to get new input
-    fun showDialog(context: Context, position: Int, itemView: RowView) {
+    fun contactDialog(position: Int? = null, itemView: RowView? = null) {
         // Inflate the dialog alert view
+        val context = itemView?.getContext() ?: homeView.getContext()
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.dialog_edit_contact, null)
+
+        // Get the dialog binding
         val binding = DialogEditContactBinding.bind(view)
 
         // Set dialog biding
-        binding.contactNameEdit.setText(itemView.getName())
-        binding.stateSwitch.isChecked = itemView.getState()
+        if (itemView != null) {
+            binding.contactNameEdit.setText(itemView.getName())
+            binding.stateSwitch.isChecked = itemView.getState()
+        }
 
         // Build the Alert Dialog
         AlertDialog.Builder(context)
-            .setTitle("Edit Contact Information")
+            .setTitle("Contact Information")
             .setPositiveButton("Save") { dialogInterface, _ ->
-                setPositiveButtonAction(view, position, itemView)
-                homeView.updateAdapter()
+                setPositiveButtonAction(binding, position, itemView)
                 dialogInterface.dismiss()
             }
             .setNegativeButton("Cancel") { dialogInterface, _ ->
@@ -83,22 +79,28 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     }
 
     // Set action for Dialog Save
-    private fun setPositiveButtonAction(view: View, position: Int, itemView: RowView) {
-        // Set dialog biding
-        val dialogBinding = DialogEditContactBinding.bind(view)
-
+    private fun setPositiveButtonAction(
+        binding: DialogEditContactBinding,
+        position: Int? = null,
+        itemView: RowView? = null
+    ) {
         // Set the new values
-        val name = dialogBinding.contactNameEdit.text.toString()
-        val state = dialogBinding.stateSwitch.isChecked
+        val name = binding.contactNameEdit.text.toString()
+        val state = binding.stateSwitch.isChecked
         val contact = Contact(name, state)
 
         // Set the modification
-        itemView.setContactView(contact)
+        itemView?.setContactView(contact)
 
         // Modify contact
-        modifyContact(contact, position)
+        if (position == null)
+            viewModelScope.launch {
+                if (repository.addContact(contact))
+                    homeView.updateAdapter()
+            }
+        else {
+            repository.modifyContact(contact, position)
+            homeView.updateAdapter()
+        }
     }
-
-    // Modify contact information
-    private fun modifyContact(contact: Contact, position: Int) = repository.write(contact, position)
 }

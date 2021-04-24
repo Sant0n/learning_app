@@ -1,5 +1,6 @@
 package nnar.learning_app.userinterface.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -53,10 +54,12 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
     override fun getCurrentUserUID() = Firebase.auth.currentUser!!.uid
 
+    override fun getContext(): Context = binding.root.context
+
     private fun setListeners() {
         // Add new contact
         binding.addContact.setOnClickListener {
-            presenter.addContact()
+            presenter.contactDialog()
         }
 
         // Sign out

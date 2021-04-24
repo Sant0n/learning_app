@@ -14,7 +14,9 @@ import nnar.learning_app.domain.model.Contact
 class FirebaseRepository(uid: String) : ViewModel() {
 
     // Internal contact ID
-    companion object var ids = ArrayList<String>()
+    companion object
+
+    var ids = ArrayList<String>()
 
     // Firestore connection
     private val database = Firebase.firestore
@@ -28,11 +30,8 @@ class FirebaseRepository(uid: String) : ViewModel() {
 
     // Delete contact
     fun removeContact(position: Int) {
-        // Get contact ID
-        val contactID = ids[position].toString()
-
         // Delete contact in Firestore
-        contacts.document(contactID).delete().addOnSuccessListener {
+        contacts.document(ids[position]).delete().addOnSuccessListener {
             Log.d("DELETE", "Contact removed")
         }.addOnFailureListener {
             Log.d("ERROR", "Failed to remove contact: " + it.localizedMessage)
@@ -42,37 +41,16 @@ class FirebaseRepository(uid: String) : ViewModel() {
         ids.removeAt(position)
     }
 
-    // Add/Update data
-    fun write(
-        contact: Contact,
-        position: Int? = null,
-        cont: CancellableContinuation<Boolean>? = null
-    ) {
-        // Define task
-        val task = if (position == null) contacts.document() else contacts.document(ids[position])
-
-        // Create/Update contact
-        task.set(contact).addOnSuccessListener {
-            // Add new contact ID on create
-            if (position == null) ids.add(task.id)
-            cont?.resume(true, null)
-
-            // Set success message
-            Log.d("OK", "Contact loaded")
-        }.addOnFailureListener {
-            // Set failure message
-            cont?.resume(false, null)
-            Log.d("ERROR", "Failed to load: " + it.localizedMessage)
-        }
+    // Add newly created contact
+    suspend fun addContact(contact: Contact): Boolean = suspendCancellableCoroutine { cont ->
+        write(contact, cont = cont)
     }
+
+    // Modify contact
+    fun modifyContact(contact: Contact, position: Int) = write(contact, position)
 
     // Get contact name
     suspend fun getContact(position: Int) = read(position)
-
-    // Add new contact
-    suspend fun addContact(): Boolean = suspendCancellableCoroutine { cont ->
-        write(createContact(), cont = cont)
-    }
 
     // Change the state
     suspend fun changeState(position: Int): Contact {
@@ -105,10 +83,23 @@ class FirebaseRepository(uid: String) : ViewModel() {
         return contacts.document(ids[position]).get().await().toObject(Contact::class.java)!!
     }
 
-    // Create new contact
-    private fun createContact(state: Boolean = true): Contact {
-        val name = "Person X"
-        return Contact(name, state)
-    }
+    // Add/Update data
+    private fun write(
+        contact: Contact,
+        position: Int? = null,
+        cont: CancellableContinuation<Boolean>? = null
+    ) {
+        // Define task
+        val task = if (position == null) contacts.document() else contacts.document(ids[position])
 
+        // Create/Update contact
+        task.set(contact).addOnSuccessListener {
+            if (position == null) ids.add(task.id)
+            cont?.resume(true, null)
+            Log.d("OK", "Contact loaded")
+        }.addOnFailureListener {
+            cont?.resume(false, null)
+            Log.d("ERROR", "Failed to load: " + it.localizedMessage)
+        }
+    }
 }

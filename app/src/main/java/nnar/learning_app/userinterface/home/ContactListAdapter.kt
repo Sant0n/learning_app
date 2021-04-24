@@ -55,8 +55,7 @@ class ContactsListAdapter(private val presenter: HomePresenter) :
 
         // Edit contact details
         contactViewHolder.getContactEdit().setOnClickListener {
-            val context = contactViewHolder.itemView.context
-            presenter.showDialog(context, position, contactViewHolder)
+            presenter.contactDialog(position, contactViewHolder)
         }
     }
 }
