@@ -44,6 +44,8 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
     override fun updateAdapter() = adapter.notifyDataSetChanged()
 
+    override fun getCurrentUserUID() = Firebase.auth.currentUser.uid
+
     private fun setListeners() {
         // Add new contact
         binding.addContact.setOnClickListener {

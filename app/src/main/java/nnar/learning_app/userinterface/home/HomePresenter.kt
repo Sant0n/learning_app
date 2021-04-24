@@ -18,7 +18,7 @@ import nnar.learning_app.domain.model.Contact
 @ExperimentalCoroutinesApi
 class HomePresenter(private val homeView: HomeView) : ViewModel() {
     // Set the Firebase Repository
-    private val repository = FirebaseRepository()
+    private val repository = FirebaseRepository(homeView.getCurrentUserUID())
 
     // Add new default contact
     fun addContact() = viewModelScope.launch {

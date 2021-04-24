@@ -11,11 +11,11 @@ import kotlinx.coroutines.tasks.await
 import nnar.learning_app.domain.model.Contact
 
 @ExperimentalCoroutinesApi
-class FirebaseRepository : ViewModel() {
+class FirebaseRepository(uid: String) : ViewModel() {
 
     // Firestore connection
     private val database = Firebase.firestore
-    private val contacts = database.collection("contact")
+    private val contacts = database.collection(uid)
 
     // Size of the list
     fun size() = ContactIDRepository.ids.size
