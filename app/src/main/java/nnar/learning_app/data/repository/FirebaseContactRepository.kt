@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import nnar.learning_app.domain.model.Contact
@@ -22,12 +23,21 @@ class FirebaseContactRepository : ViewModel() {
         private val contacts = database.collection("contact")
 
         // Add/Update data
-        fun write(contact: Contact, position: Int? = null) {
+        fun write(
+            contact: Contact,
+            position: Int? = null,
+            cont: CancellableContinuation<Boolean>? = null
+        ) {
+            // Set Contact ID
             val id = if (position == null) lastContactId else ids[position]
+
+            // Create/Update contact
             contacts.document(id.toString()).set(contact).addOnSuccessListener {
                 if (position == null) ids.add(id)
+                cont?.resume(true, null)
                 Log.d("OK", "Contact loaded")
             }.addOnFailureListener {
+                cont?.resume(false, null)
                 Log.d("ERROR", "Failed to load: " + it.localizedMessage)
             }
         }
@@ -36,7 +46,22 @@ class FirebaseContactRepository : ViewModel() {
         fun size() = ids.size
 
         // Add new contact
-        fun addContact(state: Boolean = true) = write(createContact(state))
+        suspend fun addContact(): Boolean = suspendCancellableCoroutine { cont ->
+            write(createContact(), cont = cont)
+        }
+
+        // Delete contact
+        fun removeContact(position: Int) {
+            // Delete contact in Firestore
+            contacts.document(ids[position].toString()).delete().addOnSuccessListener {
+                Log.d("DELETE", "Contact removed")
+            }.addOnFailureListener {
+                Log.d("ERROR", "Failed to remove contact: " + it.localizedMessage)
+            }
+
+            // Update local list
+            ids.removeAt(position)
+        }
 
         // Get contact
         suspend fun getContact(position: Int) = read(ids[position])
@@ -61,24 +86,18 @@ class FirebaseContactRepository : ViewModel() {
         // Get current contacts
         suspend fun getCurrentContactsId(): Boolean = suspendCancellableCoroutine { cont ->
             contacts.get().addOnSuccessListener { docs ->
+                // Get each contact ID
                 if (ids.size == 0)
-                    for (doc in docs) ids.add(doc.id.toInt())
-                lastContactId = ids.maxOrNull() ?: 0
-                cont.resume(true, null)
-            }.addOnFailureListener {
-                cont.resume(false, null)
-            }
-        }
+                    for (doc in docs)
+                        ids.add(doc.id.toInt())
 
-        // Delete contact
-        suspend fun removeContact(position: Int): Boolean = suspendCancellableCoroutine { cont ->
-            contacts.document(ids[position].toString()).delete().addOnSuccessListener {
-                ids.removeAt(position)
+                // Set max ID
+                lastContactId = ids.maxOrNull() ?: 0
+
+                // Resume success
                 cont.resume(true, null)
-                Log.d("DELETE", "Contact removed")
             }.addOnFailureListener {
                 cont.resume(false, null)
-                Log.d("ERROR", "Failed to remove contact: " + it.localizedMessage)
             }
         }
 
@@ -91,11 +110,6 @@ class FirebaseContactRepository : ViewModel() {
         private fun createContact(state: Boolean = true): Contact {
             val name = "Person " + ++lastContactId
             return Contact(name, state)
-        }
-
-        // Create initial list of contacts
-        private fun createContactsList(numContacts: Int) {
-            for (i in 1..numContacts) write(createContact(i <= numContacts / 2))
         }
     }
 }

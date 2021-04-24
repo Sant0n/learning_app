@@ -4,11 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import nnar.learning_app.R
-import nnar.learning_app.domain.model.ContactViewHolder
 
-class ContactsListAdapter() : RecyclerView.Adapter<ContactViewHolder>() {
-
-    private var presenter = ContactListPresenter()
+class ContactsListAdapter(private val presenter: HomePresenter) :
+    RecyclerView.Adapter<ContactViewHolder>() {
 
     // Usually involves inflating a layout from XML and returning the holder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
@@ -46,7 +44,9 @@ class ContactsListAdapter() : RecyclerView.Adapter<ContactViewHolder>() {
 
         // Set listener for contact removal
         contactViewHolder.getRemoveButton().setOnClickListener {
-            presenter.removeContact(this, position)
+            presenter.removeContact(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, itemCount)
         }
 
         // See contact details
@@ -57,7 +57,7 @@ class ContactsListAdapter() : RecyclerView.Adapter<ContactViewHolder>() {
         // Edit contact details
         contactViewHolder.getContactEdit().setOnClickListener {
             val context = contactViewHolder.itemView.context
-            presenter.showDialog(this, context, position, contactViewHolder)
+            presenter.showDialog(context, position, contactViewHolder)
         }
     }
 }

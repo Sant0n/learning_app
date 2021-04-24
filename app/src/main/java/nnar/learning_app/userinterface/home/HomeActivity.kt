@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import nnar.learning_app.databinding.ActivityHomeBinding
+import nnar.learning_app.datainterface.HomeView
 import nnar.learning_app.userinterface.login.LoginActivity
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), HomeView {
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var presenter: HomePresenter
@@ -22,8 +23,11 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Set presenters
+        presenter = HomePresenter(this)
+
         // Create adapter passing in the presenter
-        adapter = ContactsListAdapter()
+        adapter = ContactsListAdapter(presenter)
 
         // Lookup the recyclerview in activity layout
         binding.recyclerView.adapter = adapter
@@ -31,19 +35,19 @@ class HomeActivity : AppCompatActivity() {
         // Set layout manager to position the items
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Set presenters
-        presenter = HomePresenter()
-        presenter.setContactList(adapter)
+        // Update contacts
+        presenter.setContactList()
 
         // Set listeners
         setListeners()
     }
 
+    override fun updateAdapter() = adapter.notifyDataSetChanged()
+
     private fun setListeners() {
         // Add new contact
         binding.addContact.setOnClickListener {
             presenter.addContact()
-            adapter.notifyDataSetChanged()
         }
 
         // Sign out

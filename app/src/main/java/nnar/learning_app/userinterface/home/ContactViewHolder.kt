@@ -1,12 +1,11 @@
-package nnar.learning_app.domain.model
+package nnar.learning_app.userinterface.home
 
 import android.content.Intent
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import nnar.learning_app.databinding.ItemContactBinding
 import nnar.learning_app.datainterface.RowView
+import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.userinterface.contact.ContactInfoActivity
 
 class ContactViewHolder(private val listItemView: View) : RecyclerView.ViewHolder(listItemView), RowView {
@@ -19,7 +18,7 @@ class ContactViewHolder(private val listItemView: View) : RecyclerView.ViewHolde
 
     fun getSeeMore() = binding.seeMore
 
-    fun getContactEdit() =binding.editContact
+    fun getContactEdit() = binding.editContact
 
     override fun setNameTextView(text: String) {
         binding.contactName.text = text
