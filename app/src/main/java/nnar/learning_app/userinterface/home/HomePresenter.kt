@@ -53,6 +53,9 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     // See contact information
     fun seeContactDetails(view: RowView) = view.seeMore(Contact(view.getName(), view.getState()))
 
+    // Reset contacts list
+    fun reset() = repository.reset()
+
     // Show Alert Dialog to get new input
     fun showDialog(context: Context, position: Int, itemView: RowView) {
         // Inflate the dialog alert view

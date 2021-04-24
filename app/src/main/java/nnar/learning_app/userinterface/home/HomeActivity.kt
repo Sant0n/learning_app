@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nnar.learning_app.databinding.ActivityHomeBinding
 import nnar.learning_app.datainterface.HomeView
 import nnar.learning_app.userinterface.login.LoginActivity
 
+@ExperimentalCoroutinesApi
 class HomeActivity : AppCompatActivity(), HomeView {
 
     private lateinit var binding: ActivityHomeBinding
@@ -42,9 +44,14 @@ class HomeActivity : AppCompatActivity(), HomeView {
         setListeners()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.reset()
+    }
+
     override fun updateAdapter() = adapter.notifyDataSetChanged()
 
-    override fun getCurrentUserUID() = Firebase.auth.currentUser.uid
+    override fun getCurrentUserUID() = Firebase.auth.currentUser!!.uid
 
     private fun setListeners() {
         // Add new contact

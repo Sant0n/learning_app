@@ -13,17 +13,23 @@ import nnar.learning_app.domain.model.Contact
 @ExperimentalCoroutinesApi
 class FirebaseRepository(uid: String) : ViewModel() {
 
+    // Internal contact ID
+    companion object var ids = ArrayList<String>()
+
     // Firestore connection
     private val database = Firebase.firestore
     private val contacts = database.collection(uid)
 
     // Size of the list
-    fun size() = ContactIDRepository.ids.size
+    fun size() = ids.size
+
+    // Reset internal IDs
+    fun reset() = ids.clear()
 
     // Delete contact
     fun removeContact(position: Int) {
         // Get contact ID
-        val contactID = ContactIDRepository.ids[position].toString()
+        val contactID = ids[position].toString()
 
         // Delete contact in Firestore
         contacts.document(contactID).delete().addOnSuccessListener {
@@ -33,7 +39,7 @@ class FirebaseRepository(uid: String) : ViewModel() {
         }
 
         // Update local list
-        ContactIDRepository.ids.removeAt(position)
+        ids.removeAt(position)
     }
 
     // Add/Update data
@@ -42,17 +48,13 @@ class FirebaseRepository(uid: String) : ViewModel() {
         position: Int? = null,
         cont: CancellableContinuation<Boolean>? = null
     ) {
-        // Set Contact ID
-        val id = if (position == null)
-            ContactIDRepository.lastContactId
-        else
-            ContactIDRepository.ids[position]
+        // Define task
+        val task = if (position == null) contacts.document() else contacts.document(ids[position])
 
         // Create/Update contact
-        contacts.document(id.toString()).set(contact).addOnSuccessListener {
+        task.set(contact).addOnSuccessListener {
             // Add new contact ID on create
-            if (position == null)
-                ContactIDRepository.ids.add(id)
+            if (position == null) ids.add(task.id)
             cont?.resume(true, null)
 
             // Set success message
@@ -89,12 +91,7 @@ class FirebaseRepository(uid: String) : ViewModel() {
     suspend fun getCurrentContactsId(): Boolean = suspendCancellableCoroutine { cont ->
         contacts.get().addOnSuccessListener { docs ->
             // Get each contact ID
-            if (size() == 0)
-                for (doc in docs)
-                    ContactIDRepository.ids.add(doc.id.toInt())
-
-            // Set max ID
-            ContactIDRepository.lastContactId = ContactIDRepository.ids.maxOrNull() ?: 0
+            for (doc in docs) ids.add(doc.id)
 
             // Resume success
             cont.resume(true, null)
@@ -105,13 +102,12 @@ class FirebaseRepository(uid: String) : ViewModel() {
 
     // Read contact info
     private suspend fun read(position: Int): Contact {
-        val id = ContactIDRepository.ids[position]
-        return contacts.document(id.toString()).get().await().toObject(Contact::class.java)!!
+        return contacts.document(ids[position]).get().await().toObject(Contact::class.java)!!
     }
 
     // Create new contact
     private fun createContact(state: Boolean = true): Contact {
-        val name = "Person " + ++ContactIDRepository.lastContactId
+        val name = "Person X"
         return Contact(name, state)
     }
 
