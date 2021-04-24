@@ -1,10 +1,13 @@
 package nnar.learning_app.userInterface.home
 
+import nnar.learning_app.data.repository.MobileRepository
 import nnar.learning_app.dataInterface.MobileRowView
 import nnar.learning_app.domain.model.Mobile
+import nnar.learning_app.domain.usecase.HomeUserUsecase
 
 class MobileListPresenter {
 
+    private val rowListUseCase = HomeUserUsecase(MobileRepository())
     private var listOfMobiles: MutableList<Mobile> = mutableListOf()
     private var itemsToRemove: MutableList<Int> = mutableListOf()
 
@@ -40,7 +43,17 @@ class MobileListPresenter {
     internal fun removeItems(){
         itemsToRemove.sortDescending()
         for (item in itemsToRemove){
-            listOfMobiles.removeAt(item)
+            val removed = rowListUseCase.removeMobile(listOfMobiles[item])
+            removed.addOnSuccessListener { documents ->
+                for (document in documents){
+                    document.reference.delete()
+                }
+                listOfMobiles.removeAt(item)
+            }.addOnFailureListener { e->
+                println("Error: $e")
+            }
+
+
         }
         itemsToRemove.clear()
     }

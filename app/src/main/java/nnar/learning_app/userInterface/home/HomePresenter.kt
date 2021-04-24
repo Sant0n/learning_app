@@ -10,14 +10,24 @@ class HomePresenter(private val homeView: HomeView, private val homeUserUsecase:
     internal fun getMobileList(){
         thread {
             val list = homeUserUsecase.getAllMobiles()
-            //homeView.showList(list)
+            list.get().addOnSuccessListener { result ->
+                for (document in result){
+                    homeView.showList(document.toObject(Mobile::class.java))
+                }
+            }.addOnFailureListener { e ->
+                println("Error: $e")
+            }
         }
-
-
     }
 
     internal fun addMobile(mobile: Mobile){
-        homeUserUsecase.addMobile(mobile)
+        val newMobile = homeUserUsecase.addMobile()
+        newMobile.set(mobile).addOnSuccessListener { _ ->
+            homeView.showList(mobile)
+        }.addOnFailureListener { e->
+            println("Error: $e")
+        }
     }
+
 
 }

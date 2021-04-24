@@ -35,17 +35,16 @@ class HomeActivity: AppCompatActivity(), HomeView {
 
     }
 
-    override fun showList(mobileList: List<Mobile>) {
+    override fun showList(mobileList: Mobile) {
         runOnUiThread {
-            println("ADIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOS")
-            userMobilesAdapter.updateData(mobileList)
+            userMobilesAdapter.addMobile(mobileList)
         }
 
     }
 
     private fun setListeners(){
         binding.addMobileButton.setOnClickListener {
-            userMobilesAdapter.addMobile(Mobile("","Iphone","1.0.0",false))
+            presenter.addMobile(Mobile("","Iphone","1.0.0",false))
         }
 
         binding.removeButton.setOnClickListener {
