@@ -34,8 +34,8 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     // Remove contact
     fun removeContact(position: Int) = FirebaseContactRepository.removeContact(position)
 
-    // Get contact name
-    fun getContactName(view: RowView, position: Int) = viewModelScope.launch {
+    // Set contact name
+    fun setContactName(view: RowView, position: Int) = viewModelScope.launch {
         view.setNameTextView(FirebaseContactRepository.getContactName(position))
     }
 
@@ -49,9 +49,7 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     }
 
     // See contact information
-    fun seeContactDetails(position: Int, view: RowView) = viewModelScope.launch {
-        view.seeDetails(FirebaseContactRepository.getContact(position))
-    }
+    fun seeContactDetails(view: RowView) = view.seeMore(Contact(view.getName(), view.getState()))
 
     // Show Alert Dialog to get new input
     fun showDialog(context: Context, position: Int, itemView: RowView) {
@@ -61,11 +59,8 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
         val binding = DialogEditContactBinding.bind(view)
 
         // Set dialog biding
-        viewModelScope.launch {
-            val contact = FirebaseContactRepository.getContact(position)
-            binding.contactNameEdit.setText(contact.name)
-            binding.stateSwitch.isChecked = contact.isOnline
-        }
+        binding.contactNameEdit.setText(itemView.getName())
+        binding.stateSwitch.isChecked = itemView.getState()
 
         // Build the Alert Dialog
         AlertDialog.Builder(context)

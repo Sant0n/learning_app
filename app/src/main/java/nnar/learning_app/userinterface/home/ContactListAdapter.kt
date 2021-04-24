@@ -23,7 +23,7 @@ class ContactsListAdapter(private val presenter: HomePresenter) :
     // Involves populating data into the item through holder
     override fun onBindViewHolder(contactViewHolder: ContactViewHolder, position: Int) {
         // Set item views based on your views and data model
-        presenter.getContactName(contactViewHolder, position)
+        presenter.setContactName(contactViewHolder, position)
 
         // Set button text
         presenter.setButtonState(contactViewHolder, position, false)
@@ -51,7 +51,7 @@ class ContactsListAdapter(private val presenter: HomePresenter) :
 
         // See contact details
         contactViewHolder.getSeeMore().setOnClickListener {
-            presenter.seeContactDetails(position, contactViewHolder)
+            presenter.seeContactDetails(contactViewHolder)
         }
 
         // Edit contact details

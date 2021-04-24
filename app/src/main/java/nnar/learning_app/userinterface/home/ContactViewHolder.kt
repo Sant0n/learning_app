@@ -20,6 +20,10 @@ class ContactViewHolder(private val listItemView: View) : RecyclerView.ViewHolde
 
     fun getContactEdit() = binding.editContact
 
+    override fun getName() = binding.contactName.text.toString()
+
+    override fun getState() = binding.stateButton.isEnabled
+
     override fun setNameTextView(text: String) {
         binding.contactName.text = text
     }
@@ -33,7 +37,7 @@ class ContactViewHolder(private val listItemView: View) : RecyclerView.ViewHolde
         binding.stateButton.isEnabled = state
     }
 
-    override fun seeDetails(contact: Contact) {
+    override fun seeMore(contact: Contact) {
         // Set intent for Contact Details
         val intent = Intent(listItemView.context, ContactInfoActivity::class.java)
 

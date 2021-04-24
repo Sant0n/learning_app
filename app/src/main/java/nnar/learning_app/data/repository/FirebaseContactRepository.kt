@@ -22,6 +22,22 @@ class FirebaseContactRepository : ViewModel() {
         private val database = Firebase.firestore
         private val contacts = database.collection("contact")
 
+        // Size of the list
+        fun size() = ids.size
+
+        // Delete contact
+        fun removeContact(position: Int) {
+            // Delete contact in Firestore
+            contacts.document(ids[position].toString()).delete().addOnSuccessListener {
+                Log.d("DELETE", "Contact removed")
+            }.addOnFailureListener {
+                Log.d("ERROR", "Failed to remove contact: " + it.localizedMessage)
+            }
+
+            // Update local list
+            ids.removeAt(position)
+        }
+
         // Add/Update data
         fun write(
             contact: Contact,
@@ -42,30 +58,6 @@ class FirebaseContactRepository : ViewModel() {
             }
         }
 
-        // Size of the list
-        fun size() = ids.size
-
-        // Add new contact
-        suspend fun addContact(): Boolean = suspendCancellableCoroutine { cont ->
-            write(createContact(), cont = cont)
-        }
-
-        // Delete contact
-        fun removeContact(position: Int) {
-            // Delete contact in Firestore
-            contacts.document(ids[position].toString()).delete().addOnSuccessListener {
-                Log.d("DELETE", "Contact removed")
-            }.addOnFailureListener {
-                Log.d("ERROR", "Failed to remove contact: " + it.localizedMessage)
-            }
-
-            // Update local list
-            ids.removeAt(position)
-        }
-
-        // Get contact
-        suspend fun getContact(position: Int) = read(ids[position])
-
         // Get contact name
         suspend fun getContactName(position: Int) = read(ids[position]).name
 
@@ -74,6 +66,11 @@ class FirebaseContactRepository : ViewModel() {
 
         // Get state text
         suspend fun getStateText(position: Int) = if (read(ids[position]).isOnline) "I" else "O"
+
+        // Add new contact
+        suspend fun addContact(): Boolean = suspendCancellableCoroutine { cont ->
+            write(createContact(), cont = cont)
+        }
 
         // Change the state
         suspend fun changeState(position: Int): Boolean {
