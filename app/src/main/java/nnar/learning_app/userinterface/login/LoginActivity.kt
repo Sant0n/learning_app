@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import nnar.learning_app.R
@@ -35,6 +36,9 @@ class LoginActivity : AppCompatActivity(), LoginView {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
         auth = FirebaseAuth.getInstance()
 
+        if (intent.getBooleanExtra("logout", false))
+            googleSignInClient.signOut()
+
         presenter = LoginPresenter(this)
         setListeners()
     }
@@ -51,10 +55,9 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     override fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                presenter.checkTask(task)
-            }
+        auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
+            presenter.checkTask(task)
+        }
     }
 
     override fun showErrorLogin() {

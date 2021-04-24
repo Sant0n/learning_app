@@ -54,9 +54,14 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
         // Sign out
         binding.signOut.setOnClickListener {
+            // Logout from Google
             Firebase.auth.signOut()
             finish()
-            startActivity(Intent(this, LoginActivity::class.java))
+
+            // Go back to login
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.putExtra("logout", true)
+            startActivity(intent)
         }
     }
 }
