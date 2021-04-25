@@ -1,7 +1,6 @@
 package nnar.learning_app.data.repository
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -10,7 +9,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import nnar.learning_app.domain.model.Contact
 
 @ExperimentalCoroutinesApi
-class ContactRepository(uid: String) : ViewModel() {
+class ContactRepository(uid: String) {
 
     // Internal contact ID
     private var dataset = ArrayList<Pair<String, Contact>>()
@@ -57,18 +56,18 @@ class ContactRepository(uid: String) : ViewModel() {
     // Add/Update data
     fun write(contact: Contact, position: Int? = null) {
         // Define task
-        val task: DocumentReference
+        val doc: DocumentReference
         if (position == null) {
-            task = contacts.document()
-            dataset.add(Pair(task.id, contact))
+            doc = contacts.document()
+            dataset.add(Pair(doc.id, contact))
         } else {
-            task = contacts.document(dataset[position].first)
+            doc = contacts.document(dataset[position].first)
             dataset[position] = dataset[position].copy(second = contact)
         }
         sort()
 
         // Create/Update contact
-        task.set(contact).addOnSuccessListener {
+        doc.set(contact).addOnSuccessListener {
             Log.d("OK", "Contact loaded")
         }.addOnFailureListener {
             Log.d("ERROR", "Failed to load: " + it.localizedMessage)

@@ -6,9 +6,10 @@ import nnar.learning_app.databinding.ActivityContactBinding
 import nnar.learning_app.domain.model.Contact
 
 class ContactInfoActivity : AppCompatActivity() {
-
+    // Activity binding
     private lateinit var binding: ActivityContactBinding
 
+    // Create activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

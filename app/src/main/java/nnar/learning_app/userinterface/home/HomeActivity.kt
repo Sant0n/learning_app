@@ -14,11 +14,12 @@ import nnar.learning_app.userinterface.login.LoginActivity
 
 @ExperimentalCoroutinesApi
 class HomeActivity : AppCompatActivity(), HomeView {
-
+    // Activities main variables
     private lateinit var binding: ActivityHomeBinding
     private lateinit var presenter: HomePresenter
-    private lateinit var adapter: ContactsListAdapter
+    private lateinit var adapter: ContactListAdapter
 
+    // Create the activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,7 +31,7 @@ class HomeActivity : AppCompatActivity(), HomeView {
         presenter = HomePresenter(this)
 
         // Create adapter passing in the presenter
-        adapter = ContactsListAdapter(presenter)
+        adapter = ContactListAdapter(presenter)
 
         // Lookup the recyclerview in activity layout
         binding.recyclerView.adapter = adapter
@@ -45,17 +46,22 @@ class HomeActivity : AppCompatActivity(), HomeView {
         setListeners()
     }
 
+    // Destroy the activity
     override fun onDestroy() {
         super.onDestroy()
         presenter.reset()
     }
 
+    // Notify dataset change to the adapter
     override fun updateAdapter() = adapter.notifyDataSetChanged()
 
+    // Get UID form current user
     override fun getCurrentUserUID() = Firebase.auth.currentUser!!.uid
 
+    // Get the Home Activity context
     override fun getContext(): Context = binding.root.context
 
+    // Configure all the listeners
     private fun setListeners() {
         // Add new contact
         binding.addContact.setOnClickListener {

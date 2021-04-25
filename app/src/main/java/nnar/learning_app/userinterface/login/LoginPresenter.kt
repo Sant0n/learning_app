@@ -12,6 +12,7 @@ import nnar.learning_app.datainterface.LoginView
 
 class LoginPresenter(private val view: LoginView) {
 
+    // Check Google Sign In menu result
     fun checkActivityResult(requestCode: Int, RC_SIGN_IN: Int, data: Intent?) {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -28,6 +29,7 @@ class LoginPresenter(private val view: LoginView) {
         }
     }
 
+    // Check if operation was successful
     fun checkTask(task: Task<AuthResult>) {
         if (task.isSuccessful) {
             // Sign in success, update UI with the signed-in user's information
@@ -40,6 +42,7 @@ class LoginPresenter(private val view: LoginView) {
         }
     }
 
+    // Check if there's a current user
     fun checkActiveUser() {
         if (Firebase.auth.currentUser != null)
             view.loginSuccessful()

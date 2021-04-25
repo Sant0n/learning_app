@@ -95,6 +95,5 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
 
         // Add/Modify contact
         repository.write(contact, position)
-
     }
 }
