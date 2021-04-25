@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import nnar.learning_app.databinding.ActivityContactBinding
 import nnar.learning_app.domain.model.Contact
 
-class ContactInfoActivity: AppCompatActivity() {
+class ContactInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityContactBinding
 

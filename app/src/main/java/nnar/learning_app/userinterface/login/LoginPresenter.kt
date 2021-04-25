@@ -41,7 +41,7 @@ class LoginPresenter(private val view: LoginView) {
     }
 
     fun checkActiveUser() {
-        if(Firebase.auth.currentUser != null)
+        if (Firebase.auth.currentUser != null)
             view.loginSuccessful()
     }
 }

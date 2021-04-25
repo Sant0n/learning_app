@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import nnar.learning_app.R
-import nnar.learning_app.data.repository.FirebaseRepository
+import nnar.learning_app.data.repository.ContactRepository
 import nnar.learning_app.databinding.DialogEditContactBinding
 import nnar.learning_app.datainterface.HomeView
 import nnar.learning_app.datainterface.RowView
@@ -16,7 +16,7 @@ import nnar.learning_app.domain.model.Contact
 @ExperimentalCoroutinesApi
 class HomePresenter(private val homeView: HomeView) : ViewModel() {
     // Set the Firebase Repository
-    private val repository = FirebaseRepository(homeView.getCurrentUserUID())
+    private val repository = ContactRepository(homeView.getCurrentUserUID())
 
     // Get initial set of contacts
     fun setContactList() = viewModelScope.launch {
@@ -31,13 +31,13 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     fun removeContact(position: Int) = repository.removeContact(position)
 
     // Set contact details
-    fun setContact(view: RowView, position: Int) = viewModelScope.launch {
+    fun setContact(view: RowView, position: Int) {
         val contact = repository.getContact(position)
         view.setContactView(contact)
     }
 
     // Set contact information
-    fun changeState(view: RowView, position: Int) = viewModelScope.launch {
+    fun changeState(view: RowView, position: Int) {
         val contact = repository.changeState(position)
         view.setButtonState(contact)
     }
@@ -69,6 +69,7 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
             .setTitle("Contact Information")
             .setPositiveButton("Save") { dialogInterface, _ ->
                 setPositiveButtonAction(binding, position, itemView)
+                homeView.updateAdapter()
                 dialogInterface.dismiss()
             }
             .setNegativeButton("Cancel") { dialogInterface, _ ->
@@ -92,15 +93,8 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
         // Set the modification
         itemView?.setContactView(contact)
 
-        // Modify contact
-        if (position == null)
-            viewModelScope.launch {
-                if (repository.addContact(contact))
-                    homeView.updateAdapter()
-            }
-        else {
-            repository.modifyContact(contact, position)
-            homeView.updateAdapter()
-        }
+        // Add/Modify contact
+        repository.write(contact, position)
+
     }
 }

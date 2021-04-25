@@ -9,9 +9,9 @@ import nnar.learning_app.datainterface.RowView
 import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.userinterface.contact.ContactInfoActivity
 
-class ContactViewHolder(private val listItemView: View) : RecyclerView.ViewHolder(listItemView), RowView {
+class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view), RowView {
 
-    private var binding = ItemContactBinding.bind(listItemView)
+    private var binding = ItemContactBinding.bind(view)
 
     fun getStateButton() = binding.stateButton
 
@@ -21,7 +21,7 @@ class ContactViewHolder(private val listItemView: View) : RecyclerView.ViewHolde
 
     fun getContactEdit() = binding.editContact
 
-    override fun getContext(): Context = listItemView.context
+    override fun getContext(): Context = view.context
 
     override fun getName() = binding.contactName.text.toString()
 
@@ -39,12 +39,12 @@ class ContactViewHolder(private val listItemView: View) : RecyclerView.ViewHolde
 
     override fun seeMore(contact: Contact) {
         // Set intent for Contact Details
-        val intent = Intent(listItemView.context, ContactInfoActivity::class.java)
+        val intent = Intent(view.context, ContactInfoActivity::class.java)
 
         // Set contact info
         intent.putExtra("contact", contact)
 
         // Start activity
-        listItemView.context.startActivity(intent)
+        view.context.startActivity(intent)
     }
 }
