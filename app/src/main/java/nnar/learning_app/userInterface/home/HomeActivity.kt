@@ -1,6 +1,7 @@
 package nnar.learning_app.userInterface.home
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseUser
@@ -22,25 +23,31 @@ class HomeActivity: AppCompatActivity(), HomeView {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        presenter = HomePresenter(this, HomeUserUsecase(MobileRepository()))
+
         binding.listOfMobiles.layoutManager = LinearLayoutManager(this)
-        userMobilesAdapter = UserMobilesAdapter(binding.removeButton)
+        userMobilesAdapter = UserMobilesAdapter(presenter)
         binding.listOfMobiles.adapter = userMobilesAdapter
 
-        presenter = HomePresenter(this, HomeUserUsecase(MobileRepository()))
-        presenter.getMobileList()
-
         val user = intent.getParcelableExtra<FirebaseUser>("user")!!
+        presenter.getMobileList(user.uid)
 
         setListeners()
 
     }
 
-    override fun showList(mobileList: Mobile) {
-        runOnUiThread {
-            userMobilesAdapter.addMobile(mobileList)
-        }
-
+    override fun updateData() {
+        userMobilesAdapter.updateData()
     }
+
+    override fun hideRemoveButton() {
+        binding.removeButton.visibility = View.GONE
+    }
+
+    override fun showRemoveButton() {
+        binding.removeButton.visibility = View.VISIBLE
+    }
+
 
     private fun setListeners(){
         binding.addMobileButton.setOnClickListener {
@@ -48,7 +55,7 @@ class HomeActivity: AppCompatActivity(), HomeView {
         }
 
         binding.removeButton.setOnClickListener {
-            userMobilesAdapter.deleteSelected()
+            presenter.removeSelected()
         }
     }
 

@@ -12,7 +12,6 @@ class UserMobileRowView (itemView: View): RecyclerView.ViewHolder(itemView),
 
     private var binding = MobileListRowBinding.bind(itemView)
 
-    /** otro argumento para render cuando haya bbdd sera el usuario: currentUser: String */
     override fun render(mobile: Mobile) {
         itemView.setBackgroundColor( itemView.context.resources.getColor(R.color.white))
         renderMobileIcon(mobile.img_url)
@@ -21,11 +20,7 @@ class UserMobileRowView (itemView: View): RecyclerView.ViewHolder(itemView),
         renderFavoriteIcon(mobile.favorite)
 
     }
-/**
-        itemView.isProjectFavorite.setOnClickListener {
-            presenter.changeProjectFavorite(project, this, adapterPosition)
-        }
-    */
+
 
     override fun markAsSelected(){
         itemView.setBackgroundColor( itemView.context.resources.getColor(R.color.orange))

@@ -1,33 +1,62 @@
 package nnar.learning_app.userInterface.home
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import nnar.learning_app.dataInterface.HomeView
 import nnar.learning_app.domain.model.Mobile
 import nnar.learning_app.domain.usecase.HomeUserUsecase
 import kotlin.concurrent.thread
 
-class HomePresenter(private val homeView: HomeView, private val homeUserUsecase: HomeUserUsecase) {
+class HomePresenter(private val homeView: HomeView, private val homeUserUsecase: HomeUserUsecase) :
+    ViewModel() {
 
-    internal fun getMobileList(){
-        thread {
-            val list = homeUserUsecase.getAllMobiles()
-            list.get().addOnSuccessListener { result ->
-                for (document in result){
-                    homeView.showList(document.toObject(Mobile::class.java))
-                }
-            }.addOnFailureListener { e ->
-                println("Error: $e")
+    private val itemsToRemove = mutableListOf<Int>()
+
+    internal fun getMobileList(userID: String) {
+        viewModelScope.launch {
+            val response = homeUserUsecase.getAllMobiles(userID)
+            if (!response.error) homeView.updateData() else println("ERROR GETTING MOBILES: ${response.msg}")
+        }
+    }
+
+    internal fun addMobile(mobile: Mobile) {
+        viewModelScope.launch {
+            val response = homeUserUsecase.addMobile(mobile)
+            if (!response.error) homeView.updateData() else println("ERROR ADDING MOBILE: ${response.msg}")
+        }
+    }
+
+    internal fun removeSelected(){
+        viewModelScope.launch {
+            itemsToRemove.sortDescending()
+            for (item in itemsToRemove){
+                val response = homeUserUsecase.removeMobile(getMobileAtPosition(item))
+                if (!response.error) homeUserUsecase.removeLocally(item) else println("ERROR REMOVING ITEM AT POSITION $item")
             }
+            homeView.updateData()
+            itemsToRemove.clear()
+            homeView.hideRemoveButton()
         }
     }
 
-    internal fun addMobile(mobile: Mobile){
-        val newMobile = homeUserUsecase.addMobile()
-        newMobile.set(mobile).addOnSuccessListener { _ ->
-            homeView.showList(mobile)
-        }.addOnFailureListener { e->
-            println("Error: $e")
+    internal fun getMobileAtPosition(position: Int) = homeUserUsecase.getMobileAtPosition(position)
+
+    internal fun getItemCount() = homeUserUsecase.getItemCount()
+
+    internal fun checkOnLongSelected(position: Int, holder: UserMobileRowView) {
+        if (position in itemsToRemove) {
+            itemsToRemove.remove(position)
+            holder.markAsUnSelected()
+        } else {
+            itemsToRemove.add(position)
+            holder.markAsSelected()
         }
+        if (itemsToRemove.isEmpty()) homeView.hideRemoveButton() else homeView.showRemoveButton()
     }
+
+
+
 
 
 }

@@ -1,8 +1,9 @@
 package nnar.learning_app.dataInterface
 
-import nnar.learning_app.domain.model.Mobile
 
 interface HomeView {
 
-    fun showList(mobileList: Mobile)
+    fun updateData()
+    fun showRemoveButton()
+    fun hideRemoveButton()
 }
