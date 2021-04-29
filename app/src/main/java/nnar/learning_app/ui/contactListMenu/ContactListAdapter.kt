@@ -6,26 +6,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import nnar.learning_app.R
-import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.ui.contactDetail.ContactDetailActivity
 
-class ContactListAdapter :
+//import nnar.learning_app.domain.model.Contact
+class ContactListAdapter(private var presenter: ContactListPresenter) :
     RecyclerView.Adapter<ContactViewHolder>() {
 
-    private var presenter = ContactListPresenter()
-
-    fun updateData(contactList: MutableSet<Contact>){
-        presenter.updateData(contactList)
-        notifyDataSetChanged()
-    }
-
-    /*fun addContact(contact: Contact){
-        presenter.addContact(contact)
-        notifyDataSetChanged()
-    }*/
-
-    private fun deleteContact(contact: Contact){
-        presenter.removeContact(contact)
+    fun updateData(){
         notifyDataSetChanged()
     }
 
@@ -34,9 +21,12 @@ class ContactListAdapter :
         return ContactViewHolder(view)
     }
 
+    override fun getItemCount(): Int = presenter.getItemCount()
+
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
 
-        presenter.onBindMobileRowViewAtPosition(position,holder)
+        val contact = presenter.getContact(position)
+        holder.bindData(contact)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(it.context, ContactDetailActivity()::class.java)
@@ -45,12 +35,11 @@ class ContactListAdapter :
         }
 
         holder.itemView.setOnLongClickListener {
-            //create AlertDialog with Builder
             val builder = AlertDialog.Builder(holder.itemView.context)
             builder.setMessage("Do you want to delete " + presenter.getContact(position).name + "?")
                 builder.setPositiveButton("DELETE"
                 ) { _, _ ->
-                    deleteContact(presenter.getContact(position))
+                    presenter.removeContact(presenter.getContact(position))
                 }
                     .setNegativeButton("CANCEL"
                     ) { dialog, _ ->
@@ -81,7 +70,5 @@ class ContactListAdapter :
                 Toast.LENGTH_SHORT).show()
         }*/
     }
-
-    override fun getItemCount(): Int = presenter.getItemCount()
 
 }

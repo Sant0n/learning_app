@@ -25,14 +25,12 @@ class ContactDetailActivity: AppCompatActivity() {
         val contactPhone: TextView = binding.contactDetailPhoneText
         val contactEmail: TextView  = binding.contactDetailEmailText
 
-        val contact = intent.getParcelableExtra<Contact>("contact")
+        val contact = intent.getParcelableExtra<Contact>("contact")!!
 
-        if (contact != null){
-            contactImage.setImageResource(contact.image)
-            contactName.text = contact.name
-            contactPhone.text = contact.phoneNumber
-            contactEmail.text = contact.email
-        }
+        contactImage.setImageResource(contact.image)
+        contactName.text = contact.name
+        contactPhone.text = contact.phoneNumber
+        contactEmail.text = contact.email
 
     }
 

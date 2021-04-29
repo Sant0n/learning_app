@@ -7,18 +7,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import nnar.learning_app.data.repository.ContactFirestoreRepository
 
 import nnar.learning_app.data.repository.ContactRepository
 import nnar.learning_app.databinding.ActivityContactListBinding
 import nnar.learning_app.datainterface.ContactListView
 import nnar.learning_app.domain.model.Contact
+import nnar.learning_app.domain.model.ContactFirestore
+import nnar.learning_app.domain.usecase.ContactFirestoreUseCase
 import nnar.learning_app.domain.usecase.ContactUseCase
 
 class ContactListActivity: AppCompatActivity(), ContactListView {
 
     private lateinit var binding: ActivityContactListBinding
     private lateinit var recyclerView:RecyclerView
-    private lateinit var presenter:ContactListHomePresenter
+    private lateinit var presenter:ContactListPresenter
     private lateinit var addButton: FloatingActionButton
     private lateinit var adapter: ContactListAdapter
 
@@ -31,12 +34,16 @@ class ContactListActivity: AppCompatActivity(), ContactListView {
         addButton = binding.addContactButton
         recyclerView = binding.listmenuRecyclerView
 
-        adapter = ContactListAdapter()
+        presenter = ContactListPresenter(this, ContactFirestoreUseCase(
+            ContactFirestoreRepository()
+        ))
+
+        adapter = ContactListAdapter(presenter)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        presenter = ContactListHomePresenter(this, ContactUseCase(ContactRepository()))
-        presenter.fetchContacts()
+        presenter.addFirebaseContactsFirtstime()
+        presenter.getContacts()
 
         setListeners()
     }
@@ -46,24 +53,32 @@ class ContactListActivity: AppCompatActivity(), ContactListView {
             /**val intent = Intent(it.context, ContactCreationActivity()::class.java)
             it.context.startActivity(intent)**/
             presenter.addNewContact()
-            adapter.notifyDataSetChanged()
+            adapter.updateData()
 
         }
     }
 
-    override fun getList(contactList: MutableSet<Contact>) {
-        adapter.updateData(contactList)
-        adapter.notifyDataSetChanged()
+    override fun getList() {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateData() {
+        adapter.updateData()
     }
 
     override fun showMessageContactAdded(s: String) {
-        //adapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
     }
 
     override fun showMessageContactDeleted(s: String) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
     }
+
+    override fun showMessageErrorContactsUpdated(s: String) {
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
+    }
+
 
 }
 
