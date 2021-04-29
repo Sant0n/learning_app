@@ -14,9 +14,8 @@ import java.lang.Exception
 class ContactFirestoreRepository {
 
     private val TAG = "Learning App"
-    // Access a Cloud Firestore instance from your Activity
-    private val db = Firebase.firestore
 
+    private val db = Firebase.firestore
 
     companion object{
         private val contactList =  mutableListOf<ContactFirestore>()
@@ -32,7 +31,7 @@ class ContactFirestoreRepository {
     )
 
     fun createContact(name:String, phone:String, image: Int?, email:String): ContactFirestore{
-        val newId = contactList.size + 1
+        val newId = contactList.last().id + 1
         val auxImage = image ?: R.drawable.avataaars_default // If image is null then default
         return ContactFirestore(newId, name, phone, auxImage, email)
     }
@@ -85,6 +84,12 @@ class ContactFirestoreRepository {
 
     suspend fun removeContactFirestore(contact: ContactFirestore): Boolean {
         return try{
+            db.collection("contacts")
+                .document(contact.id.toString())
+                .delete()
+                .await()
+
+            contactList.remove(contact)
             true
         }catch(e: Exception){
             false

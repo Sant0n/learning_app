@@ -2,7 +2,9 @@ package nnar.learning_app.ui.contactListMenu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import kotlinx.coroutines.launch
+
 import nnar.learning_app.datainterface.ContactListView
 import nnar.learning_app.domain.model.ContactFirestore
 import nnar.learning_app.domain.usecase.ContactFirestoreUseCase
@@ -38,7 +40,6 @@ class ContactListPresenter(private val view: ContactListView, private val useCas
                 view.updateData()
             }else{
                 view.showMessageErrorContactsUpdated("error getting contacts from repository")
-
             }
         }
         view.showMessageContactAdded("Contact $name added")
@@ -46,7 +47,11 @@ class ContactListPresenter(private val view: ContactListView, private val useCas
 
     internal fun removeContact(contact:ContactFirestore){
         viewModelScope.launch {
-            useCase.removeContact(contact)
+            if(useCase.removeContact(contact)){
+                view.updateData()
+            }else{
+                view.showMessageErrorContactsUpdated("error deleting contacts from repository")
+            }
         }
         view.showMessageContactDeleted("Contact " + contact.name + " deleted")
     }
@@ -56,7 +61,6 @@ class ContactListPresenter(private val view: ContactListView, private val useCas
     internal fun getItemCount(): Int = useCase.getItemCount()
 
 }
-
 
 /** private var contactList: MutableSet<ContactFirestore> = mutableSetOf()
 

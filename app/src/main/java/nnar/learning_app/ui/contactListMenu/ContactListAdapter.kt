@@ -4,11 +4,14 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+
 import androidx.recyclerview.widget.RecyclerView
+
 import nnar.learning_app.R
 import nnar.learning_app.ui.contactDetail.ContactDetailActivity
 
 //import nnar.learning_app.domain.model.Contact
+
 class ContactListAdapter(private var presenter: ContactListPresenter) :
     RecyclerView.Adapter<ContactViewHolder>() {
 

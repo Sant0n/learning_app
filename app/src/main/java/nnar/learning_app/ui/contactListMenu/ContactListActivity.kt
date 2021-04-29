@@ -2,20 +2,22 @@ package nnar.learning_app.ui.contactListMenu
 
 import android.os.Bundle
 import android.widget.Toast
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import nnar.learning_app.data.repository.ContactFirestoreRepository
 
-import nnar.learning_app.data.repository.ContactRepository
+import nnar.learning_app.data.repository.ContactFirestoreRepository
 import nnar.learning_app.databinding.ActivityContactListBinding
 import nnar.learning_app.datainterface.ContactListView
-import nnar.learning_app.domain.model.Contact
-import nnar.learning_app.domain.model.ContactFirestore
 import nnar.learning_app.domain.usecase.ContactFirestoreUseCase
-import nnar.learning_app.domain.usecase.ContactUseCase
+
+//import nnar.learning_app.data.repository.ContactRepository
+//import nnar.learning_app.domain.model.Contact
+//import nnar.learning_app.domain.model.ContactFirestore
+//import nnar.learning_app.domain.usecase.ContactUseCase
 
 class ContactListActivity: AppCompatActivity(), ContactListView {
 
@@ -58,8 +60,8 @@ class ContactListActivity: AppCompatActivity(), ContactListView {
         }
     }
 
-    override fun getList() {
-        TODO("Not yet implemented")
+    override fun onBackPressed() {
+
     }
 
     override fun updateData() {
