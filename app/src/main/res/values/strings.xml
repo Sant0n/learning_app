@@ -35,5 +35,6 @@
     <string name="contact_detail_name_tag">Name:</string>
     <string name="contact_detail_phone_tag">Phone:</string>
     <string name="contact_detail_email_tag">E-mail:</string>
+    <string name="list_contact_logout">Logout</string>
 
 </resources>

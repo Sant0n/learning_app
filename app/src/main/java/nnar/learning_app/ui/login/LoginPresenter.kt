@@ -2,16 +2,19 @@ package nnar.learning_app.ui.login
 
 import android.content.Intent
 import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.launch
 import nnar.learning_app.datainterface.LoginView
 import nnar.learning_app.domain.model.UserResponse
 import nnar.learning_app.domain.usecase.LoginUseCase
 
-class LoginPresenter(private val view: LoginView, private val useCase: LoginUseCase) {
+class LoginPresenter(private val view: LoginView, private val useCase: LoginUseCase): ViewModel() {
 
     internal fun googleLogin(RC_SIGN_IN: Int, requestCode:Int, TAG:String, resultCode:Int, data:Intent? ){
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -42,6 +45,12 @@ class LoginPresenter(private val view: LoginView, private val useCase: LoginUseC
             view.googleErrorLogin()
         }
 
+    }
+
+    internal fun checkUserGoogleRegistered(user: FirebaseUser){
+        viewModelScope.launch{
+            useCase.checkUserGoogleRegistered(user)
+        }
     }
 
     internal fun checkLoggedUser(currentUser: FirebaseUser?){

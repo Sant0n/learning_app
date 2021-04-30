@@ -13,12 +13,14 @@ import java.lang.Exception
 
 class ContactFirestoreRepository {
 
-    private val TAG = "Learning App"
+    private val TAG = "Learning App - Contact List:"
 
-    private val db = Firebase.firestore
+    private lateinit var userUIDRepository: String
+
+    private val db = Firebase.firestore.collection("users")
 
     companion object{
-        private val contactList =  mutableListOf<ContactFirestore>()
+        val contactList =  mutableListOf<ContactFirestore>()
     }
 
     private val contactSet: MutableSet<ContactFirestore> = mutableSetOf(
@@ -36,25 +38,26 @@ class ContactFirestoreRepository {
         return ContactFirestore(newId, name, phone, auxImage, email)
     }
 
-    suspend fun writeDataOnFirestoreFirtsTime() {
+    suspend fun writeDataOnFirestoreFirtsTime(userUID: String) {
+        userUIDRepository = userUID
         for (contact in contactSet){
             try{
-                val doc = db.collection("contacts").document(contact.id.toString())
+                val doc = db.document(userUID).collection("contacts").document(contact.id.toString())
                 if(!doc.get().await().exists()){
                     writeDataOnFirestore(contact)
-                    Log.d(TAG, "Contact ${contact.id.toString()} added")
+                    Log.d(TAG, "Contact ${contact.id} added")
                 }else{
-                    Log.d(TAG, "Contact ${contact.id.toString()} already exists")
+                    Log.d(TAG, "Contact ${contact.id} already exists")
                 }
             }catch (e : Exception){
-                Log.d(TAG, "Error writing contact ${contact.id.toString()}")
+                Log.d(TAG, "Error writing contact ${contact.id}")
             }
         }
     }
 
     suspend fun writeDataOnFirestore(contact: ContactFirestore):Boolean{
         return try{
-            db.collection("contacts")
+            db.document(userUIDRepository).collection("contacts")
                 .document(contact.id.toString())
                 .set(contact)
                 .await()
@@ -68,10 +71,10 @@ class ContactFirestoreRepository {
     suspend fun readContactsFirestore(): Boolean{
         return try{
             val auxList = mutableListOf<ContactFirestore>()
-            val data = db.collection("contacts")
+            val data = db.document(userUIDRepository).collection("contacts")
                 .get()
                 .await()
-
+            data
             for (d in data){
                 auxList.add(d.toObject())
             }
@@ -84,7 +87,7 @@ class ContactFirestoreRepository {
 
     suspend fun removeContactFirestore(contact: ContactFirestore): Boolean {
         return try{
-            db.collection("contacts")
+            db.document(userUIDRepository).collection("contacts")
                 .document(contact.id.toString())
                 .delete()
                 .await()
@@ -99,4 +102,9 @@ class ContactFirestoreRepository {
     fun getItemCount() = contactList.size
 
     fun getContact(position: Int) = contactList[position]
+
+    fun deleteLocalData(){
+        userUIDRepository = " "
+        contactList.clear()
+    }
 }

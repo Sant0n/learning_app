@@ -24,9 +24,9 @@ class ContactListPresenter(private val view: ContactListView, private val useCas
         }
     }
 
-    internal fun addFirebaseContactsFirtstime(){
+    internal fun addFirebaseContactsFirtstime(userUID: String){
         viewModelScope.launch {
-            useCase.addContactsFirstsTime()
+            useCase.addContactsFirstsTime(userUID)
         }
     }
 
@@ -60,6 +60,9 @@ class ContactListPresenter(private val view: ContactListView, private val useCas
 
     internal fun getItemCount(): Int = useCase.getItemCount()
 
+    internal fun deleteLocalData(){
+        useCase.deleteLocalData()
+    }
 }
 
 /** private var contactList: MutableSet<ContactFirestore> = mutableSetOf()

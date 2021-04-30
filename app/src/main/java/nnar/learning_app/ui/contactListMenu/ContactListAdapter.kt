@@ -19,6 +19,10 @@ class ContactListAdapter(private var presenter: ContactListPresenter) :
         notifyDataSetChanged()
     }
 
+    fun deleteLocalData(){
+        presenter.deleteLocalData()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.contact_list_row, parent, false)
         return ContactViewHolder(view)

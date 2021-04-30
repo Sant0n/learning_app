@@ -3,7 +3,6 @@ package nnar.learning_app.ui.login
 import android.content.Intent
 
 import android.os.Bundle
-import android.util.Log
 
 import android.widget.Button
 import android.widget.TextView
@@ -28,6 +27,8 @@ import nnar.learning_app.datainterface.LoginView
 import nnar.learning_app.domain.usecase.LoginUseCase
 import nnar.learning_app.ui.contactListMenu.ContactListActivity
 import nnar.learning_app.utils.CommonFunctions
+
+//import android.util.Log
 
 class LoginActivity :  AppCompatActivity(), LoginView{
 

@@ -6,7 +6,7 @@ import nnar.learning_app.domain.model.ContactFirestore
 
 class ContactFirestoreUseCase(private val contactFirestoreRepository: ContactFirestoreRepository) {
 
-    suspend fun addContactsFirstsTime() = contactFirestoreRepository.writeDataOnFirestoreFirtsTime()
+    suspend fun addContactsFirstsTime(userUID: String) = contactFirestoreRepository.writeDataOnFirestoreFirtsTime(userUID)
 
     suspend fun addNewContact(name:String, phoneNumber:String, image:Int?, email:String) =
         contactFirestoreRepository.writeDataOnFirestore(contactFirestoreRepository.createContact(name, phoneNumber, image, email))
@@ -18,4 +18,6 @@ class ContactFirestoreUseCase(private val contactFirestoreRepository: ContactFir
     fun getContact(position: Int) = contactFirestoreRepository.getContact(position)
 
     fun getItemCount() = contactFirestoreRepository.getItemCount()
+
+    fun deleteLocalData() = contactFirestoreRepository.deleteLocalData()
 }
