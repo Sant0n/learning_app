@@ -74,6 +74,7 @@
         android:paddingStart="3dp"
         android:paddingEnd="3dp"
         android:paddingTop="3dp"
+        android:imeOptions="actionDone"
         app:layout_constraintBottom_toBottomOf="@+id/list_sm_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/list_sm_text"

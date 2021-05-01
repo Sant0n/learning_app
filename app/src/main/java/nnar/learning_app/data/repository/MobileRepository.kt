@@ -1,5 +1,6 @@
 package nnar.learning_app.data.repository
 
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -10,7 +11,7 @@ import java.lang.Exception
 
 class MobileRepository {
 
-    private val db = Firebase.firestore
+    private lateinit var db: DocumentReference
 
     companion object {
         private val localList = mutableListOf<Mobile>()
@@ -18,9 +19,10 @@ class MobileRepository {
 
 
     suspend fun getAllMobiles(userID: String): CustomResponse {
+        db = Firebase.firestore.collection("users").document(userID)
         return try {
             val listOfMobiles = mutableListOf<Mobile>()
-            val docs = db.collection("mobiles")
+            val docs = db.collection("userMobiles")
                 .get()
                 .await()
 
@@ -41,9 +43,12 @@ class MobileRepository {
     suspend fun addMobile(mobile: Mobile): CustomResponse {
 
         return try {
-            db.collection("mobiles").document()
+            db.collection("userMobiles")
+                .document()
                 .set(mobile)
                 .await()
+
+            localList.add(mobile)
             CustomResponse(false, "")
         } catch (e: Exception) {
             CustomResponse(true, e.toString())
@@ -54,7 +59,8 @@ class MobileRepository {
 
     suspend fun removeMobile(mobile: Mobile): CustomResponse {
         return try {
-            val docs = db.collection("mobiles").whereEqualTo("name", mobile.name)
+            val docs = db.collection("userMobiles")
+                .whereEqualTo("name", mobile.name)
                 .whereEqualTo("version", mobile.version)
                 .get()
                 .await()

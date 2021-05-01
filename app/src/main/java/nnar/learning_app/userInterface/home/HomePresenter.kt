@@ -1,12 +1,13 @@
 package nnar.learning_app.userInterface.home
 
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import nnar.learning_app.dataInterface.HomeView
 import nnar.learning_app.domain.model.Mobile
 import nnar.learning_app.domain.usecase.HomeUserUsecase
-import kotlin.concurrent.thread
+
 
 class HomePresenter(private val homeView: HomeView, private val homeUserUsecase: HomeUserUsecase) :
     ViewModel() {
@@ -55,8 +56,13 @@ class HomePresenter(private val homeView: HomeView, private val homeUserUsecase:
         if (itemsToRemove.isEmpty()) homeView.hideRemoveButton() else homeView.showRemoveButton()
     }
 
+    internal fun searchMobile(event: Int){
+        if (event == EditorInfo.IME_ACTION_DONE) homeView.clearSearchFocus()
+    }
 
-
+    internal fun checkKeyboardStatus(visible: Boolean){
+        if(visible) homeView.hideAddButton() else homeView.showAddButton()
+    }
 
 
 }
