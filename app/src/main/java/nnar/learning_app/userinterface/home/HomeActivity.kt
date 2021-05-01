@@ -53,7 +53,7 @@ class HomeActivity : AppCompatActivity(), HomeView {
     }
 
     // Notify dataset change to the adapter
-    override fun updateAdapter() = adapter.notifyDataSetChanged()
+    override fun updateAdapter() = runOnUiThread { adapter.notifyDataSetChanged() }
 
     // Get UID form current user
     override fun getCurrentUserUID() = Firebase.auth.currentUser!!.uid

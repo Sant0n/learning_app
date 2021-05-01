@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import nnar.learning_app.R
@@ -19,7 +20,7 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     private val repository = ContactRepository(homeView.getCurrentUserUID())
 
     // Get initial set of contacts
-    fun setContactList() = viewModelScope.launch {
+    fun setContactList() = viewModelScope.launch(Dispatchers.IO) {
         if (repository.getCurrentContactsId())
             homeView.updateAdapter()
     }

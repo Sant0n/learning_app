@@ -3,8 +3,10 @@ package nnar.learning_app.userinterface.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nnar.learning_app.R
 
+@ExperimentalCoroutinesApi
 class ContactListAdapter(private val presenter: HomePresenter) :
     RecyclerView.Adapter<ContactViewHolder>() {
 

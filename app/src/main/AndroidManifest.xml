@@ -21,9 +21,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".userinterface.home.HomeActivity"></activity>
+        <activity android:name=".userinterface.home.HomeActivity" />
 
-        <activity android:name=".userinterface.contact.ContactInfoActivity"></activity>
+        <activity android:name=".userinterface.contact.ContactInfoActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
