@@ -1,9 +1,11 @@
 package nnar.learning_app.data.repository
 
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import nnar.learning_app.domain.model.Contact
@@ -11,18 +13,25 @@ import nnar.learning_app.domain.model.Contact
 @ExperimentalCoroutinesApi
 class ContactRepository(uid: String) {
 
-    // Internal contact ID
-    private var dataset = ArrayList<Pair<String, Contact>>()
+    // Internal contact info
+    companion object {
+        private val pictures = ArrayList<Uri>()
+        private var dataset = ArrayList<Pair<String, Contact>>()
+    }
 
     // Firestore connection
     private val database = Firebase.firestore
     private val contacts = database.collection(uid)
+    private val storage = FirebaseStorage.getInstance().reference.child("pictures")
 
     // Size of the list
     fun size() = dataset.size
 
     // Reset internal IDs
-    fun reset() = dataset.clear()
+    fun reset() {
+        pictures.clear()
+        dataset.clear()
+    }
 
     // Delete contact
     fun removeContact(position: Int) {
@@ -74,6 +83,9 @@ class ContactRepository(uid: String) {
         }
     }
 
+    // Get random image
+    fun getImageURI() = pictures[(0 until pictures.size).random()]
+
     // Get current contacts
     suspend fun getCurrentContactsId(): Boolean = suspendCancellableCoroutine { cont ->
         // Get each contact ID
@@ -91,6 +103,18 @@ class ContactRepository(uid: String) {
             cont.resume(true, null)
         }.addOnFailureListener {
             cont.resume(false, null)
+        }
+
+        // Get images
+        storage.listAll().addOnSuccessListener { files ->
+            for (file in files.items) {
+                file.downloadUrl.addOnSuccessListener { uri ->
+                    pictures.add(uri)
+                    Log.d("OK", "Image loaded: $uri")
+                }.addOnFailureListener {
+                    Log.d("ERROR", "Failed to get image: " + it.localizedMessage)
+                }
+            }
         }
     }
 

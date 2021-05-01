@@ -44,7 +44,11 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     }
 
     // See contact information
-    fun seeContactDetails(view: RowView) = view.seeMore(Contact(view.getName(), view.getState()))
+    fun seeContactDetails(view: RowView) {
+        val contact = Contact(view.getName(), view.getState())
+        val uid = homeView.getCurrentUserUID()
+        view.seeMore(contact, uid)
+    }
 
     // Reset contacts list
     fun reset() = repository.reset()

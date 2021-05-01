@@ -47,12 +47,13 @@ class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
     }
 
     // Go to Contact Info Activity
-    override fun seeMore(contact: Contact) {
+    override fun seeMore(contact: Contact, uid: String) {
         // Set intent for Contact Details
         val intent = Intent(view.context, ContactInfoActivity::class.java)
 
         // Set contact info
         intent.putExtra("contact", contact)
+        intent.putExtra("uid", uid)
 
         // Start activity
         view.context.startActivity(intent)
