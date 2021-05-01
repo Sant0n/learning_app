@@ -18,9 +18,6 @@ class ContactInfoActivity : AppCompatActivity(), ContactInfoView {
     // Get user UID
     override fun getCurrentUserUID() = uid
 
-    // Get current context
-    override fun getContext(): Context = binding.root.context
-
     // Get the contact picture
     override fun getContactPic() = binding.contactPic
 

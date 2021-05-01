@@ -5,6 +5,5 @@ import android.widget.ImageView
 
 interface ContactInfoView {
     fun getCurrentUserUID(): String
-    fun getContext(): Context
     fun getContactPic(): ImageView
 }

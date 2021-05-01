@@ -14,11 +14,11 @@ class ContactInfoPresenter(private val contactInfoView: ContactInfoView) {
     fun setImage() {
         // Get the attributes
         val uri = repository.getImageURI()
-        val context = contactInfoView.getContext()
         val image = contactInfoView.getContactPic()
 
         // Load image into resource
-        Picasso.with(context).load(uri).resize(100, 0).into(image)
+        Picasso.get().load(uri).resize(1000, 1000)
+            .centerCrop().into(image)
     }
 
     // Get state full name
