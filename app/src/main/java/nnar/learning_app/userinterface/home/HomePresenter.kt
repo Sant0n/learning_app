@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -18,6 +19,16 @@ import nnar.learning_app.domain.model.Contact
 class HomePresenter(private val homeView: HomeView) : ViewModel() {
     // Set the Firebase Repository
     private val repository = ContactRepository(homeView.getCurrentUserUID())
+
+    // Set profile picture
+    fun setProfilePicture() {
+        // Get the attributes
+        val uri = homeView.getGetUserPicture()
+        val image = homeView.getContactPic()
+
+        // Load image into resource
+        Picasso.get().load(uri).resize(500, 500).centerCrop().into(image)
+    }
 
     // Get initial set of contacts
     fun setContactList() = viewModelScope.launch(Dispatchers.IO) {

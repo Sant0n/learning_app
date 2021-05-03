@@ -17,8 +17,7 @@ class ContactInfoPresenter(private val contactInfoView: ContactInfoView) {
         val image = contactInfoView.getContactPic()
 
         // Load image into resource
-        Picasso.get().load(uri).resize(1000, 1000)
-            .centerCrop().into(image)
+        Picasso.get().load(uri).resize(1000, 1000).centerCrop().into(image)
     }
 
     // Get state full name

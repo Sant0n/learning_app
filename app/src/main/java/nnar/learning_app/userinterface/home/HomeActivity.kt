@@ -2,6 +2,7 @@ package nnar.learning_app.userinterface.home
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +40,9 @@ class HomeActivity : AppCompatActivity(), HomeView {
         // Set layout manager to position the items
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
+        // Set profile picture
+        presenter.setProfilePicture()
+
         // Update contacts
         presenter.setContactList()
 
@@ -60,6 +64,12 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
     // Get the Home Activity context
     override fun getContext(): Context = binding.root.context
+
+    // Get the contact picture
+    override fun getContactPic() = binding.profilePic
+
+    // Get current user's picture
+    override fun getGetUserPicture(): Uri = Firebase.auth.currentUser!!.photoUrl
 
     // Configure all the listeners
     private fun setListeners() {
