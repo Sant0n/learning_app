@@ -74,7 +74,6 @@ class ContactFirestoreRepository {
             val data = db.document(userUIDRepository).collection("contacts")
                 .get()
                 .await()
-            data
             for (d in data){
                 auxList.add(d.toObject())
             }

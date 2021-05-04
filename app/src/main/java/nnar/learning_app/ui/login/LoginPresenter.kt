@@ -47,9 +47,11 @@ class LoginPresenter(private val view: LoginView, private val useCase: LoginUseC
 
     }
 
-    internal fun checkUserGoogleRegistered(user: FirebaseUser){
+    internal fun checkUserGoogleRegistered(user: FirebaseUser?){
         viewModelScope.launch{
-            useCase.checkUserGoogleRegistered(user)
+            if(user != null){
+                useCase.checkUserGoogleRegistered(user)
+            }
         }
     }
 

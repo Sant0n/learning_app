@@ -78,6 +78,10 @@ class LoginActivity :  AppCompatActivity(), LoginView{
 
         presenter = LoginPresenter(this, LoginUseCase(UserRepository()))
 
+        if(intent.getBooleanExtra("logout", true)){
+            googleSignInClient.signOut()
+        }
+
         setListeners()
     }
 
@@ -105,7 +109,8 @@ class LoginActivity :  AppCompatActivity(), LoginView{
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        presenter.checkLoggedUser(auth.currentUser)
+       // presenter.checkLoggedUser(auth.currentUser)
+        presenter.checkUserGoogleRegistered(auth.currentUser)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -87,11 +87,11 @@ class UserRepository {
 
     suspend fun checkUserGoogleRegistered(user: FirebaseUser): Boolean{
         return try{
-            if(!db.collection("users")
+            val doc = db.collection("users")
                 .document(user.uid)
                 .get()
                 .await()
-                .exists()){
+            if(!doc.exists()){
                 registerUserGoogleFirestore(user)
                 Log.d(TAG, "User added to DB")
             }else{
@@ -106,14 +106,19 @@ class UserRepository {
 
     private suspend fun registerUserGoogleFirestore(user: FirebaseUser): Boolean{
         return try{
+            val userMap = hashMapOf(
+                "id" to user.uid,
+                "name" to user.displayName,
+                "email" to user.email
+            )
+
             db.collection("users")
                 .document(user.uid)
-                .set(user)
+                .set(userMap)
                 .await()
             true
         }catch (e: Exception){
             false
         }
     }
-
 }
