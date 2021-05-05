@@ -9,11 +9,10 @@ import nnar.learning_app.datainterface.ContactListView
 import nnar.learning_app.domain.model.ContactFirestore
 import nnar.learning_app.domain.usecase.ContactFirestoreUseCase
 
-//import nnar.learning_app.domain.usecase.ContactUseCase
 
 class ContactListPresenter(private val view: ContactListView, private val useCase: ContactFirestoreUseCase) : ViewModel(){
 
-    internal fun getContacts(){
+    private fun getContacts(){
         viewModelScope.launch {
             val response = useCase.getContactList()
             if(response){
@@ -24,9 +23,14 @@ class ContactListPresenter(private val view: ContactListView, private val useCas
         }
     }
 
-    internal fun addFirebaseContactsFirtstime(userUID: String){
+    internal fun addFirebaseContactsFirstsTime(userUID: String){
         viewModelScope.launch {
-            useCase.addContactsFirstsTime(userUID)
+            if(useCase.addContactsFirstsTime(userUID)){
+                view.updateData()
+            }
+            else{
+                view.showMessageErrorContactsUpdated("error getting contacts from repository")
+            }
         }
     }
 

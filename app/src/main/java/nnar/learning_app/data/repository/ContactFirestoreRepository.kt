@@ -38,10 +38,11 @@ class ContactFirestoreRepository {
         return ContactFirestore(newId, name, phone, auxImage, email)
     }
 
-    suspend fun writeDataOnFirestoreFirtsTime(userUID: String) {
+    suspend fun writeDataOnFirestoreFirstsTime(userUID: String): Boolean {
         userUIDRepository = userUID
+        var response = false
         for (contact in contactSet){
-            try{
+            response = try{
                 val doc = db.document(userUID).collection("contacts").document(contact.id.toString())
                 if(!doc.get().await().exists()){
                     writeDataOnFirestore(contact)
@@ -49,10 +50,13 @@ class ContactFirestoreRepository {
                 }else{
                     Log.d(TAG, "Contact ${contact.id} already exists")
                 }
+                true
             }catch (e : Exception){
                 Log.d(TAG, "Error writing contact ${contact.id}")
+                false
             }
         }
+        return response
     }
 
     suspend fun writeDataOnFirestore(contact: ContactFirestore):Boolean{

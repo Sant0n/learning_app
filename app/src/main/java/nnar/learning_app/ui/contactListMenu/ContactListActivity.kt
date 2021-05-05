@@ -20,11 +20,6 @@ import nnar.learning_app.datainterface.ContactListView
 import nnar.learning_app.domain.usecase.ContactFirestoreUseCase
 import nnar.learning_app.ui.login.LoginActivity
 
-//import nnar.learning_app.data.repository.ContactRepository
-//import nnar.learning_app.domain.model.Contact
-//import nnar.learning_app.domain.model.ContactFirestore
-//import nnar.learning_app.domain.usecase.ContactUseCase
-
 class ContactListActivity: AppCompatActivity(), ContactListView {
 
     private lateinit var binding: ActivityContactListBinding
@@ -55,8 +50,8 @@ class ContactListActivity: AppCompatActivity(), ContactListView {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        presenter.addFirebaseContactsFirtstime(user.uid)
-        presenter.getContacts()
+        presenter.addFirebaseContactsFirstsTime(user.uid)
+        //presenter.getContacts()
 
         setListeners()
     }

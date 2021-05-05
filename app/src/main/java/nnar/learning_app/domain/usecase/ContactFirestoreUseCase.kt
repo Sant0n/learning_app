@@ -6,7 +6,7 @@ import nnar.learning_app.domain.model.ContactFirestore
 
 class ContactFirestoreUseCase(private val contactFirestoreRepository: ContactFirestoreRepository) {
 
-    suspend fun addContactsFirstsTime(userUID: String) = contactFirestoreRepository.writeDataOnFirestoreFirtsTime(userUID)
+    suspend fun addContactsFirstsTime(userUID: String) = contactFirestoreRepository.writeDataOnFirestoreFirstsTime(userUID)
 
     suspend fun addNewContact(name:String, phoneNumber:String, image:Int?, email:String) =
         contactFirestoreRepository.writeDataOnFirestore(contactFirestoreRepository.createContact(name, phoneNumber, image, email))
