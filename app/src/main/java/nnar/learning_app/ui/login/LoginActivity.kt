@@ -109,8 +109,8 @@ class LoginActivity :  AppCompatActivity(), LoginView{
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-       // presenter.checkLoggedUser(auth.currentUser)
-        presenter.checkUserGoogleRegistered(auth.currentUser)
+        presenter.checkLoggedUser(auth.currentUser)
+        //presenter.checkUserGoogleRegistered(auth.currentUser, false)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -129,6 +129,7 @@ class LoginActivity :  AppCompatActivity(), LoginView{
     // [END auth_with_google]
 
     private fun updateUI(user: FirebaseUser?) {
+        presenter.checkUserGoogleRegistered(user)
         val intent = Intent(this, ContactListActivity::class.java)
         intent.putExtra("user",user)
         startActivity(intent)

@@ -104,7 +104,7 @@ class UserRepository {
         }
     }
 
-    private suspend fun registerUserGoogleFirestore(user: FirebaseUser): Boolean{
+    suspend fun registerUserGoogleFirestore(user: FirebaseUser): Boolean{
         return try{
             val userMap = hashMapOf(
                 "id" to user.uid,
