@@ -4,29 +4,29 @@ import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import nnar.learning_app.databinding.ItemContactBinding
 import nnar.learning_app.datainterface.RowView
 import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.userinterface.contact.ContactInfoActivity
+import android.util.Pair as UtilPair
 
 
 class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view), RowView {
     // Binding for the rows
     private var binding = ItemContactBinding.bind(view)
-
-    // Get button state
-    fun getStateButton() = binding.stateButton
+    private lateinit var uri: Uri
 
     // Get remove button
     fun getRemoveButton() = binding.removeContact
 
-    // Get see more button
-    fun getSeeMore() = binding.seeMore
-
     // Get contact edit button
     fun getContactEdit() = binding.editContact
+
+    // Get contact edit button
+    override fun getContactPicture() = binding.contactPicture
 
     // Get the context
     override fun getContext(): Context = view.context
@@ -34,19 +34,10 @@ class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
     // Get contact name
     override fun getName() = binding.contactName.text.toString()
 
-    // Get state name
-    override fun getState() = binding.stateButton.isEnabled
-
     // Set contact info
-    override fun setContactView(contact: Contact) {
+    override fun setContactView(contact: Contact, uri: Uri) {
+        this.uri = uri
         binding.contactName.text = contact.name
-        setButtonState(contact)
-    }
-
-    // Set button state info
-    override fun setButtonState(contact: Contact) {
-        binding.stateButton.text = contact.getStateText()
-        binding.stateButton.isEnabled = contact.isOnline
     }
 
     // Go to Contact Info Activity
@@ -57,12 +48,13 @@ class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
         // Set contact info
         intent.putExtra("contact", contact)
         intent.putExtra("uid", uid)
+        intent.putExtra("uri", uri)
 
         // Start activity
         val options = ActivityOptions.makeSceneTransitionAnimation(
             view.context as Activity,
-            binding.contactName,
-            "contact_name"
+            UtilPair.create(binding.contactName, "contact_name"),
+            UtilPair.create(binding.contactPicture, "contact_picture")
         )
         view.context.startActivity(intent, options.toBundle())
     }

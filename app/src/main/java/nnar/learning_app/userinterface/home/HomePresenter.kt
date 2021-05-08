@@ -1,6 +1,7 @@
 package nnar.learning_app.userinterface.home
 
 import android.app.AlertDialog
+import android.net.Uri
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,18 +21,8 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     // Set the Firebase Repository
     private val repository = ContactRepository(homeView.getCurrentUserUID())
 
-    // Set profile picture
-    fun setProfilePicture() {
-        // Get the attributes
-        val uri = homeView.getGetUserPicture()
-        val image = homeView.getContactPic()
-
-        // Load image into resource
-        Picasso.get().load(uri).resize(500, 500).centerCrop().into(image)
-    }
-
     // Get initial set of contacts
-    fun setContactList() = viewModelScope.launch(Dispatchers.IO) {
+    fun setContactList() = viewModelScope.launch {
         if (repository.getCurrentContactsId())
             homeView.updateAdapter()
     }
@@ -45,18 +36,12 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     // Set contact details
     fun setContact(view: RowView, position: Int) {
         val contact = repository.getContact(position)
-        view.setContactView(contact)
-    }
-
-    // Set contact information
-    fun changeState(view: RowView, position: Int) {
-        val contact = repository.changeState(position)
-        view.setButtonState(contact)
+        view.setContactView(contact, setImage(view))
     }
 
     // See contact information
-    fun seeContactDetails(view: RowView) {
-        val contact = Contact(view.getName(), view.getState())
+    fun seeContactDetails(view: RowView, position: Int) {
+        val contact = repository.getContact(position)
         val uid = homeView.getCurrentUserUID()
         view.seeMore(contact, uid)
     }
@@ -75,9 +60,9 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
         val binding = DialogEditContactBinding.bind(view)
 
         // Set dialog biding
-        if (itemView != null) {
+        if (itemView != null && position != null)  {
             binding.contactNameEdit.setText(itemView.getName())
-            binding.stateSwitch.isChecked = itemView.getState()
+            binding.stateSwitch.isChecked = repository.getContact(position).isOnline
         }
 
         // Build the Alert Dialog
@@ -107,9 +92,22 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
         val contact = Contact(name, state)
 
         // Set the modification
-        itemView?.setContactView(contact)
+        itemView?.setContactView(contact, setImage(itemView))
 
         // Add/Modify contact
         repository.write(contact, position)
+    }
+
+    // Get random picture for contact
+    private fun setImage(view: RowView): Uri {
+        // Get the attributes
+        val uri = repository.getImageURI()
+        val image = view.getContactPicture()
+
+        // Load image into resource
+        Picasso.get().load(uri).resize(1000, 1000).centerCrop().into(image)
+
+        // Return current image
+        return uri
     }
 }

@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nnar.learning_app.databinding.ActivityHomeBinding
 import nnar.learning_app.datainterface.HomeView
@@ -41,7 +43,7 @@ class HomeActivity : AppCompatActivity(), HomeView {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Set profile picture
-        presenter.setProfilePicture()
+        setProfilePicture()
 
         // Update contacts
         presenter.setContactList()
@@ -57,19 +59,13 @@ class HomeActivity : AppCompatActivity(), HomeView {
     }
 
     // Notify dataset change to the adapter
-    override fun updateAdapter() = runOnUiThread { adapter.notifyDataSetChanged() }
+    override fun updateAdapter() = adapter.notifyDataSetChanged()
 
     // Get UID form current user
     override fun getCurrentUserUID() = Firebase.auth.currentUser!!.uid
 
     // Get the Home Activity context
     override fun getContext(): Context = binding.root.context
-
-    // Get the contact picture
-    override fun getContactPic() = binding.profilePic
-
-    // Get current user's picture
-    override fun getGetUserPicture(): Uri = Firebase.auth.currentUser!!.photoUrl
 
     // Configure all the listeners
     private fun setListeners() {
@@ -89,5 +85,20 @@ class HomeActivity : AppCompatActivity(), HomeView {
             intent.putExtra("logout", true)
             startActivity(intent)
         }
+    }
+
+    // Set profile picture
+    private fun setProfilePicture() {
+        // Get the attributes
+        val uri = Firebase.auth.currentUser!!.photoUrl!!
+        val image = binding.profilePic
+
+        // Load image into resource
+        setPicasso(uri, image, 500, 500)
+    }
+
+    // Configure Picasso image
+    private fun setPicasso(uri: Uri, image: ImageView, width: Int, height: Int) {
+        Picasso.get().load(uri).resize(width, height).centerCrop().into(image)
     }
 }

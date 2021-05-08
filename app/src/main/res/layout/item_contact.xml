@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#812E2E"
@@ -13,8 +14,9 @@
         android:id="@+id/contact_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="60dp"
         android:layout_marginBottom="4dp"
         android:fontFamily="casual"
         android:shadowColor="#E61B1B"
@@ -23,44 +25,20 @@
         android:textSize="20sp"
         android:transitionName="contact_name"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/see_more"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/state_button"
-        android:layout_width="37dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="?android:attr/colorMultiSelectHighlight"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.100000024" />
-
-    <ImageButton
-        android:id="@+id/see_more"
-        android:layout_width="56dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@android:color/transparent"
-        android:contentDescription="@string/see_contact_details"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/edit_contact"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_dialog_info" />
+        app:layout_constraintStart_toEndOf="@+id/contact_picture"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/remove_contact"
         android:layout_width="35dp"
         android:layout_height="47dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         android:backgroundTint="#E41717"
         android:text="@string/remove_text"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/state_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.454" />
 
@@ -74,5 +52,16 @@
         app:layout_constraintEnd_toStartOf="@+id/remove_contact"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/contact_picture"
+        android:layout_width="68dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="32dp"
+        android:transitionName="contact_picture"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

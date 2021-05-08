@@ -1,8 +1,9 @@
 package nnar.learning_app.userinterface.contact
 
-import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nnar.learning_app.databinding.ActivityContactBinding
 import nnar.learning_app.datainterface.ContactInfoView
@@ -17,9 +18,6 @@ class ContactInfoActivity : AppCompatActivity(), ContactInfoView {
 
     // Get user UID
     override fun getCurrentUserUID() = uid
-
-    // Get the contact picture
-    override fun getContactPic() = binding.contactPic
 
     // Create activity
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,18 +36,29 @@ class ContactInfoActivity : AppCompatActivity(), ContactInfoView {
         uid = intent.getStringExtra("uid")!!
 
         // Set presenter
-        presenter = ContactInfoPresenter(this)
+        presenter = ContactInfoPresenter()
 
         // Set contact info
         binding.contactName.text = name
         binding.stateInfo.isEnabled = state
         binding.stateInfo.text = presenter.getStateFullName(state)
-        presenter.setImage()
+
+        // Set contact picture
+        setImage(intent.getParcelableExtra<Uri>("uri")!!)
     }
 
     // Destroy the activity
     override fun onDestroy() {
         super.onDestroy()
         finishAfterTransition()
+    }
+
+    // Get random picture for contact
+    private fun setImage(uri: Uri) {
+        // Get the attributes
+        val image = binding.contactPic
+
+        // Load image into resource
+        Picasso.get().load(uri).resize(1000, 1000).centerCrop().into(image)
     }
 }

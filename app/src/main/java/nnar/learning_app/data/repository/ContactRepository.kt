@@ -6,6 +6,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import nnar.learning_app.domain.model.Contact
@@ -22,7 +23,7 @@ class ContactRepository(uid: String) {
     // Firestore connection
     private val database = Firebase.firestore
     private val contacts = database.collection(uid)
-    private val storage = FirebaseStorage.getInstance().reference.child("pictures")
+    private val storage = Firebase.storage.reference.child("pictures")
 
     // Size of the list
     fun size() = dataset.size
@@ -48,19 +49,6 @@ class ContactRepository(uid: String) {
 
     // Get contact name
     fun getContact(position: Int) = read(position)
-
-    // Change the state
-    fun changeState(position: Int): Contact {
-        // Get current contact
-        val contact = read(position)
-
-        // Modify and update contact
-        contact.isOnline = !contact.isOnline
-        write(contact, position)
-
-        // Return modified contact
-        return contact
-    }
 
     // Add/Update data
     fun write(contact: Contact, position: Int? = null) {

@@ -36,11 +36,6 @@ class ContactListAdapter(private val presenter: HomePresenter) :
 
     // Configure all the listeners
     private fun setListeners(contactViewHolder: ContactViewHolder, position: Int) {
-        // Set listener for status change
-        contactViewHolder.getStateButton().setOnClickListener {
-            presenter.changeState(contactViewHolder, position)
-        }
-
         // Set listener for contact removal
         contactViewHolder.getRemoveButton().setOnClickListener {
             presenter.removeContact(position)
@@ -49,8 +44,8 @@ class ContactListAdapter(private val presenter: HomePresenter) :
         }
 
         // See contact details
-        contactViewHolder.getSeeMore().setOnClickListener {
-            presenter.seeContactDetails(contactViewHolder)
+        contactViewHolder.getContactPicture().setOnClickListener {
+            presenter.seeContactDetails(contactViewHolder, position)
         }
 
         // Edit contact details
