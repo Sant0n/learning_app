@@ -1,5 +1,7 @@
 package nnar.learning_app.userinterface.home
 
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.view.View
@@ -8,6 +10,7 @@ import nnar.learning_app.databinding.ItemContactBinding
 import nnar.learning_app.datainterface.RowView
 import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.userinterface.contact.ContactInfoActivity
+
 
 class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view), RowView {
     // Binding for the rows
@@ -56,6 +59,11 @@ class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
         intent.putExtra("uid", uid)
 
         // Start activity
-        view.context.startActivity(intent)
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+            view.context as Activity,
+            binding.contactName,
+            "contact_name"
+        )
+        view.context.startActivity(intent, options.toBundle())
     }
 }

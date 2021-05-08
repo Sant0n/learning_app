@@ -46,4 +46,10 @@ class ContactInfoActivity : AppCompatActivity(), ContactInfoView {
         binding.stateInfo.text = presenter.getStateFullName(state)
         presenter.setImage()
     }
+
+    // Destroy the activity
+    override fun onDestroy() {
+        super.onDestroy()
+        finishAfterTransition()
+    }
 }
