@@ -44,21 +44,16 @@ class ContactInfoActivity : AppCompatActivity(), ContactInfoView {
         binding.stateInfo.text = presenter.getStateFullName(state)
 
         // Set contact picture
-        setImage(intent.getParcelableExtra<Uri>("uri")!!)
+        Picasso.get()
+            .load(intent.getParcelableExtra<Uri>("uri")!!)
+            .resize(1000, 1000)
+            .centerCrop()
+            .into(binding.contactPic)
     }
 
     // Destroy the activity
     override fun onDestroy() {
         super.onDestroy()
         finishAfterTransition()
-    }
-
-    // Get random picture for contact
-    private fun setImage(uri: Uri) {
-        // Get the attributes
-        val image = binding.contactPic
-
-        // Load image into resource
-        Picasso.get().load(uri).resize(1000, 1000).centerCrop().into(image)
     }
 }

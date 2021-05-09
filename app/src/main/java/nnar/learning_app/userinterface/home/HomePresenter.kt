@@ -1,12 +1,9 @@
 package nnar.learning_app.userinterface.home
 
 import android.app.AlertDialog
-import android.net.Uri
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.squareup.picasso.Picasso
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import nnar.learning_app.R
@@ -23,7 +20,7 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
 
     // Get initial set of contacts
     fun setContactList() = viewModelScope.launch {
-        if (repository.getCurrentContactsId())
+        if (repository.loadImages() && repository.getCurrentContactsId())
             homeView.updateAdapter()
     }
 
@@ -36,7 +33,7 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     // Set contact details
     fun setContact(view: RowView, position: Int) {
         val contact = repository.getContact(position)
-        view.setContactView(contact, setImage(view))
+        view.setContactView(contact)
     }
 
     // See contact information
@@ -89,25 +86,13 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
         // Set the new values
         val name = binding.contactNameEdit.text.toString()
         val state = binding.stateSwitch.isChecked
-        val contact = Contact(name, state)
+        val pic = repository.getImageURI(position)
+        val contact = Contact(name, state, pic)
 
         // Set the modification
-        itemView?.setContactView(contact, setImage(itemView))
+        itemView?.setContactView(contact)
 
         // Add/Modify contact
         repository.write(contact, position)
-    }
-
-    // Get random picture for contact
-    private fun setImage(view: RowView): Uri {
-        // Get the attributes
-        val uri = repository.getImageURI()
-        val image = view.getContactPicture()
-
-        // Load image into resource
-        Picasso.get().load(uri).resize(1000, 1000).centerCrop().into(image)
-
-        // Return current image
-        return uri
     }
 }

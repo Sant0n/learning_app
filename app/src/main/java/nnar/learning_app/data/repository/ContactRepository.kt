@@ -1,11 +1,9 @@
 package nnar.learning_app.data.repository
 
-import android.net.Uri
 import android.util.Log
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -16,7 +14,7 @@ class ContactRepository(uid: String) {
 
     // Internal contact info
     companion object {
-        private val pictures = ArrayList<Uri>()
+        private val pictures = ArrayList<String>()
         private var dataset = ArrayList<Pair<String, Contact>>()
     }
 
@@ -71,8 +69,14 @@ class ContactRepository(uid: String) {
         }
     }
 
-    // Get random image
-    fun getImageURI() = pictures[(0 until pictures.size).random()]
+    // Get random or specific image
+    fun getImageURI(position: Int? = null): String {
+        return if (position != null) {
+            dataset[position].second.pic
+        } else {
+            pictures[(0 until pictures.size).random()]
+        }
+    }
 
     // Get current contacts
     suspend fun getCurrentContactsId(): Boolean = suspendCancellableCoroutine { cont ->
@@ -85,24 +89,35 @@ class ContactRepository(uid: String) {
                 val state = doc.data["online"] as Boolean
 
                 // Object to store
-                dataset.add(Pair(id, Contact(name, state)))
+                val pic = doc.data["pic"]?.toString() ?: getImageURI()
+                val contact = Contact(name, state, pic)
+                dataset.add(Pair(id, contact))
+
+                // Check if contact should be updated
+                if (!doc.data.containsKey("pic"))
+                    write(contact, dataset.size - 1)
             }
             sort()
             cont.resume(true, null)
         }.addOnFailureListener {
             cont.resume(false, null)
         }
+    }
 
-        // Get images
+    // Get images
+    suspend fun loadImages(): Boolean = suspendCancellableCoroutine { cont ->
         storage.listAll().addOnSuccessListener { files ->
             for (file in files.items) {
                 file.downloadUrl.addOnSuccessListener { uri ->
-                    pictures.add(uri)
+                    pictures.add(uri.toString())
                     Log.d("OK", "Image loaded: $uri")
                 }.addOnFailureListener {
                     Log.d("ERROR", "Failed to get image: " + it.localizedMessage)
                 }
             }
+            cont.resume(true, null)
+        }.addOnFailureListener {
+            cont.resume(false, null)
         }
     }
 

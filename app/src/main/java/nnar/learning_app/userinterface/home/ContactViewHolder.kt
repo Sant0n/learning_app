@@ -7,17 +7,19 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nnar.learning_app.databinding.ItemContactBinding
 import nnar.learning_app.datainterface.RowView
 import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.userinterface.contact.ContactInfoActivity
 import android.util.Pair as UtilPair
 
-
+@ExperimentalCoroutinesApi
 class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view), RowView {
     // Binding for the rows
-    private var binding = ItemContactBinding.bind(view)
     private lateinit var uri: Uri
+    private var binding = ItemContactBinding.bind(view)
 
     // Get remove button
     fun getRemoveButton() = binding.removeContact
@@ -35,9 +37,17 @@ class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
     override fun getName() = binding.contactName.text.toString()
 
     // Set contact info
-    override fun setContactView(contact: Contact, uri: Uri) {
-        this.uri = uri
+    override fun setContactView(contact: Contact) {
+        // Set contact info
+        uri = Uri.parse(contact.pic)
         binding.contactName.text = contact.name
+
+        // Load image into resource
+        Picasso.get()
+            .load(uri)
+            .resize(1000, 1000)
+            .centerCrop()
+            .into(binding.contactPicture)
     }
 
     // Go to Contact Info Activity
