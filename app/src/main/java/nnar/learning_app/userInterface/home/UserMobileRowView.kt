@@ -2,17 +2,20 @@ package nnar.learning_app.userInterface.home
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.storage.StorageReference
 import nnar.learning_app.R
 import nnar.learning_app.dataInterface.MobileRowView
 import nnar.learning_app.databinding.MobileListRowBinding
-import nnar.learning_app.domain.model.Mobile
+import nnar.learning_app.domain.model.MobileResponse
+import nnar.learning_app.util.GlideApp
 
+@Suppress("DEPRECATION")
 class UserMobileRowView (itemView: View): RecyclerView.ViewHolder(itemView),
     MobileRowView {
 
     private var binding = MobileListRowBinding.bind(itemView)
 
-    override fun render(mobile: Mobile) {
+    override fun render(mobile: MobileResponse) {
         itemView.setBackgroundColor( itemView.context.resources.getColor(R.color.white))
         renderMobileIcon(mobile.img_url)
         renderName(mobile.name)
@@ -41,13 +44,10 @@ class UserMobileRowView (itemView: View): RecyclerView.ViewHolder(itemView),
         binding.isMobileFavorite.setColorFilter(itemView.context.resources.getColor(R.color.grey))
     }
 
-    private fun renderMobileIcon(url: String){
-        /**
-        if (url == ""){
-            Picasso.get().load(R.drawable.folder).resize(80,80).centerCrop().into(itemView.projectPicture)
-        } else {
-            Picasso.get().load(url).resize(80,80).centerCrop().into(itemView.projectPicture)
-        }*/
+    private fun renderMobileIcon(url: StorageReference){
+        GlideApp.with(itemView.context)
+            .load(url)
+            .into(binding.mobilePicture)
     }
 
     private fun renderName(name: String) {

@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import nnar.learning_app.R
+import nnar.learning_app.dataInterface.HomeView
+import nnar.learning_app.domain.model.Mobile
 import nnar.learning_app.userInterface.mobileDetails.MobileDetailsActivity
 
 
-class UserMobilesAdapter(private val presenter: HomePresenter) : RecyclerView.Adapter<UserMobileRowView>() {
+class UserMobilesAdapter(private val presenter: HomePresenter, val x: HomeActivity) : RecyclerView.Adapter<UserMobileRowView>() {
 
     fun updateData() {
         notifyDataSetChanged()
@@ -27,9 +30,10 @@ class UserMobilesAdapter(private val presenter: HomePresenter) : RecyclerView.Ad
         val mobile = presenter.getMobileAtPosition(position)
         holder.render(mobile)
 
+
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, MobileDetailsActivity::class.java)
-            intent.putExtra("mobile", mobile)
+            intent.putExtra("mobile", Mobile(mobile.img_url.path, mobile.name, mobile.version, mobile.favorite))
             holder.itemView.context.startActivity(intent)
         }
 

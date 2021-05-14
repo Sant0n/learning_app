@@ -1,7 +1,6 @@
 package nnar.learning_app.userInterface.home
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -29,7 +28,7 @@ class HomeActivity: AppCompatActivity(), HomeView {
         presenter = HomePresenter(this, HomeUserUsecase(MobileRepository()))
 
         binding.listOfMobiles.layoutManager = LinearLayoutManager(this)
-        userMobilesAdapter = UserMobilesAdapter(presenter)
+        userMobilesAdapter = UserMobilesAdapter(presenter, this)
         binding.listOfMobiles.adapter = userMobilesAdapter
 
         val user = intent.getParcelableExtra<FirebaseUser>("user")!!
@@ -72,7 +71,7 @@ class HomeActivity: AppCompatActivity(), HomeView {
 
     private fun setListeners(){
         binding.addMobileButton.setOnClickListener {
-            presenter.addMobile(Mobile("", "Iphone", "1.0.0", false))
+            presenter.addMobile(Mobile("mobiles/iphone.png", "Iphone", "1.0.0", false))
         }
 
         binding.removeButton.setOnClickListener {

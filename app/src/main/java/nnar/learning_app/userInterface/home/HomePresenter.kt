@@ -28,11 +28,13 @@ class HomePresenter(private val homeView: HomeView, private val homeUserUsecase:
         }
     }
 
-    internal fun removeSelected(){
+    internal fun removeSelected() {
         viewModelScope.launch {
             itemsToRemove.sortDescending()
-            for (item in itemsToRemove){
-                val response = homeUserUsecase.removeMobile(getMobileAtPosition(item))
+            for (item in itemsToRemove) {
+                val mb = homeUserUsecase.getMobileAtPosition(item)
+                val mobile = Mobile(mb.img_url.path, mb.name, mb.version, mb.favorite)
+                val response = homeUserUsecase.removeMobile(mobile)
                 if (!response.error) homeUserUsecase.removeLocally(item) else println("ERROR REMOVING ITEM AT POSITION $item")
             }
             homeView.updateData()
@@ -56,12 +58,12 @@ class HomePresenter(private val homeView: HomeView, private val homeUserUsecase:
         if (itemsToRemove.isEmpty()) homeView.hideRemoveButton() else homeView.showRemoveButton()
     }
 
-    internal fun searchMobile(event: Int){
+    internal fun searchMobile(event: Int) {
         if (event == EditorInfo.IME_ACTION_DONE) homeView.clearSearchFocus()
     }
 
-    internal fun checkKeyboardStatus(visible: Boolean){
-        if(visible) homeView.hideAddButton() else homeView.showAddButton()
+    internal fun checkKeyboardStatus(visible: Boolean) {
+        if (visible) homeView.hideAddButton() else homeView.showAddButton()
     }
 
 
