@@ -6,4 +6,5 @@ interface HomeView {
     fun updateAdapter()
     fun getCurrentUserUID(): String
     fun getContext(): Context
+    fun selectPicture()
 }

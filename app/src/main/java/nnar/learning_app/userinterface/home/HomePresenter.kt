@@ -1,7 +1,13 @@
 package nnar.learning_app.userinterface.home
 
+import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.view.LayoutInflater
+import androidx.core.app.ActivityCompat.requestPermissions
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,8 +21,15 @@ import nnar.learning_app.domain.model.Contact
 
 @ExperimentalCoroutinesApi
 class HomePresenter(private val homeView: HomeView) : ViewModel() {
+    // Codes
+    private val PERMISSION_CODE_READ: Int = 2
+    private val PERMISSION_CODE_WRITE: Int = 3
+
     // Set the Firebase Repository
     private val repository = ContactRepository(homeView.getCurrentUserUID())
+
+    // The selected image when adding/editing a contact
+    var selectedPicture: Uri? = null
 
     // Get initial set of contacts
     fun setContactList() = viewModelScope.launch {
@@ -57,18 +70,25 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
         val binding = DialogEditContactBinding.bind(view)
 
         // Set dialog biding
-        if (itemView != null && position != null)  {
+        if (itemView != null && position != null) {
             binding.contactNameEdit.setText(itemView.getName())
             binding.stateSwitch.isChecked = repository.getContact(position).isOnline
+        }
+
+        // Set listener for picture upload
+        binding.getPicture.setOnClickListener {
+            checkPermissionForImage()
         }
 
         // Build the Alert Dialog
         AlertDialog.Builder(context)
             .setTitle("Contact Information")
             .setPositiveButton("Save") { dialogInterface, _ ->
-                setPositiveButtonAction(binding, position, itemView)
-                homeView.updateAdapter()
-                dialogInterface.dismiss()
+                viewModelScope.launch {
+                    setPositiveButtonAction(binding, position, itemView)
+                    homeView.updateAdapter()
+                    dialogInterface.dismiss()
+                }
             }
             .setNegativeButton("Cancel") { dialogInterface, _ ->
                 dialogInterface.cancel()
@@ -78,7 +98,7 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     }
 
     // Set action for Dialog Save
-    private fun setPositiveButtonAction(
+    private suspend fun setPositiveButtonAction(
         binding: DialogEditContactBinding,
         position: Int? = null,
         itemView: RowView? = null
@@ -86,7 +106,12 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
         // Set the new values
         val name = binding.contactNameEdit.text.toString()
         val state = binding.stateSwitch.isChecked
-        val pic = repository.getImageURI(position)
+
+        // Set new picture
+        var pic = selectedPicture?.let { repository.uploadPicture(it) }
+        pic = pic ?: repository.getImageURI(position)
+
+        // Set the new contact
         val contact = Contact(name, state, pic)
 
         // Set the modification
@@ -94,5 +119,31 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
 
         // Add/Modify contact
         repository.write(contact, position)
+
+        // Reset selected picture
+        selectedPicture = null
+    }
+
+    // Check image permissions
+    private fun checkPermissionForImage() {
+        // Get the permission codes
+        val readPermissions = Manifest.permission.READ_EXTERNAL_STORAGE
+        val writePermissions = Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+        // Check permissions
+        val context = homeView.getContext()
+        if ((checkSelfPermission(context, readPermissions) == PackageManager.PERMISSION_DENIED)
+            && (checkSelfPermission(context, writePermissions) == PackageManager.PERMISSION_DENIED)
+        ) {
+            // Get the require permissions
+            val permission = arrayOf(readPermissions)
+            val permissionCoarse = arrayOf(writePermissions)
+
+            // Request permissions
+            requestPermissions(context as Activity, permission, PERMISSION_CODE_READ)
+            requestPermissions(context, permissionCoarse, PERMISSION_CODE_WRITE)
+        } else {
+            homeView.selectPicture()
+        }
     }
 }

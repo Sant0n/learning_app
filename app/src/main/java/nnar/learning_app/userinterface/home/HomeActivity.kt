@@ -1,5 +1,6 @@
 package nnar.learning_app.userinterface.home
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -17,6 +18,9 @@ import nnar.learning_app.userinterface.login.LoginActivity
 
 @ExperimentalCoroutinesApi
 class HomeActivity : AppCompatActivity(), HomeView {
+    // Codes
+    private val IMAGE_PICK_CODE: Int = 1
+
     // Activities main variables
     private lateinit var binding: ActivityHomeBinding
     private lateinit var presenter: HomePresenter
@@ -58,6 +62,14 @@ class HomeActivity : AppCompatActivity(), HomeView {
         presenter.reset()
     }
 
+    // Get the selected image
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+            presenter.selectedPicture = data?.data
+        }
+    }
+
     // Notify dataset change to the adapter
     override fun updateAdapter() = adapter.notifyDataSetChanged()
 
@@ -66,6 +78,13 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
     // Get the Home Activity context
     override fun getContext(): Context = binding.root.context
+
+    // Look for the picture to upload
+    override fun selectPicture() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
 
     // Configure all the listeners
     private fun setListeners() {
@@ -96,6 +115,7 @@ class HomeActivity : AppCompatActivity(), HomeView {
         // Load image into resource
         setPicasso(uri, image, 500, 500)
     }
+
 
     // Configure Picasso image
     private fun setPicasso(uri: Uri, image: ImageView, width: Int, height: Int) {
