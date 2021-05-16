@@ -3,13 +3,16 @@ package nnar.learning_app.userinterface.home
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.view.LayoutInflater
+import android.widget.ImageView
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import nnar.learning_app.R
@@ -25,11 +28,12 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     private val PERMISSION_CODE_READ: Int = 2
     private val PERMISSION_CODE_WRITE: Int = 3
 
-    // Set the Firebase Repository
-    private val repository = ContactRepository(homeView.getCurrentUserUID())
+    // Set the attribute
+    companion object
 
-    // The selected image when adding/editing a contact
     var selectedPicture: Uri? = null
+    private lateinit var binding: DialogEditContactBinding
+    private val repository = ContactRepository(homeView.getCurrentUserUID())
 
     // Get initial set of contacts
     fun setContactList() = viewModelScope.launch {
@@ -67,12 +71,14 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
         val view = inflater.inflate(R.layout.dialog_edit_contact, null)
 
         // Get the dialog binding
-        val binding = DialogEditContactBinding.bind(view)
+        binding = DialogEditContactBinding.bind(view)
 
         // Set dialog biding
         if (itemView != null && position != null) {
-            binding.contactNameEdit.setText(itemView.getName())
-            binding.stateSwitch.isChecked = repository.getContact(position).isOnline
+            val contact = repository.getContact(position)
+            binding.contactNameEdit.setText(contact.name)
+            binding.stateSwitch.isChecked = contact.isOnline
+            setPicassoPicture(contact.pic, binding.editContactPicture)
         }
 
         // Set listener for picture upload
@@ -84,11 +90,8 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
         AlertDialog.Builder(context)
             .setTitle("Contact Information")
             .setPositiveButton("Save") { dialogInterface, _ ->
-                viewModelScope.launch {
-                    setPositiveButtonAction(binding, position, itemView)
-                    homeView.updateAdapter()
-                    dialogInterface.dismiss()
-                }
+                setPositiveButtonAction(position)
+                dialogInterface.dismiss()
             }
             .setNegativeButton("Cancel") { dialogInterface, _ ->
                 dialogInterface.cancel()
@@ -97,31 +100,36 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
             .show()
     }
 
+    // Se the selected picture on the Dialog
+    fun setEditContactPicture(requestCode: Int, resultCode: Int, data: Intent?, code: Int) {
+        if (resultCode == Activity.RESULT_OK && requestCode == code) {
+            selectedPicture = data?.data!!
+            setPicassoPicture(selectedPicture.toString(), binding.editContactPicture)
+        }
+    }
+
     // Set action for Dialog Save
-    private suspend fun setPositiveButtonAction(
-        binding: DialogEditContactBinding,
-        position: Int? = null,
-        itemView: RowView? = null
-    ) {
+    private fun setPositiveButtonAction(position: Int? = null) {
         // Set the new values
         val name = binding.contactNameEdit.text.toString()
         val state = binding.stateSwitch.isChecked
-
-        // Set new picture
-        var pic = selectedPicture?.let { repository.uploadPicture(it) }
-        pic = pic ?: repository.getImageURI(position)
+        val pic = selectedPicture?.toString() ?: repository.getImageURI(position)
 
         // Set the new contact
         val contact = Contact(name, state, pic)
 
-        // Set the modification
-        itemView?.setContactView(contact)
-
-        // Add/Modify contact
-        repository.write(contact, position)
-
-        // Reset selected picture
-        selectedPicture = null
+        // Add/Modify contact if needed
+        if (selectedPicture == null) {
+            repository.write(contact, position)
+            homeView.updateAdapter()
+        } else {
+            viewModelScope.launch {
+                if (repository.uploadPicture(selectedPicture!!, contact, position)) {
+                    selectedPicture = null
+                    homeView.updateAdapter()
+                }
+            }
+        }
     }
 
     // Check image permissions
@@ -145,5 +153,14 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
         } else {
             homeView.selectPicture()
         }
+    }
+
+    // Set the picture on the dialog
+    private fun setPicassoPicture(pic: String, image: ImageView) {
+        Picasso.get()
+            .load(Uri.parse(pic))
+            .resize(150, 150)
+            .centerCrop()
+            .into(image)
     }
 }

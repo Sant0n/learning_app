@@ -65,9 +65,7 @@ class HomeActivity : AppCompatActivity(), HomeView {
     // Get the selected image
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
-            presenter.selectedPicture = data?.data
-        }
+        presenter.setEditContactPicture(requestCode, resultCode, data, IMAGE_PICK_CODE)
     }
 
     // Notify dataset change to the adapter

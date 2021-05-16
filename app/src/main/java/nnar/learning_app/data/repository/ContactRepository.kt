@@ -8,7 +8,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.tasks.await
 import nnar.learning_app.domain.model.Contact
 
 @ExperimentalCoroutinesApi
@@ -81,30 +80,37 @@ class ContactRepository(uid: String) {
     }
 
     // Upload selected picture
-    suspend fun uploadPicture(uri: Uri): String? = suspendCancellableCoroutine { cont ->
-        // Store the selected picture
-        println("URI: ${uri.lastPathSegment}")
-        val img = storage.child("${uri.lastPathSegment}")
-        img.putFile(uri).continueWithTask { task ->
-            // Check if everything went well
-            if (!task.isSuccessful)
-                task.exception?.let { throw it }
+    suspend fun uploadPicture(
+        uri: Uri,
+        contact: Contact,
+        position: Int? = null
+    ): Boolean = suspendCancellableCoroutine { cont ->
+            // Store the selected picture
+            val img = storage.child("${contact.name}")
+            img.putFile(uri).continueWithTask { task ->
+                // Check if everything went well
+                if (!task.isSuccessful)
+                    task.exception?.let { throw it }
 
-            // Return the images URL
-            img.downloadUrl
-        }.addOnCompleteListener { task ->
-            // Check if everything went well
-            if (!task.isSuccessful)
-                task.exception?.let { throw it }
+                // Return the images URL
+                img.downloadUrl
+            }.addOnCompleteListener { task ->
+                // Check if everything went well
+                if (!task.isSuccessful)
+                    task.exception?.let { throw it }
 
-            // Get the URL for the new image
-            pictures.add(task.result.toString())
-            cont.resume(task.result.toString(), null)
-        }.addOnFailureListener {
-            cont.resume(null, null)
-            Log.d("ERROR", "Failed to upload image: " + it.localizedMessage)
+                // Get the URL for the new image
+                contact.pic = task.result.toString()
+                pictures.add(contact.pic)
+                write(contact, position)
+
+                // Continue execution
+                cont.resume(true, null)
+            }.addOnFailureListener {
+                cont.resume(false, null)
+                Log.d("ERROR", "Failed to upload image: " + it.localizedMessage)
+            }
         }
-    }
 
     // Get current contacts
     suspend fun getCurrentContactsId(): Boolean = suspendCancellableCoroutine { cont ->
