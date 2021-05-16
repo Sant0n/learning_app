@@ -29,9 +29,7 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     private val PERMISSION_CODE_WRITE: Int = 3
 
     // Set the attribute
-    companion object
-
-    var selectedPicture: Uri? = null
+    private var selectedPicture: Uri? = null
     private lateinit var binding: DialogEditContactBinding
     private val repository = ContactRepository(homeView.getCurrentUserUID())
 
