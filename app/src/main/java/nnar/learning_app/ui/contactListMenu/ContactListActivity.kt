@@ -50,8 +50,8 @@ class ContactListActivity: AppCompatActivity(), ContactListView {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        presenter.addFirebaseContactsFirstsTime(user.uid)
-        //presenter.getContacts()
+        //presenter.addFirebaseContactsFirstsTime(user.uid)
+        presenter.getContacts(user.uid)
 
         setListeners()
     }
