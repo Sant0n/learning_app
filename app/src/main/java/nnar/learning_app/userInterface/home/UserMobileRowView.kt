@@ -2,10 +2,13 @@ package nnar.learning_app.userInterface.home
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import nnar.learning_app.R
 import nnar.learning_app.dataInterface.MobileRowView
 import nnar.learning_app.databinding.MobileListRowBinding
+import nnar.learning_app.domain.model.Mobile
 import nnar.learning_app.domain.model.MobileResponse
 import nnar.learning_app.util.GlideApp
 
@@ -15,7 +18,7 @@ class UserMobileRowView (itemView: View): RecyclerView.ViewHolder(itemView),
 
     private var binding = MobileListRowBinding.bind(itemView)
 
-    override fun render(mobile: MobileResponse) {
+    override fun render(mobile: Mobile) {
         itemView.setBackgroundColor( itemView.context.resources.getColor(R.color.white))
         renderMobileIcon(mobile.img_url)
         renderName(mobile.name)
@@ -44,9 +47,9 @@ class UserMobileRowView (itemView: View): RecyclerView.ViewHolder(itemView),
         binding.isMobileFavorite.setColorFilter(itemView.context.resources.getColor(R.color.grey))
     }
 
-    private fun renderMobileIcon(url: StorageReference){
+    private fun renderMobileIcon(url: String){
         GlideApp.with(itemView.context)
-            .load(url)
+            .load(Firebase.storage.reference.child(url))
             .into(binding.mobilePicture)
     }
 

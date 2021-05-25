@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import nnar.learning_app.R
-import nnar.learning_app.dataInterface.HomeView
 import nnar.learning_app.domain.model.Mobile
 import nnar.learning_app.userInterface.mobileDetails.MobileDetailsActivity
 
@@ -33,7 +31,7 @@ class UserMobilesAdapter(private val presenter: HomePresenter, val x: HomeActivi
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, MobileDetailsActivity::class.java)
-            intent.putExtra("mobile", Mobile(mobile.img_url.path, mobile.name, mobile.version, mobile.favorite))
+            intent.putExtra("mobile", mobile)
             holder.itemView.context.startActivity(intent)
         }
 

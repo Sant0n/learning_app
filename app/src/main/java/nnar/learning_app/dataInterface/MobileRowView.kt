@@ -1,9 +1,10 @@
 package nnar.learning_app.dataInterface
 
+import nnar.learning_app.domain.model.Mobile
 import nnar.learning_app.domain.model.MobileResponse
 
 interface MobileRowView {
-    fun render(mobile: MobileResponse){}
+    fun render(mobile: Mobile){}
     fun markAsSelected(){}
     fun markAsUnSelected(){}
     fun markAsFavorite(){}

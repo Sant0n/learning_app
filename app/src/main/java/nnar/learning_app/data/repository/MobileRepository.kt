@@ -19,7 +19,7 @@ class MobileRepository {
     private val storageRef = Firebase.storage.reference
 
     companion object {
-        private val localList = mutableListOf<MobileResponse>()
+        private val localList = mutableListOf<Mobile>()
     }
 
 
@@ -27,14 +27,14 @@ class MobileRepository {
         return withContext(Dispatchers.IO) {
             db = Firebase.firestore.collection("users").document(userID)
             try {
-                val listOfMobiles = mutableListOf<MobileResponse>()
+                val listOfMobiles = mutableListOf<Mobile>()
                 val docs = db.collection("userMobiles")
                     .get()
                     .await()
 
                 for (document in docs) {
                     val mobile: Mobile = document.toObject()
-                    listOfMobiles.add(getMobileResponse(mobile))
+                    listOfMobiles.add(mobile)
                 }
 
                 localList.addAll(listOfMobiles)
@@ -55,7 +55,7 @@ class MobileRepository {
                     .set(mobile)
                     .await()
 
-                localList.add(getMobileResponse(mobile))
+                localList.add(mobile)
                 CustomResponse(false, "")
             } catch (e: Exception) {
                 CustomResponse(true, e.toString())
@@ -89,10 +89,11 @@ class MobileRepository {
 
     fun removeLocally(position: Int) = localList.removeAt(position)
 
+    /**
     private fun getMobileResponse(mobile: Mobile) = MobileResponse(
         storageRef.child(mobile.img_url),
         mobile.name,
         mobile.version,
         mobile.favorite
-    )
+    )*/
 }

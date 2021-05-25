@@ -32,8 +32,7 @@ class HomePresenter(private val homeView: HomeView, private val homeUserUsecase:
         viewModelScope.launch {
             itemsToRemove.sortDescending()
             for (item in itemsToRemove) {
-                val mb = homeUserUsecase.getMobileAtPosition(item)
-                val mobile = Mobile(mb.img_url.path, mb.name, mb.version, mb.favorite)
+                val mobile: Mobile = homeUserUsecase.getMobileAtPosition(item)
                 val response = homeUserUsecase.removeMobile(mobile)
                 if (!response.error) homeUserUsecase.removeLocally(item) else println("ERROR REMOVING ITEM AT POSITION $item")
             }
