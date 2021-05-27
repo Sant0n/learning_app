@@ -15,13 +15,14 @@ class ContactFirestoreRepository {
 
     private val TAG = "Learning App - Contact List:"
 
-    private lateinit var userUIDRepository: String
+
 
     private val db = Firebase.firestore.collection("users")
     private val storageRef = Firebase.storage.reference
 
     companion object{
         val contactList =  mutableListOf<ContactFirestore>()
+        private lateinit var userUIDRepository: String
     }
 
     /*private val contactSet: MutableSet<ContactFirestore> = mutableSetOf(
@@ -111,10 +112,22 @@ class ContactFirestoreRepository {
         }
     }
 
+    suspend fun addContact(image: Uri, name:String, email:String, phone:String): Boolean{
+        val imageName = "images/avatar_$name".trim().replace(" ", "_")
+        val contact = createContact(name, phone, imageName, email)
+        return try{
+            writeDataOnFirestore(contact)
+            uploadImage(imageName, image)
+             true
+        }catch (e: Exception){
+            false
+        }
+    }
+
     suspend fun uploadImage(imageName:String, image:Uri):Boolean{
         return withContext(Dispatchers.IO){
             try{
-                val path = storageRef.child("images/$imageName")
+                val path = storageRef.child(imageName)
                 path.putFile(image)
                 true
             }catch (e: Exception){

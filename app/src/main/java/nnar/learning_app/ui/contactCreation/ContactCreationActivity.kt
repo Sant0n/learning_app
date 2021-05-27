@@ -8,11 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import nnar.learning_app.R
 import nnar.learning_app.data.repository.ContactFirestoreRepository
-import nnar.learning_app.data.repository.ContactRepository
 import nnar.learning_app.databinding.ActivityContactCreationBinding
 import nnar.learning_app.datainterface.ContactCreationView
 import nnar.learning_app.domain.usecase.ContactFirestoreUseCase
-import nnar.learning_app.domain.usecase.ContactUseCase
 import nnar.learning_app.utils.CommonFunctions
 
 class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
@@ -31,10 +29,7 @@ class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
     }
 
     private val selectImage = registerForActivityResult(ActivityResultContracts.GetContent()){
-        Glide.with(this)
-            .load(it)
-            .into(contactImage)
-        filePath = it
+        presenter.verifyImage(it)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,10 +56,10 @@ class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
             requestPermission.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
         }
 
-        contactImage.setOnFocusChangeListener { _, hasFocus ->
-            presenter.verifyImage(contactImage.drawable, hasFocus)
+        contactImage.setOnFocusChangeListener { _, _ ->
+            presenter.verifyImage(filePath!!)
         }
-
+/*
         contactName.setOnFocusChangeListener { _, hasFocus ->
             presenter.verifyName(contactName.text.toString(), hasFocus, contactName.text.isNotBlank())
         }
@@ -76,10 +71,18 @@ class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
         contactPhone.setOnFocusChangeListener { _, hasFocus ->
             presenter.verifyPhone(contactPhone.text.toString(), hasFocus, contactPhone.text.isNotBlank())
         }
-
+*/
         button.setOnClickListener {
-            presenter.verifyFormFields(filePath!!, contactName.text.toString(), contactEmail.text.toString(), contactPhone.text.toString())
+            presenter.saveContact(filePath, contactName.text.toString(), contactEmail.text.toString(), contactPhone.text.toString())
         }
+    }
+
+    override fun showImage(uri: Uri){
+        Glide.with(this)
+            .load(uri)
+            .into(contactImage)
+
+        filePath = uri
     }
 
     override fun permissionResult(s: String) {
@@ -88,20 +91,25 @@ class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
 
     override fun showErrorNameField(s: String) {
         contactName.error = s
-        contactName.setBackgroundResource(R.drawable.textview_error_border)
+        //contactName.setBackgroundResource(R.drawable.textview_error_border)
     }
 
     override fun showErrorEmailField(s: String) {
         contactEmail.error = s
-        contactEmail.setBackgroundResource(R.drawable.textview_error_border)
+        //contactEmail.setBackgroundResource(R.drawable.textview_error_border)
     }
 
     override fun showErrorPhoneField(s: String) {
         contactPhone.error = s
-        contactPhone.setBackgroundResource(R.drawable.textview_error_border)
+        //contactPhone.setBackgroundResource(R.drawable.textview_error_border)
     }
 
+    override fun showErrorImageField(s: String){
+        contactImage.setBackgroundResource(R.drawable.textview_error_border)
+        Toast.makeText(this,s, Toast.LENGTH_SHORT).show()
+    }
     override fun showSuccessImageField() {
+        contactImage.background = null
     }
 
     override fun showSuccessEmailField() {

@@ -16,6 +16,9 @@ class ContactFirestoreUseCase(private val contactFirestoreRepository: ContactFir
 
     suspend fun getContactList(userUID: String) = contactFirestoreRepository.readContactsFirestore(userUID)
 
+    suspend fun addContact(image:Uri, name:String, email:String, phone:String) =
+        contactFirestoreRepository.addContact(image, name, email, phone)
+
     suspend fun uploadImage(imageName:String, image: Uri) = contactFirestoreRepository.uploadImage(imageName, image)
 
     fun getContact(position: Int) = contactFirestoreRepository.getContact(position)
