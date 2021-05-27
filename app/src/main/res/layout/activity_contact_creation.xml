@@ -1,6 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/contact_creation_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/contact_creation_title_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/contact_creation_toolbar_tittle"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/contact_creation_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="72dp"
+        android:contentDescription="@string/contact_creation_image_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contact_creation_toolbar"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <TextView
+        android:id="@+id/contact_creation_textView_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contact_creation_name_tag"
+        app:layout_constraintBottom_toBottomOf="@+id/contact_creation_editText_name"
+        app:layout_constraintEnd_toStartOf="@+id/contact_creation_editText_name"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/contact_creation_editText_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="32dp"
+        android:autofillHints="@string/contact_creation_name_description"
+        android:ems="10"
+        android:hint="@string/contact_creation_name_description"
+        android:inputType="textPersonName"
+        android:text="@string/contact_creation_name_placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/contact_creation_editText_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contact_creation_image"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/contact_creation_textView_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contact_creation_email_tag"
+        app:layout_constraintBottom_toBottomOf="@+id/contact_creation_editText_email"
+        app:layout_constraintEnd_toStartOf="@+id/contact_creation_editText_email"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/contact_creation_editText_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="32dp"
+        android:autofillHints="@string/contact_creation_email_description"
+        android:ems="10"
+        android:hint="@string/contact_creation_email_description"
+        android:inputType="text"
+        android:text="@string/contact_creation_email_placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/contact_creation_editText_phone"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/contact_creation_textView_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contact_creation_phone_tag"
+        app:layout_constraintBottom_toBottomOf="@+id/contact_creation_editText_phone"
+        app:layout_constraintEnd_toStartOf="@+id/contact_creation_editText_phone"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/contact_creation_editText_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="32dp"
+        android:autofillHints="@string/contact_creation_phone_description"
+        android:ems="10"
+        android:hint="@string/contact_creation_phone_description"
+        android:inputType="text"
+        android:text="@string/contact_creation_phone_placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/contact_creation_button"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/contact_creation_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="180dp"
+        android:text="@string/contact_creation_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

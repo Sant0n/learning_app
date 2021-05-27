@@ -42,4 +42,8 @@ class ContactDetailActivity: AppCompatActivity(), ContactDetailView {
         contactEmail.text = contact.email
     }
 
+    override fun onDestroy(){
+        super.onDestroy()
+        finishAfterTransition()
+    }
 }

@@ -37,4 +37,19 @@
     <string name="contact_detail_email_tag">E-mail:</string>
     <string name="list_contact_logout">Logout</string>
 
+    <!-- Contact Creation -->
+    <string name="contact_creation_toolbar_tittle">Add a Contact</string>
+    <string name="contact_creation_name_tag">Name:</string>
+    <string name="contact_creation_phone_tag">Phone:</string>
+    <string name="contact_creation_email_tag">E-mail:</string>
+    <string name="contact_creation_name_placeholder">Name</string>
+    <string name="contact_creation_phone_placeholder">Phone</string>
+    <string name="contact_creation_email_placeholder">E-mail</string>
+    <string name="contact_creation_image_description">Profile Image</string>
+    <string name="contact_creation_name_description">Profile Name</string>
+    <string name="contact_creation_email_description">Profile Email</string>
+    <string name="contact_creation_phone_description">Profile Phone</string>
+    <string name="contact_creation_button">Save</string>
+
+
 </resources>
