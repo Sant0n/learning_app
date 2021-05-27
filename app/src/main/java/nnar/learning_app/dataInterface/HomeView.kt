@@ -1,5 +1,7 @@
 package nnar.learning_app.dataInterface
 
+import android.net.Uri
+
 
 interface HomeView {
 
@@ -9,4 +11,10 @@ interface HomeView {
     fun showAddButton()
     fun hideAddButton()
     fun clearSearchFocus()
+    fun openGallery()
+    fun showNameNotFilled()
+    fun showVersionNotFilled()
+    fun clearFieldsError()
+    fun changeDialogImage(uri: Uri)
+    fun dismissDialog()
 }

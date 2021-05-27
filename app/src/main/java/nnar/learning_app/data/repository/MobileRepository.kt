@@ -1,5 +1,6 @@
 package nnar.learning_app.data.repository
 
+import android.graphics.Bitmap
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -10,7 +11,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import nnar.learning_app.domain.model.Mobile
 import nnar.learning_app.domain.model.CustomResponse
-import nnar.learning_app.domain.model.MobileResponse
+import java.io.ByteArrayOutputStream
 import java.lang.Exception
 
 class MobileRepository {
@@ -47,9 +48,18 @@ class MobileRepository {
     }
 
 
-    suspend fun addMobile(mobile: Mobile): CustomResponse {
+    suspend fun addMobile(mobile: Mobile, image: Bitmap): CustomResponse {
+
         return withContext(Dispatchers.IO) {
             try {
+                if(mobile.img_url != "mobiles/default.png"){
+                    val newImageReference = storageRef.child(mobile.img_url)
+                    val baos = ByteArrayOutputStream()
+                    image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                    val data = baos.toByteArray()
+                    newImageReference.putBytes(data)
+                }
+
                 db.collection("userMobiles")
                     .document()
                     .set(mobile)
@@ -64,7 +74,7 @@ class MobileRepository {
     }
 
 
-    suspend fun removeMobile(mobile: Mobile): CustomResponse {
+    suspend fun removeMobile(mobile: Mobile, image: Bitmap): CustomResponse {
         return withContext(Dispatchers.IO){
             try {
                 val docs = db.collection("userMobiles")

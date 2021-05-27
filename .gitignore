@@ -91,3 +91,4 @@ lint/tmp/
 .idea/runConfigurations.xml
 .idea/misc.xml
 .idea/compiler.xml
+.idea/jarRepositories.xml

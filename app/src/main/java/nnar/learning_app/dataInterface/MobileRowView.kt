@@ -1,7 +1,6 @@
 package nnar.learning_app.dataInterface
 
 import nnar.learning_app.domain.model.Mobile
-import nnar.learning_app.domain.model.MobileResponse
 
 interface MobileRowView {
     fun render(mobile: Mobile){}
