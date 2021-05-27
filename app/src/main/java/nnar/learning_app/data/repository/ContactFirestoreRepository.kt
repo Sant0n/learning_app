@@ -1,5 +1,6 @@
 package nnar.learning_app.data.repository
 
+import android.net.Uri
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -17,7 +18,7 @@ class ContactFirestoreRepository {
     private lateinit var userUIDRepository: String
 
     private val db = Firebase.firestore.collection("users")
-    //private val storageRef = Firebase.storage.reference
+    private val storageRef = Firebase.storage.reference
 
     companion object{
         val contactList =  mutableListOf<ContactFirestore>()
@@ -105,6 +106,18 @@ class ContactFirestoreRepository {
                 contactList.remove(contact)
                 true
             }catch(e: Exception){
+                false
+            }
+        }
+    }
+
+    suspend fun uploadImage(imageName:String, image:Uri):Boolean{
+        return withContext(Dispatchers.IO){
+            try{
+                val path = storageRef.child("images/$imageName")
+                path.putFile(image)
+                true
+            }catch (e: Exception){
                 false
             }
         }

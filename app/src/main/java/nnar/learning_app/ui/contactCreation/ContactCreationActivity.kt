@@ -1,13 +1,19 @@
 package nnar.learning_app.ui.contactCreation
 
+import android.net.Uri
 import android.os.Bundle
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import nnar.learning_app.R
+import nnar.learning_app.data.repository.ContactFirestoreRepository
 import nnar.learning_app.data.repository.ContactRepository
 import nnar.learning_app.databinding.ActivityContactCreationBinding
 import nnar.learning_app.datainterface.ContactCreationView
+import nnar.learning_app.domain.usecase.ContactFirestoreUseCase
 import nnar.learning_app.domain.usecase.ContactUseCase
+import nnar.learning_app.utils.CommonFunctions
 
 class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
 
@@ -18,13 +24,17 @@ class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
     private lateinit var contactName:TextView
     private lateinit var contactEmail:TextView
     private lateinit var contactPhone:TextView
+    private var filePath: Uri? = null
 
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){ granted ->
         presenter.permissionResult(granted)
     }
 
     private val selectImage = registerForActivityResult(ActivityResultContracts.GetContent()){
-        contactImage.setImageURI(it)
+        Glide.with(this)
+            .load(it)
+            .into(contactImage)
+        filePath = it
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,18 +49,36 @@ class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
         contactEmail = binding.contactCreationEditTextEmail
         contactPhone = binding.contactCreationEditTextPhone
 
-        presenter = ContactCreationPresenter(this, ContactUseCase(ContactRepository()))
+        presenter = ContactCreationPresenter(this,
+            ContactFirestoreUseCase(ContactFirestoreRepository()))
 
         setListeners()
     }
 
     private fun setListeners(){
+
         contactImage.setOnClickListener {
             requestPermission.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
         }
 
+        contactImage.setOnFocusChangeListener { _, hasFocus ->
+            presenter.verifyImage(contactImage.drawable, hasFocus)
+        }
+
+        contactName.setOnFocusChangeListener { _, hasFocus ->
+            presenter.verifyName(contactName.text.toString(), hasFocus, contactName.text.isNotBlank())
+        }
+
+        contactEmail.setOnFocusChangeListener { _, hasFocus ->
+            presenter.verifyEmail(contactEmail.text.toString(), hasFocus, contactEmail.text.isNotBlank())
+        }
+
+        contactPhone.setOnFocusChangeListener { _, hasFocus ->
+            presenter.verifyPhone(contactPhone.text.toString(), hasFocus, contactPhone.text.isNotBlank())
+        }
+
         button.setOnClickListener {
-            presenter.saveContact()
+            presenter.verifyFormFields(filePath!!, contactName.text.toString(), contactEmail.text.toString(), contactPhone.text.toString())
         }
     }
 
@@ -58,8 +86,40 @@ class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
     }
 
+    override fun showErrorNameField(s: String) {
+        contactName.error = s
+        contactName.setBackgroundResource(R.drawable.textview_error_border)
+    }
+
+    override fun showErrorEmailField(s: String) {
+        contactEmail.error = s
+        contactEmail.setBackgroundResource(R.drawable.textview_error_border)
+    }
+
+    override fun showErrorPhoneField(s: String) {
+        contactPhone.error = s
+        contactPhone.setBackgroundResource(R.drawable.textview_error_border)
+    }
+
+    override fun showSuccessImageField() {
+    }
+
+    override fun showSuccessEmailField() {
+        CommonFunctions().resetError(contactEmail)
+        contactEmail.setBackgroundResource(R.drawable.textview_success_border)
+    }
+
+    override fun showSuccessNameField() {
+        CommonFunctions().resetError(contactName)
+        contactName.setBackgroundResource(R.drawable.textview_success_border)
+    }
+
+    override fun showSuccessPhoneField() {
+        CommonFunctions().resetError(contactPhone)
+        contactPhone.setBackgroundResource(R.drawable.textview_success_border)
+    }
+
     override fun openGallery() {
-        Toast.makeText(this, "llegue", Toast.LENGTH_SHORT).show()
         selectImage.launch("image/*")
     }
 }

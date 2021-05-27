@@ -1,5 +1,6 @@
 package nnar.learning_app.domain.usecase
 
+import android.net.Uri
 import nnar.learning_app.data.repository.ContactFirestoreRepository
 import nnar.learning_app.domain.model.ContactFirestore
 
@@ -14,6 +15,8 @@ class ContactFirestoreUseCase(private val contactFirestoreRepository: ContactFir
     suspend fun removeContact(contact: ContactFirestore) = contactFirestoreRepository.removeContactFirestore(contact)
 
     suspend fun getContactList(userUID: String) = contactFirestoreRepository.readContactsFirestore(userUID)
+
+    suspend fun uploadImage(imageName:String, image: Uri) = contactFirestoreRepository.uploadImage(imageName, image)
 
     fun getContact(position: Int) = contactFirestoreRepository.getContact(position)
 
