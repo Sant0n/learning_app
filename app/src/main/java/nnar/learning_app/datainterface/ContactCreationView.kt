@@ -17,4 +17,6 @@ interface ContactCreationView {
     fun openGallery()
     fun permissionResult(s:String)
     fun showImage(uri:Uri)
+    fun createNotification()
+    fun finishActivity()
 }

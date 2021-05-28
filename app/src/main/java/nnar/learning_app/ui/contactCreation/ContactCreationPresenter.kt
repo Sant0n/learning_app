@@ -64,6 +64,8 @@ class ContactCreationPresenter(
                     val response = useCase.addContact(image, name, email, phone)
                     if (response) {
                         view.permissionResult("Image added")
+                        view.createNotification()
+                        view.finishActivity()
                     } else {
                         view.permissionResult("Error in add the image")
                     }
