@@ -1,8 +1,10 @@
 package nnar.learning_app.userInterface.home
 
 import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
+import android.app.*
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +12,9 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -19,16 +24,24 @@ import nnar.learning_app.data.repository.MobileRepository
 import nnar.learning_app.dataInterface.HomeView
 import nnar.learning_app.databinding.ActivityHomeBinding
 import nnar.learning_app.databinding.CustomDialogBinding
+import nnar.learning_app.domain.model.Mobile
 import nnar.learning_app.domain.usecase.HomeUserUsecase
+import nnar.learning_app.userInterface.mobileDetails.MobileDetailsActivity
+import nnar.learning_app.util.NotificationUtil
 
 
 class HomeActivity : AppCompatActivity(), HomeView {
+
+    private val NOTIFICATION_INTENT_CODE = 101
+    private val NOTIFICATION_ID = 666
+
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var presenter: HomePresenter
     private lateinit var userMobilesAdapter: UserMobilesAdapter
     private lateinit var dialog: AlertDialog
     private lateinit var dialogBinding: CustomDialogBinding
+    private lateinit var mNotificationManagerCompat: NotificationManagerCompat
 
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -45,6 +58,7 @@ class HomeActivity : AppCompatActivity(), HomeView {
         setContentView(binding.root)
 
         presenter = HomePresenter(this, HomeUserUsecase(MobileRepository()))
+        mNotificationManagerCompat = NotificationManagerCompat.from(this@HomeActivity)
 
         binding.listOfMobiles.layoutManager = LinearLayoutManager(this)
         userMobilesAdapter = UserMobilesAdapter(presenter, this)
@@ -115,6 +129,43 @@ class HomeActivity : AppCompatActivity(), HomeView {
 
     override fun dismissDialog() {
         dialog.dismiss()
+    }
+
+    override fun generateNotification(summary: String, mobile: Mobile) {
+        val notificationChannelId = NotificationUtil().createNotificationChannel(this)
+        val notificationStyle = NotificationCompat.BigPictureStyle().bigLargeIcon(
+            BitmapFactory.decodeResource(
+                resources,
+                R.drawable.ic_app
+            )
+        )
+            .setSummaryText(summary)
+
+        val detailIntent = Intent(this, MobileDetailsActivity::class.java)
+        detailIntent.putExtra("mobile", mobile)
+
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            NOTIFICATION_INTENT_CODE,
+            detailIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val notificationCompactBuilder =
+            NotificationCompat.Builder(applicationContext, notificationChannelId)
+            notificationCompactBuilder.setSmallIcon(R.drawable.ic_app)
+            //.setStyle(notificationStyle)
+            .setContentTitle("Add mobile result")
+            .setContentText(summary)
+            .setContentIntent(pendingIntent)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setColor(ContextCompat.getColor(applicationContext, R.color.orange))
+            .setCategory(Notification.CATEGORY_EVENT)
+            .setPriority(NotificationManager.IMPORTANCE_DEFAULT)
+            .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+
+        val notification = notificationCompactBuilder.build()
+        mNotificationManagerCompat.notify(NOTIFICATION_ID, notification)
     }
 
 

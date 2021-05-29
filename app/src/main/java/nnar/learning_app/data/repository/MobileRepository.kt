@@ -23,7 +23,6 @@ class MobileRepository {
         private val localList = mutableListOf<Mobile>()
     }
 
-
     suspend fun getAllMobiles(userID: String): CustomResponse {
         return withContext(Dispatchers.IO) {
             db = Firebase.firestore.collection("users").document(userID)

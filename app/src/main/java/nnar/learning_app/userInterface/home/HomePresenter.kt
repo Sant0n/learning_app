@@ -28,21 +28,23 @@ class HomePresenter(private val homeView: HomeView, private val homeUserUsecase:
         viewModelScope.launch {
             if (checkFields(name, version)) {
                 homeView.clearFieldsError()
-                val imgDir = if (!defaultImage) "mobiles/$name $version".trim().replace(" ", "_")
+                val imgDir = if (!defaultImage) "mobiles/$name $version.jpg".trim().replace(" ", "_")
                 else "mobiles/default.png"
 
-                val response = homeUserUsecase.addMobile(
-                    Mobile(
-                        name = name,
-                        version = version,
-                        img_url = imgDir
-                    ), image
+                val mobile = Mobile(
+                    name = name,
+                    version = version,
+                    img_url = imgDir
+                )
+                val response = homeUserUsecase.addMobile( mobile
+                    , image
                 )
                 defaultImage = true
                 if (!response.error) {
+                    homeView.generateNotification("Mobile $name succesfully added", mobile)
                     homeView.dismissDialog()
                     homeView.updateData()
-                } else println("ERROR ADDING MOBILE: ${response.msg}")
+                } else homeView.generateNotification("Error adding $name. Error: ${response.msg}", mobile)
             }
         }
     }

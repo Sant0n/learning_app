@@ -1,6 +1,7 @@
 package nnar.learning_app.dataInterface
 
 import android.net.Uri
+import nnar.learning_app.domain.model.Mobile
 
 
 interface HomeView {
@@ -17,4 +18,5 @@ interface HomeView {
     fun clearFieldsError()
     fun changeDialogImage(uri: Uri)
     fun dismissDialog()
+    fun generateNotification(summary: String, mobile: Mobile)
 }

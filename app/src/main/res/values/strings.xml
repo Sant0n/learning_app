@@ -51,6 +51,9 @@
     <string name="mobile_fav">Favorite</string>
 
 
+    <!-- Notifications -->
+    <string name="channel_name">Mobile notifications</string>
+    <string name="channel_description">Notifications related with operations done with mobiles</string>
 
 
 </resources>
