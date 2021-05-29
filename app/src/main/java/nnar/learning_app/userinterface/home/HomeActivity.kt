@@ -1,28 +1,42 @@
 package nnar.learning_app.userinterface.home
 
-import android.app.Activity
+import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import nnar.learning_app.R
 import nnar.learning_app.databinding.ActivityHomeBinding
+import nnar.learning_app.databinding.DialogEditContactBinding
 import nnar.learning_app.datainterface.HomeView
+import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.userinterface.login.LoginActivity
+import nnar.learning_app.util.Notification
 
-@ExperimentalCoroutinesApi
 class HomeActivity : AppCompatActivity(), HomeView {
-    // Codes
-    private val IMAGE_PICK_CODE: Int = 1
+    // Gallery permissions
+    private val requestGalleryPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            presenter.checkPermissions(it)
+        }
+    private val openGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        presenter.selectedPicture(it)
+    }
 
     // Activities main variables
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var dialogBinding: DialogEditContactBinding
     private lateinit var presenter: HomePresenter
     private lateinit var adapter: ContactListAdapter
 
@@ -62,12 +76,6 @@ class HomeActivity : AppCompatActivity(), HomeView {
         presenter.reset()
     }
 
-    // Get the selected image
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        presenter.setEditContactPicture(requestCode, resultCode, data, IMAGE_PICK_CODE)
-    }
-
     // Notify dataset change to the adapter
     override fun updateAdapter() = adapter.notifyDataSetChanged()
 
@@ -78,17 +86,75 @@ class HomeActivity : AppCompatActivity(), HomeView {
     override fun getContext(): Context = binding.root.context
 
     // Look for the picture to upload
-    override fun selectPicture() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_PICK_CODE)
+    override fun selectPicture() = openGallery.launch("image/*")
+
+    // Configure Picasso image
+    override fun setNewContactPicture(uri: Uri) = setPicasso(uri, dialogBinding.editContactPicture)
+
+    // Set Dialog content
+    override fun setDialogContent(contact: Contact) {
+        dialogBinding.contactNameEdit.setText(contact.name)
+        dialogBinding.stateSwitch.isChecked = contact.isOnline
+        setNewContactPicture(Uri.parse(contact.pic))
+    }
+
+    // Show Alert Dialog to get new input
+    override fun contactDialog(position: Int?) {
+        // Inflate the dialog alert view
+        val context = getContext()
+        val inflater = LayoutInflater.from(context)
+        val view = inflater.inflate(R.layout.dialog_edit_contact, null)
+
+        // Get the dialog binding
+        dialogBinding = DialogEditContactBinding.bind(view)
+
+        // Set dialog biding
+        presenter.setCurrentContactInfo(position)
+
+        // Set listener for picture upload
+        dialogBinding.getPicture.setOnClickListener {
+            requestGalleryPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+
+        // Build the Alert Dialog
+        AlertDialog.Builder(context)
+            .setTitle("Contact Information")
+            .setPositiveButton("Save") { dialogInterface, _ ->
+                val name = dialogBinding.contactNameEdit.text.toString()
+                val state = dialogBinding.stateSwitch.isChecked
+                presenter.setPositiveButtonAction(name, state, position)
+                dialogInterface.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
+            .setView(view)
+            .show()
+    }
+
+    // Generate new added user notification
+    override fun generateNotificaction() {
+        // Set current channel ID
+        val notificationID = Notification().createNotificationChannel(getContext())
+
+        // Set notification content
+        val builder = NotificationCompat.Builder(this, notificationID)
+            .setSmallIcon(R.drawable.ic_baseline_account_circle_24)
+            .setContentTitle("Successful")
+            .setContentText("A new user has been added!")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        // Build notification
+        with(NotificationManagerCompat.from(this)) {
+            notify(123, builder.build())
+        }
     }
 
     // Configure all the listeners
     private fun setListeners() {
         // Add new contact
         binding.addContact.setOnClickListener {
-            presenter.contactDialog()
+            contactDialog(null)
         }
 
         // Sign out
@@ -114,9 +180,9 @@ class HomeActivity : AppCompatActivity(), HomeView {
         setPicasso(uri, image, 500, 500)
     }
 
-
-    // Configure Picasso image
-    private fun setPicasso(uri: Uri, image: ImageView, width: Int, height: Int) {
-        Picasso.get().load(uri).resize(width, height).centerCrop().into(image)
+    // Set picasso object
+    private fun setPicasso(uri: Uri, image: ImageView, width: Int = 150, height: Int = 150) {
+        Picasso.get().load(uri).placeholder(R.drawable.placeholder_contact)
+            .resize(width, height).centerCrop().into(image)
     }
 }

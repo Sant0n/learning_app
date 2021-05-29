@@ -8,14 +8,12 @@ import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nnar.learning_app.databinding.ItemContactBinding
 import nnar.learning_app.datainterface.RowView
 import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.userinterface.contact.ContactInfoActivity
 import android.util.Pair as UtilPair
 
-@ExperimentalCoroutinesApi
 class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view), RowView {
     // Binding for the rows
     private lateinit var uri: Uri

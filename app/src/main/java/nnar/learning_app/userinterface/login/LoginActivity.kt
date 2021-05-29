@@ -9,13 +9,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nnar.learning_app.R
 import nnar.learning_app.databinding.ActivityLoginBinding
 import nnar.learning_app.datainterface.LoginView
 import nnar.learning_app.userinterface.home.HomeActivity
 
-@ExperimentalCoroutinesApi
 class LoginActivity : AppCompatActivity(), LoginView {
     // Variables for the View
     private lateinit var binding: ActivityLoginBinding

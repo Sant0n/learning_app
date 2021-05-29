@@ -4,12 +4,10 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import nnar.learning_app.databinding.ActivityContactBinding
 import nnar.learning_app.datainterface.ContactInfoView
 import nnar.learning_app.domain.model.Contact
 
-@ExperimentalCoroutinesApi
 class ContactInfoActivity : AppCompatActivity(), ContactInfoView {
     // Activity binding
     private lateinit var uid: String
