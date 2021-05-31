@@ -15,8 +15,6 @@ class ContactFirestoreRepository {
 
     private val TAG = "Learning App - Contact List:"
 
-
-
     private val db = Firebase.firestore.collection("users")
     private val storageRef = Firebase.storage.reference
 

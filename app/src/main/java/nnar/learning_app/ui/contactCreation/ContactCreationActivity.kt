@@ -1,12 +1,6 @@
 package nnar.learning_app.ui.contactCreation
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,8 +13,8 @@ import nnar.learning_app.data.repository.ContactFirestoreRepository
 import nnar.learning_app.databinding.ActivityContactCreationBinding
 import nnar.learning_app.datainterface.ContactCreationView
 import nnar.learning_app.domain.usecase.ContactFirestoreUseCase
-import nnar.learning_app.ui.contactListMenu.ContactListActivity
 import nnar.learning_app.utils.CommonFunctions
+import nnar.learning_app.utils.NotificationChannel
 
 class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
 
@@ -33,7 +27,6 @@ class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
     private lateinit var contactPhone:TextView
     private var filePath: Uri? = null
 
-    private val channel_id = "channel_id_1"
     private val notification_id = 101
 
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){ granted ->
@@ -49,8 +42,6 @@ class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
         binding = ActivityContactCreationBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        createNotificationChannel()
 
         button = binding.contactCreationButton
         contactImage = binding.contactCreationImage
@@ -122,6 +113,7 @@ class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
         contactImage.setBackgroundResource(R.drawable.textview_error_border)
         Toast.makeText(this,s, Toast.LENGTH_SHORT).show()
     }
+
     override fun showSuccessImageField() {
         contactImage.background = null
     }
@@ -145,35 +137,16 @@ class ContactCreationActivity: AppCompatActivity(), ContactCreationView {
         selectImage.launch("image/*")
     }
 
-    private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //val name = getString(channel_name)
-            val name = "Notification Title"
-            val descriptionText = "Notification Description"
-            //val descriptionText = getString(
-            //    channel_name
-            //)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channel_id, name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
 
     override fun createNotification(){
-        val intent = Intent(this, ContactListActivity::class.java)
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        //val intent = Intent(this, ContactListActivity::class.java)
+        //val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
+        val channel_id = NotificationChannel().createNotificationChannel(this)
         val builder = NotificationCompat.Builder(applicationContext, channel_id)
             .setSmallIcon(R.drawable.ic_baseline_account_circle_24)
             .setContentTitle("New contact added")
-            .setContentIntent(pendingIntent)
+            //.setContentIntent(pendingIntent)
             .setContentText("${contactName.text} is a new contact in your list")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
