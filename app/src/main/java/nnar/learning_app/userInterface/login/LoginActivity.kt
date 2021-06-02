@@ -18,6 +18,13 @@ import nnar.learning_app.databinding.ActivityLoginBinding
 import nnar.learning_app.domain.usecase.LoginUserUsecase
 import nnar.learning_app.userInterface.home.HomeActivity
 
+/**
+ * Class that manages the google login to the app
+ *
+ * @author Jose Agustin Martin
+ * @since Mar 14, 2021
+ *
+ */
 
 class LoginActivity : AppCompatActivity(), LoginView {
 
@@ -31,6 +38,9 @@ class LoginActivity : AppCompatActivity(), LoginView {
         private const val RC_SIGN_IN = 9001
     }
 
+    /**
+     * Inflate the login layout, initialize the presenter for MVP and set the listener for the google button.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -49,6 +59,9 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     }
 
+    /**
+     * Check if the user has already logged in the app, if so then it login into the app with the previous account.
+     */
     override fun onStart() {
         super.onStart()
         presenter.checkLoggedUser(auth.currentUser)
@@ -63,7 +76,12 @@ class LoginActivity : AppCompatActivity(), LoginView {
         Toast.makeText(this, R.string.login_error_msg, Toast.LENGTH_LONG).show()
 
 
-    override fun showErrorLogin(e: String) {
+    /**
+     * Show login error message.
+     *
+     * @param msg Error message from Google login.
+     */
+    override fun showErrorLogin(msg: String) {
         Toast.makeText(this, R.string.login_error_msg, Toast.LENGTH_LONG).show()
     }
 
