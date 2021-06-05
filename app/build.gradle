@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'com.google.gms.google-services'
     id 'kotlin-parcelize'
+    id 'org.jetbrains.dokka'
 }
 
 android {
@@ -34,6 +35,20 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+}
+
+tasks.withType(dokkaHtml.getClass()).configureEach {
+    pluginsMapConfiguration.set(
+            ["org.jetbrains.dokka.base.DokkaBase": """{ "separateInheritedMembers": true}"""]
+    )
+}
+
+dokkaHtml.configure {
+    dokkaSourceSets {
+        named("main") {
+            skipDeprecated.set(true)
+        }
     }
 }
 

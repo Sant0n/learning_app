@@ -5,10 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import nnar.learning_app.R
 
+/**
+ * Manages the List Adapter and interacts with the [HomePresenter].
+ * @constructor Receives the [presenter] to interact with the [HomeActivity].
+ */
 class ContactListAdapter(private val presenter: HomePresenter) :
     RecyclerView.Adapter<ContactViewHolder>() {
 
-    // Usually involves inflating a layout from XML and returning the holder
+    /**
+     * Usually involves inflating a layout from XML and returning the holder.
+     * Gets the context from the [parent] and [viewType] to return the [ContactViewHolder].
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
@@ -20,7 +27,9 @@ class ContactListAdapter(private val presenter: HomePresenter) :
         return ContactViewHolder(contactView)
     }
 
-    // Involves populating data into the item through holder
+    /**
+     * Involves populating data into the item through the [contactViewHolder] and [position].
+     */
     override fun onBindViewHolder(contactViewHolder: ContactViewHolder, position: Int) {
         // Set contact row view
         presenter.setContact(contactViewHolder, position)
@@ -29,10 +38,15 @@ class ContactListAdapter(private val presenter: HomePresenter) :
         setListeners(contactViewHolder, position)
     }
 
-    // Returns the total count of items in the list
+    /**
+     * Returns the total count of items in the list
+     */
     override fun getItemCount() = presenter.getNumberOfContacts()
 
-    // Configure all the listeners
+    /**
+     * Configures all the listeners for the given contact
+     * through the [contactViewHolder] and [position].
+     */
     private fun setListeners(contactViewHolder: ContactViewHolder, position: Int) {
         // Set listener for contact removal
         contactViewHolder.getRemoveButton().setOnClickListener {
@@ -48,7 +62,7 @@ class ContactListAdapter(private val presenter: HomePresenter) :
 
         // Edit contact details
         contactViewHolder.getContactEdit().setOnClickListener {
-            presenter.invokeDialog(position)
+            presenter.contactDialog(position)
         }
     }
 }

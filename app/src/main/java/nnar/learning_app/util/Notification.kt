@@ -6,10 +6,17 @@ import android.content.Context
 import android.os.Build
 import nnar.learning_app.R
 
+/**
+ * Notification util class
+ * @constructor Creates an empty constructor
+ */
 class Notification {
 
     private val channelID = "Add User"
 
+    /**
+     * Creates the notification channel for the given [context] and returns the ID
+     */
     fun createNotificationChannel(context: Context): String {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel

@@ -24,7 +24,17 @@ import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.userinterface.login.LoginActivity
 import nnar.learning_app.util.Notification
 
+/**
+ * The main view for the app.
+ * @constructor Creates an empty constructor
+ */
 class HomeActivity : AppCompatActivity(), HomeView {
+    // Activities main variables
+    private lateinit var binding: ActivityHomeBinding
+    private lateinit var dialogBinding: DialogEditContactBinding
+    private lateinit var presenter: HomePresenter
+    private lateinit var adapter: ContactListAdapter
+
     // Gallery permissions
     private val requestGalleryPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -34,13 +44,10 @@ class HomeActivity : AppCompatActivity(), HomeView {
         presenter.selectedPicture(it)
     }
 
-    // Activities main variables
-    private lateinit var binding: ActivityHomeBinding
-    private lateinit var dialogBinding: DialogEditContactBinding
-    private lateinit var presenter: HomePresenter
-    private lateinit var adapter: ContactListAdapter
-
-    // Create the activity
+    /**
+     * Creates the activity, sets the presenter and the listeners.
+     * [savedInstanceState] contains the current state of the app
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -70,35 +77,52 @@ class HomeActivity : AppCompatActivity(), HomeView {
         setListeners()
     }
 
-    // Destroy the activity
+    /**
+     * Destroy the activity
+     */
     override fun onDestroy() {
         super.onDestroy()
         presenter.reset()
     }
 
-    // Notify dataset change to the adapter
+    /**
+     * Notify dataset change to the adapter
+     */
     override fun updateAdapter() = adapter.notifyDataSetChanged()
 
-    // Get UID form current user
+    /**
+     * Returns the UID form current user
+     */
     override fun getCurrentUserUID() = Firebase.auth.currentUser!!.uid
 
-    // Get the Home Activity context
+    /**
+     * Returns the Home Activity context
+     */
     override fun getContext(): Context = binding.root.context
 
-    // Look for the picture to upload
+    /**
+     * Opens the gallery to look for the picture to upload
+     */
     override fun selectPicture() = openGallery.launch("image/*")
 
-    // Configure Picasso image
+    /**
+     * Sets the new Picasso image by receiving the [uri] for the new picture
+     */
     override fun setNewContactPicture(uri: Uri) = setPicasso(uri, dialogBinding.editContactPicture)
 
-    // Set Dialog content
+    /**
+     * Set Dialog content where [contact] contains the information to set the dialog
+     */
     override fun setDialogContent(contact: Contact) {
         dialogBinding.contactNameEdit.setText(contact.name)
         dialogBinding.stateSwitch.isChecked = contact.isOnline
         setNewContactPicture(Uri.parse(contact.pic))
     }
 
-    // Show Alert Dialog to get new input
+    /**
+     * Show Alert Dialog to get new input. [position] indicates the contact to modify
+     * or null if it is a new contact.
+     */
     override fun contactDialog(position: Int?) {
         // Inflate the dialog alert view
         val context = getContext()
@@ -132,8 +156,10 @@ class HomeActivity : AppCompatActivity(), HomeView {
             .show()
     }
 
-    // Generate new added user notification
-    override fun generateNotificaction() {
+    /**
+     * Generate new added user notification
+     */
+    override fun generateNotification() {
         // Set current channel ID
         val notificationID = Notification().createNotificationChannel(getContext())
 
@@ -150,7 +176,9 @@ class HomeActivity : AppCompatActivity(), HomeView {
         }
     }
 
-    // Configure all the listeners
+    /**
+     * Configure all the listeners
+     */
     private fun setListeners() {
         // Add new contact
         binding.addContact.setOnClickListener {
@@ -170,7 +198,9 @@ class HomeActivity : AppCompatActivity(), HomeView {
         }
     }
 
-    // Set profile picture
+    /**
+     * Set profile picture
+     */
     private fun setProfilePicture() {
         // Get the attributes
         val uri = Firebase.auth.currentUser!!.photoUrl!!
@@ -180,7 +210,10 @@ class HomeActivity : AppCompatActivity(), HomeView {
         setPicasso(uri, image, 500, 500)
     }
 
-    // Set picasso object
+    /**
+     * Set picasso object by receiving the image [uri] and the [image] object.
+     * Could also set the [width] and [height] for the image. The default is 150 for each one.
+     */
     private fun setPicasso(uri: Uri, image: ImageView, width: Int = 150, height: Int = 150) {
         Picasso.get().load(uri).placeholder(R.drawable.placeholder_contact)
             .resize(width, height).centerCrop().into(image)

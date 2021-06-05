@@ -14,6 +14,10 @@ import nnar.learning_app.databinding.ActivityLoginBinding
 import nnar.learning_app.datainterface.LoginView
 import nnar.learning_app.userinterface.home.HomeActivity
 
+/**
+ * Activity for the login
+ * @constructor Creates an empty constructor.
+ */
 class LoginActivity : AppCompatActivity(), LoginView {
     // Variables for the View
     private lateinit var binding: ActivityLoginBinding
@@ -24,7 +28,10 @@ class LoginActivity : AppCompatActivity(), LoginView {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
 
-    // Create the Login Activity
+    /**
+     * Creates the activity, sets the presenter and the listeners.
+     * [savedInstanceState] contains the current state of the app
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -44,19 +51,26 @@ class LoginActivity : AppCompatActivity(), LoginView {
         setListeners()
     }
 
-    // Start the login activity
+    /**
+     * Checks if a user is already logged in
+     */
     override fun onStart() {
         super.onStart()
         presenter.checkActiveUser()
     }
 
-    // Return from the Google Sign In menu
+    /**
+     * Return from the Google Sign In menu using identified by the [requestCode] and [resultCode].
+     * [data] contains the result for the activity.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         presenter.checkActivityResult(requestCode, RC_SIGN_IN, data)
     }
 
-    // Authenticate token
+    /**
+     * Authenticates the given [idToken] for the user
+     */
     override fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener(this) { task ->
@@ -64,12 +78,16 @@ class LoginActivity : AppCompatActivity(), LoginView {
         }
     }
 
-    // Show error message
+    /**
+     * Shows error message when login has failed
+     */
     override fun showErrorLogin() {
         Toast.makeText(applicationContext, R.string.login_error_msg, Toast.LENGTH_LONG).show()
     }
 
-    // Go to Main Activity
+    /**
+     * Goes to the Main Activity when login has been successful
+     */
     override fun loginSuccessful() {
         val user = auth.currentUser
         Toast.makeText(applicationContext, user!!.displayName, Toast.LENGTH_LONG).show()
@@ -78,13 +96,17 @@ class LoginActivity : AppCompatActivity(), LoginView {
         startActivity(intent)
     }
 
-    // Sign in on Google
+    /**
+     * Sings in through Google Sign-in option
+     */
     private fun signIn() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    // Set Sign In listener
+    /**
+     * Configure all the listeners
+     */
     private fun setListeners() {
         binding.signInButton.setOnClickListener {
             signIn()
