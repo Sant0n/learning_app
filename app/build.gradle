@@ -53,6 +53,11 @@ tasks.dokkaGfm.configure {
     outputDirectory.set(file("../documentation/gfm"))
 }
 
+tasks.withType(dokkaHtml.getClass()).configureEach {
+    pluginsMapConfiguration.set(
+            ["org.jetbrains.dokka.base.DokkaBase": """{ "separateInheritedMembers": true}"""]
+    )
+}
 
 dokkaHtml.configure {
     dokkaSourceSets {
