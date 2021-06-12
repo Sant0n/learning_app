@@ -11,6 +11,10 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import nnar.learning_app.domain.model.Contact
 
+/**
+ * The repository to manage the data in Firestore.
+ * @constructor It receives the [uid] of the current Google user
+ */
 class ContactRepository(private val uid: String) {
 
     // Internal contact info
@@ -21,13 +25,19 @@ class ContactRepository(private val uid: String) {
     private val contacts = database.collection(uid)
     private val storage = Firebase.storage.reference.child("pictures")
 
-    // Size of the list
+    /**
+     * Returns the size of the list
+     */
     fun size() = dataset.size
 
-    // Reset internal IDs
+    /**
+     * Resets the internal user IDs
+     */
     fun reset() = dataset.clear()
 
-    // Delete contact
+    /**
+     * Deletes contact on the given [position].
+     */
     suspend fun removeContact(position: Int) = withContext(Dispatchers.IO) {
         // Delete contact in Firestore
         contacts.document(dataset[position].first).delete().addOnSuccessListener {
@@ -49,13 +59,19 @@ class ContactRepository(private val uid: String) {
         dataset.removeAt(position)
     }
 
-    // Get contact name
+    /**
+     * Gets the contact name based on the [position].
+     */
     fun getContact(position: Int) = dataset[position].second
 
-    // Get random or specific image
+    /**
+     * Gets the image URI from the contact given by the [position].
+     */
     fun getImageURI(position: Int?) = if (position != null) dataset[position].second.pic else ""
 
-    // Add/Update data
+    /**
+     * Adds or updates a the given [contact]. [position] is used when a contact is updated.
+     */
     suspend fun write(contact: Contact, position: Int? = null) = withContext(Dispatchers.IO) {
         // Define task
         val doc: DocumentReference
@@ -76,7 +92,10 @@ class ContactRepository(private val uid: String) {
         }
     }
 
-    // Upload selected picture
+    /**
+     * Uploads a picture given by the [uri] and assigns to it the given [contact].
+     * If the contact already exists, a [position] is given.
+     */
     suspend fun uploadPicture(
         uri: Uri,
         contact: Contact,
@@ -100,7 +119,9 @@ class ContactRepository(private val uid: String) {
         }
     }
 
-    // Get current contacts
+    /**
+     * Get the current set of contacts
+     */
     suspend fun getCurrentContactsId(): Boolean = withContext(Dispatchers.IO) {
         try {
             // Get each contact ID
@@ -127,6 +148,8 @@ class ContactRepository(private val uid: String) {
         }
     }
 
-    // Sort dataset by contact name
+    /**
+     * Sorts the dataset by contact name
+     */
     private fun sort() = dataset.sortBy { it.second.name }
 }

@@ -8,16 +8,25 @@ import nnar.learning_app.databinding.ActivityContactBinding
 import nnar.learning_app.datainterface.ContactInfoView
 import nnar.learning_app.domain.model.Contact
 
+/**
+ * The view to see the contact details.
+ * @constructor Creates an empty constructor.
+ */
 class ContactInfoActivity : AppCompatActivity(), ContactInfoView {
     // Activity binding
     private lateinit var uid: String
     private lateinit var binding: ActivityContactBinding
     private lateinit var presenter: ContactInfoPresenter
 
-    // Get user UID
+    /**
+     * Get user UID
+     */
     override fun getCurrentUserUID() = uid
 
-    // Create activity
+    /**
+     * Creates the activity, sets the presenter and the listeners.
+     * [savedInstanceState] contains the current state of the app
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,7 +58,9 @@ class ContactInfoActivity : AppCompatActivity(), ContactInfoView {
             .into(binding.contactPic)
     }
 
-    // Destroy the activity
+    /**
+     * Destroys the activity
+     */
     override fun onDestroy() {
         super.onDestroy()
         finishAfterTransition()

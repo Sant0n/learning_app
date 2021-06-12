@@ -10,9 +10,16 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import nnar.learning_app.datainterface.LoginView
 
+/**
+ * The presenter for the [LoginActivity].
+ * @constructor It receives the [view] interface to interact with the activity.
+ */
 class LoginPresenter(private val view: LoginView) {
 
-    // Check Google Sign In menu result
+    /**
+     * Check Google Sign In menu result using the given [requestCode] and [RC_SIGN_IN].
+     * The [data] argument is the used to perform the the sign in task.
+     */
     fun checkActivityResult(requestCode: Int, RC_SIGN_IN: Int, data: Intent?) {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -29,7 +36,9 @@ class LoginPresenter(private val view: LoginView) {
         }
     }
 
-    // Check if operation was successful
+    /**
+     * Checks if the sign in operation was successful or not
+     */
     fun checkTask(task: Task<AuthResult>) {
         if (task.isSuccessful) {
             // Sign in success, update UI with the signed-in user's information
@@ -42,7 +51,9 @@ class LoginPresenter(private val view: LoginView) {
         }
     }
 
-    // Check if there's a current user
+    /**
+     * Checks if there's a current user
+     */
     fun checkActiveUser() {
         if (Firebase.auth.currentUser != null)
             view.loginSuccessful()

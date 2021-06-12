@@ -14,27 +14,43 @@ import nnar.learning_app.domain.model.Contact
 import nnar.learning_app.userinterface.contact.ContactInfoActivity
 import android.util.Pair as UtilPair
 
+/**
+ * The view holder for the [ContactListAdapter].
+ * @constructor It receives the [view] interface to interact with the list item
+ */
 class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view), RowView {
     // Binding for the rows
     private lateinit var uri: Uri
     private var binding = ItemContactBinding.bind(view)
 
-    // Get remove button
+    /**
+     * Get the remove button
+     */
     fun getRemoveButton() = binding.removeContact
 
-    // Get contact edit button
+    /**
+     * Get contact edit button
+     */
     fun getContactEdit() = binding.editContact
 
-    // Get contact edit button
+    /**
+     * Get contact edit button
+     */
     override fun getContactPicture() = binding.contactPicture
 
-    // Get the context
+    /**
+     * Get the context
+     */
     override fun getContext(): Context = view.context
 
-    // Get contact name
+    /**
+     * Get contact name
+     */
     override fun getName() = binding.contactName.text.toString()
 
-    // Set contact info
+    /**
+     * Set contact info
+     */
     override fun setContactView(contact: Contact) {
         // Set contact info
         uri = Uri.parse(contact.pic)
@@ -48,7 +64,9 @@ class ContactViewHolder(private val view: View) : RecyclerView.ViewHolder(view),
             .into(binding.contactPicture)
     }
 
-    // Go to Contact Info Activity
+    /**
+     * Go to Contact Info Activity
+     */
     override fun seeMore(contact: Contact, uid: String) {
         // Set intent for Contact Details
         val intent = Intent(view.context, ContactInfoActivity::class.java)
