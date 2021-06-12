@@ -36,6 +36,15 @@ class ContactRepository(private val uid: String) {
             Log.d("ERROR", "Failed to remove contact: " + it.localizedMessage)
         }
 
+        // Delete image URI
+        val pic = dataset[position].second.pic
+        val imageReference = Firebase.storage.getReferenceFromUrl(pic)
+        imageReference.delete().addOnSuccessListener {
+            Log.d("DELETE", "Picture removed")
+        }.addOnFailureListener {
+            Log.d("ERROR", "Failed to remove picture: " + it.localizedMessage)
+        }
+
         // Update local list
         dataset.removeAt(position)
     }
