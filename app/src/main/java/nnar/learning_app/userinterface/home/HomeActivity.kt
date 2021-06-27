@@ -3,6 +3,7 @@ package nnar.learning_app.userinterface.home
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -31,6 +32,7 @@ import nnar.learning_app.util.Notification
 class HomeActivity : AppCompatActivity(), HomeView {
     // Activities main variables
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var dialog: AlertDialog
     private lateinit var dialogBinding: DialogEditContactBinding
     private lateinit var presenter: HomePresenter
     private lateinit var adapter: ContactListAdapter
@@ -120,6 +122,18 @@ class HomeActivity : AppCompatActivity(), HomeView {
     }
 
     /**
+     * Dismisses the dialog.
+     */
+    override fun dismissDialog() = dialog.dismiss()
+
+    /**
+     * Shows an error dialog asking to fill the name entry
+     */
+    override fun noContactNameError() {
+        dialogBinding.contactNameEdit.error = "Please, specify the contact name"
+    }
+
+    /**
      * Show Alert Dialog to get new input. [position] indicates the contact to modify
      * or null if it is a new contact.
      */
@@ -141,19 +155,21 @@ class HomeActivity : AppCompatActivity(), HomeView {
         }
 
         // Build the Alert Dialog
-        AlertDialog.Builder(context)
+        dialog = AlertDialog.Builder(context)
             .setTitle("Contact Information")
-            .setPositiveButton("Save") { dialogInterface, _ ->
-                val name = dialogBinding.contactNameEdit.text.toString()
-                val state = dialogBinding.stateSwitch.isChecked
-                presenter.setPositiveButtonAction(name, state, position)
-                dialogInterface.dismiss()
-            }
+            .setPositiveButton("Save", null)
             .setNegativeButton("Cancel") { dialogInterface, _ ->
                 dialogInterface.cancel()
             }
             .setView(view)
             .show()
+
+        // Overwrite default positive button listener
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            val name = dialogBinding.contactNameEdit.text.toString()
+            val state = dialogBinding.stateSwitch.isChecked
+            presenter.checkContactName(name, state, position)
+        }
     }
 
     /**

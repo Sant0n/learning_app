@@ -1,5 +1,6 @@
 package nnar.learning_app.userinterface.home
 
+import android.content.DialogInterface
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -88,11 +89,27 @@ class HomePresenter(private val homeView: HomeView) : ViewModel() {
     fun contactDialog(position: Int) = homeView.contactDialog(position)
 
     /**
+     * Checks if a new contact's information has been entered successfully by verifying its [name].
+     * The [state] and [position] are then used  when the operation has been successful
+     */
+    fun checkContactName(name: String, state: Boolean, position: Int?) {
+        println(name.isEmpty())
+        if (name.isEmpty()) {
+            println(name.isEmpty())
+            homeView.noContactNameError()
+        }
+        else {
+            setPositiveButtonAction(name, state, position)
+            homeView.dismissDialog()
+        }
+    }
+
+    /**
      * Set action for Dialog Save button.
      * It will set the [name] and the [state] for the contact, and the [position]
      * will be given when modifying a contact instead of creating it
      */
-    fun setPositiveButtonAction(name: String, state: Boolean, position: Int? = null) {
+    private fun setPositiveButtonAction(name: String, state: Boolean, position: Int? = null) {
         // Set the new values
         val pic = selectedPicture?.toString() ?: repository.getImageURI(position)
         val contact = Contact(name, state, pic)

@@ -1,6 +1,7 @@
 package nnar.learning_app.datainterface
 
 import android.content.Context
+import android.content.DialogInterface
 import android.net.Uri
 import nnar.learning_app.domain.model.Contact
 
@@ -45,4 +46,14 @@ interface HomeView {
      * Generate new added user notification
      */
     fun generateNotification()
+
+    /**
+     * Dismisses the dialog.
+     */
+    fun dismissDialog()
+
+    /**
+     * Shows an error dialog asking to fill the name entry
+     */
+    fun noContactNameError()
 }

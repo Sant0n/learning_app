@@ -18,7 +18,9 @@ import nnar.learning_app.domain.model.Contact
 class ContactRepository(private val uid: String) {
 
     // Internal contact info
-    companion object var dataset = ArrayList<Pair<String, Contact>>()
+    companion object
+
+    var dataset = ArrayList<Pair<String, Contact>>()
 
     // Firestore connection
     private val database = Firebase.firestore
@@ -48,11 +50,13 @@ class ContactRepository(private val uid: String) {
 
         // Delete image URI
         val pic = dataset[position].second.pic
-        val imageReference = Firebase.storage.getReferenceFromUrl(pic)
-        imageReference.delete().addOnSuccessListener {
-            Log.d("DELETE", "Picture removed")
-        }.addOnFailureListener {
-            Log.d("ERROR", "Failed to remove picture: " + it.localizedMessage)
+        if (pic.isNotEmpty()) {
+            val imageReference = Firebase.storage.getReferenceFromUrl(pic)
+            imageReference.delete().addOnSuccessListener {
+                Log.d("DELETE", "Picture removed")
+            }.addOnFailureListener {
+                Log.d("ERROR", "Failed to remove picture: " + it.localizedMessage)
+            }
         }
 
         // Update local list
